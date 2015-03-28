@@ -544,10 +544,17 @@ QTime TComputings::moonTimeTransit(const double longitude, const double latitude
 }
 //---------------------------
 
-static QDateTime moonTimeFindPreviousNewMoon(const double longitude, const double latitude, const double timeZoneOffset,
+static QDateTime TComputings::moonTimeFindPreviousNewMoon(const double longitude, const double latitude, const double timeZoneOffset,
                                              const QDate& date = QDate::currentDate())
 {
     QDateTime result;
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
+            (true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == date.isValid()))
+    {
+
+    }
 
     return result;
 }
