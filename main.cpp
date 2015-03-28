@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
 
     // подгрузка русских переводов для элементов Qt
     QTranslator translator(&a);
-    translator.load("qtbase_ru");
-    a.installTranslator(&translator);
+    qDebug() << translator.load("qtbase_ru");
+    qDebug() << a.installTranslator(&translator);
 
     MainWindow w;
     w.show();
