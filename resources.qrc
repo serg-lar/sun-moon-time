@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>sun___moon_by_crazi_wolf.jpg</file>
+        <file>Солнце и луна-1.jpg</file>
+        <file>Солнце и луна-2.jpg</file>
+        <file>Солнце и луна-2_1.jpg</file>
+        <file>sun_moon.jpg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>google_maps.html</file>
+    </qresource>
+</RCC>
