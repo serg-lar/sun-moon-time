@@ -521,7 +521,7 @@ QTime TComputings::moonTimeTransit(const double longitude, const double latitude
                                    const double timeZoneOffset, const QDate& date)
 {
     QTime result;
-    CAADate d (date.year(),date.month(),date.day(),12,0,0,true);
+    CAADate d (date.year(),date.month(),date.day(),0,0,0,true);
     CAARiseTransitSetDetails riseTransitSetDetails;
 
     // проверка входных данных
@@ -544,8 +544,8 @@ QTime TComputings::moonTimeTransit(const double longitude, const double latitude
 }
 //---------------------------
 
-static QDateTime TComputings::moonTimeFindPreviousNewMoon(const double longitude, const double latitude, const double timeZoneOffset,
-                                             const QDate& date = QDate::currentDate())
+QDateTime TComputings::moonTimeFindPreviousNewMoon(const double longitude, const double latitude, const double timeZoneOffset,
+                                                   const QDate& date)
 {
     QDateTime result;
 
@@ -553,7 +553,28 @@ static QDateTime TComputings::moonTimeFindPreviousNewMoon(const double longitude
     if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
             (true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == date.isValid()))
     {
+        quint32 step = msecsInSec*secsInMin;
+        QTime curTime (QTime::currentTime());
 
+        QDateTime dt1 (date);    // дата-время начала отсчёта
+        if (QDate::currentDate() == date)
+            dt1.setTime(QDateTime::currentDateTimeUtc().time());
+        else
+            dt1.setTime(QTime(23,59,59,999));
+        // дата-время аварийного завершения расчётов
+        QDateTime dt2 (QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - static_cast<qint64>(msecsInSec*secsInMin*minsInHour*hoursInDay)*60));
+
+        // поиск даты-времени новолуния
+        while ((false == result.isValid()) && (dt1 > dt2))
+        {
+            if (true == moonTimeIsNewMoon(dt1,0.0100))
+            {
+                result = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset);
+            }
+
+            // шаг
+            dt1 = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - step);
+        }
     }
 
     return result;
@@ -836,6 +857,26 @@ CAARiseTransitSetDetails TComputings::getMoonRiseTransitSet(double JD, double lo
   double delta3 = 0;
   getLunarRaDecByJulian(JD + 1, alpha3, delta3);
   return CAARiseTransitSet::Calculate(CAADynamicalTime::UTC2TT(JD), alpha1, delta1, alpha2, delta2, alpha3, delta3, longitude, latitude, 0.125);
+}
+//---------------------------
+
+bool TComputings::moonTimeIsNewMoon(const QDateTime& dt, const double threshold)
+{
+    bool result (false);
+
+    // эклиптическая долгота Солнца и Луны
+    CAADate d (dt.date().year(),dt.date().month(),dt.date().day(),dt.time().hour(),dt.time().minute(),dt.time().second()+dt.time().msec()/msecsInSec,true);
+    double JD (d.Julian());
+    double JDSunMoon (CAADynamicalTime::UTC2TT(JD));
+    double sunLng (CAASun::ApparentEclipticLongitude(JDSunMoon));
+    double moonLng (CAAMoon::EclipticLongitude(JDSunMoon));
+
+    // если разница между долготами Солнца и Луны меньше принятого шага, то будем считать
+    // заданное время новолунием
+    if (qAbs(sunLng - moonLng) <= threshold)
+        result = true;
+
+    return result;
 }
 //---------------------------
 

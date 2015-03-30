@@ -740,7 +740,14 @@ TTitha TTitha::findNearestEkadash(const double timeZoneOffset)
 
     // первый экадаш в списке является ближайшим экадашем
     if (false == (ekadashi.isEmpty()))
+    {
         result = ekadashi.first();
+
+        // Если ближайший экадаш сегодня, то возьмём следующий (при наличии такового)
+        if (QDate::currentDate() == result.beginDateTime().date())
+            if (ekadashi.size() >= 2)
+                result = ekadashi[1];
+    }
 
     return result;
 }

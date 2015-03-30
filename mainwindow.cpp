@@ -485,9 +485,16 @@ void MainWindow::showMoonTime()
         bool aboveHorizont;
         QTime moonTransit (TComputings::moonTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset));
 
+        // предыдущее новолуние
+        QDateTime previousNewMoon (TComputings::moonTimeFindPreviousNewMoon(longitude,latitude,timeZoneOffset));
+        if (false == previousNewMoon.isValid())
+            qWarning() << "MainWindow::showMoonTime" << "invalid previousNewMoon";
+
         // вывести информацию о Луне
         ui->textEditMoonDate->clear();
         ui->textEditMoonDate->append(TComputings::toStringMoonTimeInfo(moonSet,moonRise,moonTransit));
+
+        ui->textEditMoonDate->append("Предыдущее новолуние: " + previousNewMoon.toString("dd.MM.yyyy hh:mm"));
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());
@@ -497,7 +504,7 @@ void MainWindow::showMoonTime()
     else
     {
         // не получилось загрузить данные из настроек программы
-        qWarning() << "MainWindow::showSunTime" << "settings empty";
+        qWarning() << "MainWindow::showMoonTime" << "settings empty";
         ui->textEditMoonDate->clear();
         ui->textEditMoonDate->append("Не заданы необходимые настройки для рассчётов.");
         ui->textEditMoonDate->append("Опции -> Настройки (Ctrl+o)");

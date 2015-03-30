@@ -13,7 +13,7 @@ QT  +=  webkitwidgets
 TARGET = sun-moon-time
 TEMPLATE = app
 
-#CONFIG += c++11
+CONFIG += c++11
 
 
 SOURCES += main.cpp\

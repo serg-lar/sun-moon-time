@@ -299,6 +299,11 @@ protected:
     /// \brief функция из астрономической библиотеки AA+ для вычисления восхода-заката-высшей_точки (зенита) Луны
     static CAARiseTransitSetDetails getMoonRiseTransitSet(double JD, double longitude, double latitude);
 
+    /// \brief функция из астрономической библиотеки AA+ определяет является лт заданное время временем новолуния
+    /// @param dt - дата-время
+    /// @param threshold - пороговое значение разницы эклиптических долгот Солнца и Луны
+    static bool moonTimeIsNewMoon(const QDateTime& dt, const double threshold);
+
     /// \brief узнать является ли смещение часового пояса верным значением
     /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
     /// \retval true в случае подтверждения, иначе false
