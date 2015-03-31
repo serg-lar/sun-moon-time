@@ -486,7 +486,7 @@ void MainWindow::showMoonTime()
         QTime moonTransit (TComputings::moonTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset));
 
         // предыдущее новолуние
-        QDateTime previousNewMoon (TComputings::moonTimeFindPreviousNewMoon(longitude,latitude,timeZoneOffset));
+        QDateTime previousNewMoon (TComputings::moonTimeFindPreviousNewMoon(timeZoneOffset));
         if (false == previousNewMoon.isValid())
             qWarning() << "MainWindow::showMoonTime" << "invalid previousNewMoon";
 

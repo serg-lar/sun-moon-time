@@ -130,7 +130,7 @@ public:
     /// \param sunRiseSet - время восхода или захода Солнца, вычисленное ранее (не UTC)
     /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
     /// \param morningSandhya - true для утренней сандхьи, false - для вечерней
-    /// \param date -  дата
+    /// \param date - дата
     /// \retval пара время начала и время завершения сандхьи, в случае неудачи пара невалидных времен
     static QPair<QTime,QTime> sunTimeSandhyaAsDayPart(const double longitude, const double latitude, const QTime& sunRiseSet, const double timeZoneOffset = 0,
                                                       const bool morningSandhya = true, const QDate& date = QDate::currentDate());
@@ -185,12 +185,27 @@ public:
                                  const double timeZoneOffset = 0, const QDate& date = QDate::currentDate());
 
     /// \brief найти дату-время предыдущего новолуния
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param date -  дата, относительно которой начать поиск
-    static QDateTime moonTimeFindPreviousNewMoon(const double longitude, const double latitude, const double timeZoneOffset,
-                                                 const QDate& date = QDate::currentDate());
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param dt - UTC дата-время, относительно которой начать поиск
+    /// @retval дата-время предыдущего новолуния (с учётом часового пояса)
+    static QDateTime moonTimeFindPreviousNewMoon(const double timeZoneOffset = 0, const QDateTime& dt = QDateTime::currentDateTimeUtc());
+
+    /// \brief найти дату-время следующего новолуния
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param dt - UTC дата-время, относительно которой начать поиск
+    /// @retval дата-время следующего новолуния (с учётом часового пояса)
+    static QDateTime moonTimeFindNextNewMoon(const double timeZoneOffset = 0, const QDateTime& dt = QDateTime::currentDateTimeUtc());
+
+    /// \brief вычислить список "лунных дней" (дата время начала и завершения дня)
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param dt1 - UTC дата-время для начала отсчёта
+    /// @param dt2 - UTC дата-время для завершения отсчёта
+    /// @retval список пар дата-время - список пар начало конец лунного дня
+    static QList<QPair<QDateTime,QDateTime> > moonTimeMoonDays(const double longitude, const double latitude, const double timeZoneOffset = 0,
+                                                               const QDateTime& dateTime1 = moonTimeFindPreviousNewMoon(),
+                                                               const QDateTime& dateTime2 = QDateTime::currentDateTimeUtc());
 
     /// \brief определить горизонтальные координаты Солнца в заданный момент времени (UTC), в заданном месте
     /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
@@ -198,7 +213,19 @@ public:
     /// \param height - высота над уровнем моря
     /// \param dateTime -  дата-время (UTC)
     /// \retval пара координат (X,Y)
-    static QPair<double, double> sunHorizontalCoords(const double longitude, const double latitude, const double height = 0, const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
+    static QPair<double, double> sunHorizontalCoords(const double longitude, const double latitude, const double height = 0,
+                                                     const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
+
+    /// \brief определить горизонтальные координаты Луны в заданный момент времени (UTC), в заданном месте
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param height - высота над уровнем моря
+    /// @param dateTime -  дата-время (UTC)
+    /// @retval пара координат (X,Y)
+    static QPair<double, double> moonHorizontalCoords(const double longitude, const double latitude, const double height = 0,
+                                                     const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
+
+
 
     /// \brief определить горизонтальные координаты Солнца в заданный момент времени (UTC), в заданном месте с учётом рефракции
     /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)

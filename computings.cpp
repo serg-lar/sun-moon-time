@@ -544,36 +544,87 @@ QTime TComputings::moonTimeTransit(const double longitude, const double latitude
 }
 //---------------------------
 
-QDateTime TComputings::moonTimeFindPreviousNewMoon(const double longitude, const double latitude, const double timeZoneOffset,
-                                                   const QDate& date)
+QDateTime TComputings::moonTimeFindPreviousNewMoon(const double timeZoneOffset, const QDateTime& dt)
 {
     QDateTime result;
 
     // проверка входных данных
-    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
-            (true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == date.isValid()))
+    if ((true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dt.isValid()))
     {
         quint32 step = msecsInSec*secsInMin;
-        QTime curTime (QTime::currentTime());
-
-        QDateTime dt1 (date);    // дата-время начала отсчёта
-        if (QDate::currentDate() == date)
-            dt1.setTime(QDateTime::currentDateTimeUtc().time());
-        else
-            dt1.setTime(QTime(23,59,59,999));
-        // дата-время аварийного завершения расчётов
+        QDateTime dt1 (dt);    // дата-время начала отсчёта
+        // дата-время аварийного завершения рассчётов
         QDateTime dt2 (QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - static_cast<qint64>(msecsInSec*secsInMin*minsInHour*hoursInDay)*60));
 
         // поиск даты-времени новолуния
         while ((false == result.isValid()) && (dt1 > dt2))
         {
-            if (true == moonTimeIsNewMoon(dt1,0.0100))
-            {
-                result = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset);
-            }
+            if (true == moonTimeIsNewMoon(dt1,0.0100))            
+                result = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset);            
 
             // шаг
             dt1 = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - step);
+        }
+    }
+
+    return result;
+}
+//---------------------------
+
+QDateTime TComputings::moonTimeFindNextNewMoon(const double timeZoneOffset, const QDateTime& dt)
+{
+    QDateTime result;
+
+    // проверка входных данных
+    if ((true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dt.isValid()))
+    {
+        quint32 step = msecsInSec*secsInMin;
+        QDateTime dt1 (dt);    // дата-время начала отсчёта
+        // дата-время аварийного завершения рассчётов
+        QDateTime dt2 (dt1.addMonths(2));
+
+        // поиск даты-времени новолуния
+        while ((false == result.isValid()) && (dt1 < dt2))
+        {
+            if (true == moonTimeIsNewMoon(dt1,0.0100))
+                result = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset);
+
+            // шаг
+            dt1 = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + step);
+        }
+    }
+
+    return result;
+}
+//---------------------------
+
+QList<QPair<QDateTime,QDateTime> > TComputings::moonTimeMoonDays(const double longitude, const double latitude, const double timeZoneOffset,
+                                                                 const QDateTime& dateTime1, const QDateTime& dateTime2)
+{
+    QList<QPair<QDateTime,QDateTime> > result;
+    QPair<QDateTime,QDateTime> moonDay;
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
+            (true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dateTime1.isValid()) && (true == dateTime2.isValid()))
+    {
+        QDateTime dt1 (moonTimeFindPreviousNewMoon(0,dateTime1));
+        QDateTime dt2 (moonTimeFindNextNewMoon(0,dateTime2));
+        quint32 step (msecsInSec*secsInMin);
+        double prevYCoord (moonHorizontalCoords(longitude,latitude,0,dt1).second);
+
+        moonDay.first = dt1;    // начало первого лунного дня в новолуние
+        while (dt1 <= dt2)
+        {
+            QPair<double,double> hCoords (moonHorizontalCoords(longitude,latitude,0,dt1));
+
+
+
+
+
+
+            // шаг
+            dt1 = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + step);
         }
     }
 
@@ -589,13 +640,13 @@ QPair<double, double> TComputings::sunHorizontalCoords(const double longitude, c
     if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) && (true == dateTime.isValid()))
     {
         CAADate d (dateTime.date().year(),dateTime.date().month(),dateTime.date().day(),
-                   dateTime.time().hour(),dateTime.time().minute(),dateTime.time().second() + dateTime.time().msec()/1000.,true);
+                   dateTime.time().hour(),dateTime.time().minute(),dateTime.time().second() + dateTime.time().msec()/msecsInSec,true);
 
         double JD = d.Julian();
         double JDSun = CAADynamicalTime::UTC2TT(JD);
         double lambda = CAASun::ApparentEclipticLongitude(JDSun);
         double beta = CAASun::ApparentEclipticLatitude(JDSun);
-        double epsilon = CAANutation::TrueObliquityOfEcliptic(JD);
+        double epsilon = CAANutation::TrueObliquityOfEcliptic(JDSun);
         CAA2DCoordinate Solarcoord = CAACoordinateTransformation::Ecliptic2Equatorial(lambda, beta, epsilon);
 
         double SunRad = CAAEarth::RadiusVector(JDSun);
@@ -608,6 +659,40 @@ QPair<double, double> TComputings::sunHorizontalCoords(const double longitude, c
 
         result.first = SunHorizontal.X;
         result.second = SunHorizontal.Y;
+    }
+
+    return result;
+}
+//---------------------------
+
+QPair<double, double> TComputings::moonHorizontalCoords(const double longitude, const double latitude, const double height, const QDateTime& dateTime)
+{
+    QPair<double, double> result;
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) && (true == dateTime.isValid()))
+    {
+        CAADate d (dateTime.date().year(),dateTime.date().month(),dateTime.date().day(),
+                   dateTime.time().hour(),dateTime.time().minute(),dateTime.time().second() + dateTime.time().msec()/msecsInSec,true);
+
+        double JD = d.Julian();
+        double JDMoon = CAADynamicalTime::UTC2TT(JD);
+        double lambda = CAAMoon::EclipticLongitude(JDMoon);
+        double beta = CAAMoon::EclipticLatitude(JDMoon);
+        double epsilon = CAANutation::TrueObliquityOfEcliptic(JDMoon);
+        CAA2DCoordinate moonCoord = CAACoordinateTransformation::Ecliptic2Equatorial(lambda, beta, epsilon);
+
+        double MoonRad = CAAMoon::RadiusVector(JDMoon);
+        MoonRad /= 149597870.691; //Convert KM to AU
+        CAA2DCoordinate MoonTopo = CAAParallax::Equatorial2Topocentric(moonCoord.X, moonCoord.Y, MoonRad, longitude, latitude, height, JDMoon);
+        double AST = CAASidereal::ApparentGreenwichSiderealTime(d.Julian());
+        double LongtitudeAsHourAngle = CAACoordinateTransformation::DegreesToHours(longitude);
+        double LocalHourAngle = AST - LongtitudeAsHourAngle - MoonTopo.X;
+        CAA2DCoordinate MoonHorizontal = CAACoordinateTransformation::Equatorial2Horizontal(LocalHourAngle, MoonTopo.Y, latitude);
+    //    MoonHorizontal.Y += CAARefraction::RefractionFromTrue(MoonHorizontal.Y, 1013, 10);
+
+        result.first = MoonHorizontal.X;
+        result.second = MoonHorizontal.Y;
     }
 
     return result;
