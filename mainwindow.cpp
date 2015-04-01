@@ -490,11 +490,17 @@ void MainWindow::showMoonTime()
         if (false == previousNewMoon.isValid())
             qWarning() << "MainWindow::showMoonTime" << "invalid previousNewMoon";
 
+        // следующее новолуние
+        QDateTime nextNewMoon (TComputings::moonTimeFindNextNewMoon(timeZoneOffset));
+        if (false == nextNewMoon.isValid())
+            qWarning() << "MainWindow::showMoonTime" << "invalid nextNewMoon";
+
         // вывести информацию о Луне
         ui->textEditMoonDate->clear();
         ui->textEditMoonDate->append(TComputings::toStringMoonTimeInfo(moonSet,moonRise,moonTransit));
 
         ui->textEditMoonDate->append("Предыдущее новолуние: " + previousNewMoon.toString("dd.MM.yyyy hh:mm"));
+        ui->textEditMoonDate->append("Следующее новолуние: " + nextNewMoon.toString("dd.MM.yyyy hh:mm"));
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());

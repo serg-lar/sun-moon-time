@@ -202,7 +202,7 @@ public:
     /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
     /// @param dt1 - UTC дата-время для начала отсчёта
     /// @param dt2 - UTC дата-время для завершения отсчёта
-    /// @retval список пар дата-время - список пар начало конец лунного дня
+    /// @retval список пар дата-время - список пар начало конец лунного дня, пустой список в случае неудачи
     static QList<QPair<QDateTime,QDateTime> > moonTimeMoonDays(const double longitude, const double latitude, const double timeZoneOffset = 0,
                                                                const QDateTime& dateTime1 = moonTimeFindPreviousNewMoon(),
                                                                const QDateTime& dateTime2 = QDateTime::currentDateTimeUtc());
