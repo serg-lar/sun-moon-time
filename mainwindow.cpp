@@ -495,12 +495,24 @@ void MainWindow::showMoonTime()
         if (false == nextNewMoon.isValid())
             qWarning() << "MainWindow::showMoonTime" << "invalid nextNewMoon";
 
+        // лунные дни
+        QList<QPair<QDateTime,QDateTime> > moonDays(TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,
+                                                                                  TComputings::moonTimeFindPreviousNewMoon(),QDateTime::currentDateTimeUtc().addDays(1)));
+
         // вывести информацию о Луне
         ui->textEditMoonDate->clear();
         ui->textEditMoonDate->append(TComputings::toStringMoonTimeInfo(moonSet,moonRise,moonTransit));
 
         ui->textEditMoonDate->append("Предыдущее новолуние: " + previousNewMoon.toString("dd.MM.yyyy hh:mm"));
         ui->textEditMoonDate->append("Следующее новолуние: " + nextNewMoon.toString("dd.MM.yyyy hh:mm"));
+        ui->textEditMoonDate->append("");
+        ui->textEditMoonDate->append(QString::number(moonDays.size())+" Лунный день");
+        ui->textEditMoonDate->append("");
+
+        ui->textEditMoonDate->append("Лунные дни:");
+        for (qint32 i = 0; i < moonDays.size(); ++i)
+            ui->textEditMoonDate->append(moonDays.at(i).first.toString("dd.MM.yyyy hh:mm")+" - "+moonDays.at(i).second.toString("dd.MM.yyyy hh:mm"));
+
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());

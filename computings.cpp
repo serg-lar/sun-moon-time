@@ -613,7 +613,7 @@ QList<QPair<QDateTime,QDateTime> > TComputings::moonTimeMoonDays(const double lo
         quint32 step (msecsInSec*secsInMin);
         double prevYCoord (moonHorizontalCoords(longitude,latitude,0,dt1).second);
 
-        moonDay.first = dt1;    // начало первого лунного дня в новолуние        
+        moonDay.first = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset); // начало первого лунного дня в новолуние
         dt1 = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + step); // шаг
 
         while (dt1 <= dt2)
@@ -646,7 +646,10 @@ QList<QPair<QDateTime,QDateTime> > TComputings::moonTimeMoonDays(const double lo
     for (qint32 i = 0; i < result.size(); ++i)
     {
         if ((result.at(i).first.date() < dateTime1.date()) || (result.at(i).second.date() > dateTime2.date()))
+        {
             result.removeAt(i);
+            --i;
+        }
     }
 
     return result;
