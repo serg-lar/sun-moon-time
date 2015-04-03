@@ -5,6 +5,7 @@
 
 #include "dialogtableview.h"
 #include "ui_dialogtableview.h"
+#include <QSettings>
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -96,8 +97,77 @@ void DialogTableView::on_dateEditBegin_dateChanged(const QDate& date)
 
 void DialogTableView::on_pushButtonCalculate_clicked()
 {
-    // Вычислить...
+    // Вычислить информацию по Солнцу или Луне
+    QSettings settings;
+    double longitude, latitude, timeZoneOffset;
+    bool ok;
+    QDateTime dt1 (QDateTime::currentDateTimeUtc());
+    QDateTime dt2 (QDateTime::currentDateTimeUtc());
 
+    // прочитать долготу, широту, часовой пояс из настроек программы
+    longitude = settings.value("longitude").toDouble(&ok);
+    latitude = settings.value("latitude").toDouble(&ok);
+    timeZoneOffset = settings.value("timeZoneOffset").toDouble(&ok);
+
+    if (true == ok)
+    {
+        if (true == ui->radioButtonCalendar->isChecked())
+        {
+            // календарь
+            dt1.setTime(QTime::currentTime());
+            dt1.setDate(ui->dateEditBegin->date());
+            dt2.setTime(QTime(0,0));
+            dt2.setDate(ui->dateEditEnd->date().addDays(2));
+        }
+        else if (true == ui->radioButtonPeriod->isChecked())
+        {
+            // период
+            dt1 = QDateTime::currentDateTimeUtc();
+
+            switch (ui->comboBoxPeriod->currentIndex())
+            {
+            case 1:
+                dt2 = dt1.addMonths(1);
+                break;
+            case 2:
+                dt2 = dt1.addMonths(2);
+                break;
+            case 3:
+                dt2 = dt1.addMonths(3);
+                break;
+            case 4:
+                dt2 = dt1.addMonths(6);
+                break;
+            case 5:
+                dt2 = dt1.addYears(1);
+                break;
+            case 6:
+                dt2 = dt1.addYears(2);
+                break;
+            case 7:
+                dt2 = dt1.addYears(3);
+                break;
+            case 8:
+                dt2 = dt1.addYears(10);
+                break;
+            default:
+                dt2 = dt1.addMonths(1);
+                break;
+            }
+
+            // запасик, чтобы было вычислено не меньше титх, чем задано солнечных дней
+            dt2 = dt2.addDays(2);
+        }
+
+        // интерфейс
+        QCursor mouseCursor (cursor());
+        setCursor(QCursor(Qt::WaitCursor));
+        ui->pushButtonCalculate->setDisabled(true);
+        ui->tableWidget->clear();
+
+        // рассчёт...
+
+    }
 }
 //---------------------------
 
