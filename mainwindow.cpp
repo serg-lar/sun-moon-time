@@ -7,6 +7,7 @@
 #include "ui_mainwindow.h"
 #include "dialogsettings.h"
 #include "dialogtithi.h"
+#include "dialogtableview.h"
 #include "tithi.h"
 #include "calendar.h"
 #include "computings.h"
@@ -326,6 +327,24 @@ void MainWindow::on_pushButtonEkadashi_clicked()
     int result (ekadashiDialog.exec());
 }
 //---------------------------
+
+void MainWindow::on_pushButtonSunTimePeriod_clicked()
+{
+    // показать диалог рассчёта информации по Солнцу за период времени
+    DialogTableView sunTimePeriodDialog(DialogTableView::sunInfo,this);
+
+    int result (sunTimePeriodDialog.exec());
+}
+//---------------------------
+
+void MainWindow::on_pushButtonMoonDatePeriod_clicked()
+{
+    // показать диалог рассчёта информации по Луне за период времени
+    DialogTableView moontimePeriodDialog(DialogTableView::moonInfo,this);
+
+    int result (moontimePeriodDialog.exec());
+}
+//---------------------------
 // КОНЕЦ: MainWindow - private slots
 //---------------------------------------------------------------------------------
 
@@ -577,6 +596,4 @@ void MainWindow::showTithi()
 //---------------------------
 // КОНЕЦ: MainWindow - private
 //---------------------------------------------------------------------------------
-
-
 
