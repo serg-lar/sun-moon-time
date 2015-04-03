@@ -207,6 +207,15 @@ public:
                                                                const QDateTime& dateTime1 = moonTimeFindPreviousNewMoon(),
                                                                const QDateTime& dateTime2 = QDateTime::currentDateTimeUtc());
 
+    /// \brief вычислить ближайший лунный день
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param dateTime - UTC дата-время для вычислений
+    /// @retval номер дня плюс пара дата-время начала и завершения ближайшего лунного дня, в случае не удачи пара не валидных дата-время
+    static QPair<quint8, QPair<QDateTime,QDateTime> > moonTimeNearestMoonDay(const double longitude, const double latitude, const double timeZoneOffset = 0,
+                                                              const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
+
     /// \brief определить горизонтальные координаты Солнца в заданный момент времени (UTC), в заданном месте
     /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
     /// \param latitude - геогр. широта

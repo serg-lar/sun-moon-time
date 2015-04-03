@@ -5,6 +5,7 @@
 
 #include "computings.h"
 #include <QtMath>
+#include <limits>
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -649,6 +650,65 @@ QList<QPair<QDateTime,QDateTime> > TComputings::moonTimeMoonDays(const double lo
         {
             result.removeAt(i);
             --i;
+        }
+    }
+
+    return result;
+}
+//---------------------------
+
+QPair<quint8, QPair<QDateTime,QDateTime> > TComputings::moonTimeNearestMoonDay(const double longitude, const double latitude, const double timeZoneOffset, const QDateTime& dateTime)
+{
+    QPair<quint8, QPair<QDateTime, QDateTime> > result;
+    result.first = std::numeric_limits<quint8>::max();
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
+            (true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dateTime.isValid()))
+    {
+        // вычислить список лунных дней
+        QList<QPair<QDateTime,QDateTime> > moonDays (TComputings::moonTimeMoonDays(longitude,latitude,0,moonTimeFindPreviousNewMoon(0,dateTime),dateTime));
+        const quint32 timeOffsetMs = msecsInSec*secsInMin*minsInHour*timeZoneOffset;
+        quint32 minDiff (std::numeric_limits<quint32>::max());
+        quint32 minIndex (moonDays.size()-1);
+
+        qint32 cr (moonDays.size()-1);
+        while ((cr >= 0) && (false == result.second.second.isValid()))
+        {
+            if ((dateTime >= moonDays.at(cr).first) && (dateTime <= moonDays.at(cr).second))
+            {
+                // ближайший лунный день сейчас
+                result.first = cr+1;
+                result.second.first = QDateTime::fromMSecsSinceEpoch(moonDays.at(cr).first.toMSecsSinceEpoch() + timeOffsetMs);
+                result.second.second = QDateTime::fromMSecsSinceEpoch(moonDays.at(cr).second.toMSecsSinceEpoch() + timeOffsetMs);
+            }
+            else if (dateTime < moonDays.at(cr).first)
+            {
+                // дата-время до текущего лунного дня
+                if (minDiff > dateTime.secsTo(moonDays.at(cr).first))
+                {
+                    minDiff = dateTime.secsTo(moonDays.at(cr).first);
+                    minIndex = cr;
+                }
+            }
+            else if (dateTime > moonDays.at(cr).second)
+            {
+                // дата-время после текущего лунного дня
+                if (minDiff > moonDays.at(cr).second.secsTo(dateTime))
+                {
+                    minDiff = moonDays.at(cr).second.secsTo(dateTime);
+                    minIndex = cr;
+                }
+            }
+            --cr;
+        }
+
+        if (false == result.second.second.isValid())
+        {
+            // записать вычисленный результат по индексу в списке
+            result.first = minIndex+1;
+            result.second.first = QDateTime::fromMSecsSinceEpoch(moonDays.at(minIndex).first.toMSecsSinceEpoch() + timeOffsetMs);
+            result.second.second = QDateTime::fromMSecsSinceEpoch(moonDays.at(minIndex).second.toMSecsSinceEpoch() + timeOffsetMs);
         }
     }
 
