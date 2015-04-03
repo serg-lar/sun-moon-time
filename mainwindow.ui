@@ -37,7 +37,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <attribute name="title">
@@ -469,7 +469,7 @@ font: bold;</string>
         <x>280</x>
         <y>10</y>
         <width>260</width>
-        <height>254</height>
+        <height>251</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -489,6 +489,16 @@ font: bold;</string>
 color: navy;</string>
            </property>
            <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxTithiPrintUtc">
+           <property name="text">
+            <string>Писать часовой пояс</string>
+           </property>
+           <property name="checked">
             <bool>true</bool>
            </property>
           </widget>
@@ -574,7 +584,7 @@ color: navy;</string>
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

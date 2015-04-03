@@ -943,8 +943,16 @@ QString TComputings::toStringMoonTimeInfo(const QTime& set, const QTime& rise, c
             moonTransit = roundToMinTime(moonTransit);
         }
 
-        result += "Заход: " + moonSet.toString(QString("hh:mm")) + "\n";
-        result += "Восход: " + moonRise.toString(QString("hh:mm")) + "\n";
+        if (moonSet > moonRise)
+        {
+            result += "Восход: " + moonRise.toString(QString("hh:mm")) + "\n";
+            result += "Заход: " + moonSet.toString(QString("hh:mm")) + "\n";
+        }
+        else
+        {
+            result += "Заход: " + moonSet.toString(QString("hh:mm")) + "\n";
+            result += "Восход: " + moonRise.toString(QString("hh:mm")) + "\n";
+        }
         result += "Зенит: " + moonTransit.toString(QString("hh:mm")) + "\n";
 //        result += "Долгота дня: " + (QTime::fromMSecsSinceStartOfDay(moonRise.secsTo(moonSet)*msecsInSec)).toString(QString("hh:mm"));
     }

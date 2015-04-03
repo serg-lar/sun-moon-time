@@ -70,17 +70,37 @@ public:
     /// \retval строка с кратким описанием титхи
     QString asTithiStr() const;
 
+    /// \brief получить краткое описание титхи (начало и конец) с часовым поясом
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @retval строка с кратким описанием титхи
+    QString asTithiStr(const double timeZoneOffset) const;
+
     /// \brief получить описание титхи
     /// \retval строка с описанием титхи
     QString asTithiStrExt() const;
+
+    /// \brief получить описание титхи с часовым поясом
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @retval строка с описанием титхи
+    QString asTithiStrExt(const double timeZoneOffset) const;
 
     /// \brief получить описание текущих титхи
     /// \retval строка с описанием текущих титхи
     QString asCurTithiStr() const;
 
+    /// \brief получить описание текущих титхи с часовым поясом
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @retval строка с описанием текущих титхи
+    QString asCurTithiStr(const double timeZoneOffset) const;
+
     /// \brief получить описание титхи как экадаша
     /// \retval строка с описанием титхи как экадаша
     QString asEkadashStr() const;
+
+    /// \brief получить описание титхи как экадаша с часовым поясом
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @retval строка с описанием титхи как экадаша
+    QString asEkadashStr(const double timeZoneOffset) const;
 
     /// \brief округлить значения даты-времени до минуты
     /// \retval в случае успеха возвращает true, иначе false
