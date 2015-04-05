@@ -282,6 +282,16 @@ public:
     /// \retval строка с информацией о Луне (восход, закат, зенит, долгота дня); в случае неудачи пустая строка
     static QString toStringMoonTimeInfo(const QTime& set, const QTime& rise, const QTime& transit, const bool roundToMin = true);
 
+    /// \brief округлить время до ближайшей минуты (>= 0.5)
+    /// \param time - время
+    /// \retval округлённое время, в случае неудачи исходное время
+    static QTime roundToMinTime(const QTime& time);
+
+    /// \brief округлить пару времен до ближайшей минуты (>= 0.5)
+    /// \param time - пара времен
+    /// \retval округлённая пара времен, в случае неудачи исходная пара времен
+    static QPair<QTime,QTime> roundToMinTime(const QPair<QTime,QTime>& time);
+
 protected:
 
     /// \enum перечисление используемых констант
@@ -345,15 +355,6 @@ protected:
     /// \retval true в случае подтверждения, иначе false
     static bool isTimeZoneOffsetValid(const double timeZoneOffset);
 
-    /// \brief округлить время до ближайшей минуты (>= 0.5)
-    /// \param time - время
-    /// \retval округлённое время, в случае неудачи исходное время
-    static QTime roundToMinTime(const QTime& time);
-
-    /// \brief округлить пару времен до ближайшей минуты (>= 0.5)
-    /// \param time - пара времен
-    /// \retval округлённая пара времен, в случае неудачи исходная пара времен
-    static QPair<QTime,QTime> roundToMinTime(const QPair<QTime,QTime>& time);
 };
 // КОНЕЦ: TComputings
 //---------------------------------------------------------------------------------

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>553</width>
-    <height>640</height>
+    <width>580</width>
+    <height>710</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,12 @@
     <rect>
      <x>10</x>
      <y>190</y>
-     <width>531</width>
-     <height>401</height>
+     <width>561</width>
+     <height>471</height>
     </rect>
+   </property>
+   <property name="gridStyle">
+    <enum>Qt::SolidLine</enum>
    </property>
    <property name="columnCount">
     <number>14</number>
@@ -372,8 +375,8 @@ QGroupBox::title
   <widget class="QPushButton" name="pushButtonSaveAs">
    <property name="geometry">
     <rect>
-     <x>420</x>
-     <y>600</y>
+     <x>450</x>
+     <y>670</y>
      <width>120</width>
      <height>27</height>
     </rect>

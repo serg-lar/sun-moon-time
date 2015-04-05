@@ -960,6 +960,37 @@ QString TComputings::toStringMoonTimeInfo(const QTime& set, const QTime& rise, c
     return result;
 }
 //---------------------------
+
+QTime TComputings::roundToMinTime(const QTime& time)
+{
+    QTime result (time);
+
+    if (true == time.isValid())
+    {
+        int second (result.second());
+        if (second >= 30)
+            result = result.addSecs(secsInMin-second);
+        else
+            result.setHMS(result.hour(),result.minute(),0);
+    }
+
+    return result;
+}
+//---------------------------
+
+QPair<QTime,QTime> TComputings::roundToMinTime(const QPair<QTime,QTime>& time)
+{
+    QPair<QTime,QTime> result (time);
+
+    if ((true == time.first.isValid()) && (true == time.second.isValid()))
+    {
+        result.first = roundToMinTime(result.first);
+        result.second = roundToMinTime(result.second);
+    }
+
+    return result;
+}
+//---------------------------
 // КОНЕЦ: TComputings - public
 //---------------------------------------------------------------------------------
 
@@ -1062,37 +1093,6 @@ bool TComputings::isTimeZoneOffsetValid (const double timeZoneOffset)
     bool result (true);
 
     // TODO добавить реализацию и соответствующие константы
-
-    return result;
-}
-//---------------------------
-
-QTime TComputings::roundToMinTime(const QTime& time)
-{
-    QTime result (time);
-
-    if (true == time.isValid())
-    {
-        int second (result.second());
-        if (second >= 30)
-            result = result.addSecs(secsInMin-second);
-        else
-            result.setHMS(result.hour(),result.minute(),0);
-    }
-
-    return result;
-}
-//---------------------------
-
-QPair<QTime,QTime> TComputings::roundToMinTime(const QPair<QTime,QTime>& time)
-{
-    QPair<QTime,QTime> result (time);
-
-    if ((true == time.first.isValid()) && (true == time.second.isValid()))
-    {
-        result.first = roundToMinTime(result.first);
-        result.second = roundToMinTime(result.second);
-    }
 
     return result;
 }
