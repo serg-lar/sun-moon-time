@@ -223,10 +223,10 @@ void DialogTithi::on_pushButtonSaveAs_clicked()
             else if (ekadashiType == m_Type)
                 out << QString("Экадаши") << endl;
             if (true == ui->radioButtonCalendar->isChecked())
-                out << QString("С ") << ui->dateEditBegin->date().toString("dd.MM.yy") <<
-                       QString(" по ") << ui->dateEditEnd->date().toString("dd.MM.yy") << endl << endl;
+                out << QString("С ") << ui->dateEditBegin->date().toString("dd.MM.yyyy") <<
+                       QString(" по ") << ui->dateEditEnd->date().toString("dd.MM.yyyy") << endl << endl;
             else if (true == ui->radioButtonPeriod->isChecked())
-                    out << QString("С ") << QDate::currentDate().toString("dd.MM.yy") << QString(" на ") << ui->comboBoxPeriod->currentText() << endl << endl;
+                    out << QString("С ") << QDate::currentDate().toString("dd.MM.yyyy") << QString(" на ") << ui->comboBoxPeriod->currentText() << endl << endl;
             out << ui->textEdit->toPlainText();
             outFile.close();
         }

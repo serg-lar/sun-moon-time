@@ -5,7 +5,9 @@
 
 #include "dialogtableview.h"
 #include "ui_dialogtableview.h"
+#include <QtDebug>
 #include <QSettings>
+#include <QFileDialog>
 #include "computings.h"
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
@@ -294,17 +296,79 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                 }
 
             // интерфейс
-            ui->tableWidget->resizeColumnsToContents();
+            ui->tableWidget->resizeColumnsToContents(); // расширение столбцов под содержимое
             setCursor(mouseCursor);
             ui->pushButtonCalculate->setDisabled(false);
         }
     }
+    else
+        qWarning() << "DialogTableView::on_pushButtonCalculate_clicked" << "load settings error";
 }
 //---------------------------
 
 void DialogTableView::on_pushButtonSaveAs_clicked()
 {
     //TODO: Сохранить как...
+    // ---сохранить как---
+    QString fileName (QFileDialog::getSaveFileName(this, "Сохранить как..."));
+    if (false == fileName.isEmpty())
+    {
+        QFile outFile (fileName);
+        if (true == outFile.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            // вывод в файл
+            QTextStream out (&outFile);
+
+            // формат файла - простой html
+            out << "<html>" << endl;
+            out << "<head>" << endl;
+
+            if (sunInfo == m_Type)
+            {
+                // заголовок html файла
+                out << "<h1 align='center'>" << endl;
+                out << QString("Солнечное время") << endl;
+
+                if (true == ui->radioButtonCalendar->isChecked())
+                    out << QString("с ") << ui->dateEditBegin->date().toString("dd.MM.yyyy")
+                        << QString(" по ") << ui->dateEditEnd->date().toString("dd.MM.yyyy") << endl << endl;
+                else if (true == ui->radioButtonPeriod->isChecked())
+                    out << QString("с ") << QDate::currentDate().toString("dd.MM.yyyy") << QString(" на ") << ui->comboBoxPeriod->currentText() << endl << endl;
+                out << "</h1>";
+                out << "</head>" << endl;
+            }
+
+            // содержимое html файла - таблица
+            out << "<body>" << endl;
+            out << "<table cols='18'' align='center' border='1' cellpadding='5' cellspacing='0'>" << endl;
+            out << "<thead style='font-weight: bold'>" << endl;
+            out << "<tr align='center' valign='center'>" << endl;
+            // заголовки столбцов в текстовый файл
+            for (qint32 i = 0; i < ui->tableWidget->columnCount(); ++i)
+                out << "\t" << "<td>" << (ui->tableWidget->horizontalHeaderItem(i)->text()).replace("\n"," ") << "</td>" << endl;
+            out << "</tr>" << endl;
+            out << "</thead>" << endl;
+
+            // содержимое таблицы в текстовый файл
+            for (qint32 i = 0; i < ui->tableWidget->rowCount(); ++i)
+            {
+                out << "<tr align='center' valign='center'>" << endl;
+                for (qint32 j = 0; j < ui->tableWidget->columnCount(); ++j)
+                    out << "<td>" << (ui->tableWidget->item(i,j))->text() << "</td>" << endl;
+                out << "</tr>" << endl;
+            }
+
+            out << "</table>" << endl;
+            out << "</body>" << endl;
+            out << "</html>" << endl;
+
+            outFile.close();
+        }
+        else
+            qWarning() << "DialogTableView::on_pushButtonSaveAs_clicked" << "open file error";
+    }
+    else
+        qWarning() << "DialogTableView::on_pushButtonSaveAs_clicked" << "getSaveFileName error";
 }
 //---------------------------
 // КОНЕЦ: DialogTableView - private slots
