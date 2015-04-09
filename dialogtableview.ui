@@ -385,6 +385,22 @@ QGroupBox::title
     <string>Сохранить как</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="checkBoxTwilight">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>70</y>
+     <width>147</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>считать сумерки</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

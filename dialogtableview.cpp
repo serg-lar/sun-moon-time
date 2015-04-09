@@ -174,14 +174,26 @@ void DialogTableView::on_pushButtonCalculate_clicked()
 
             // таблица
             // столбцы
-            ui->tableWidget->setColumnCount(18);
-            // заголовки столбцов
-            ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход,Зенит,Долгота дня,Утренние гражданские\nсумерки,Утренние навигационные\nсумерки,"\
-                                                               "Утренние астрономические\nсумерки,Утренняя сандхья\nкак 1/10 суток,"\
-                                                               "Утренняя сандхья\nкак 1/10 от половины суток,Утренняя сандхья\nкак 1/10 светового дня,"\
-                                                               "Вечерние гражданские\nсумерки,Вечерние навигационные\nсумерки,Вечерние астрономические\nсумерки,"\
-                                                               "Вечерняя сандхья\nкак 1/10 суток,Вечерняя сандхья\nкак 1/10 от половины суток,"\
-                                                               "Вечерняя сандхья\nкак 1/10 светового дня").split(","));
+            if (true == ui->checkBoxTwilight->isChecked())
+            {
+                // --с сумерками--
+                ui->tableWidget->setColumnCount(18);
+                // заголовки столбцов
+                ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход,Зенит,Долгота дня,Утренние гражданские\nсумерки,Утренние навигационные\nсумерки,"\
+                                                                   "Утренние астрономические\nсумерки,Утренняя сандхья\nкак 1/10 суток,"\
+                                                                   "Утренняя сандхья\nкак 1/10 от половины суток,Утренняя сандхья\nкак 1/10 светового дня,"\
+                                                                   "Вечерние гражданские\nсумерки,Вечерние навигационные\nсумерки,Вечерние астрономические\nсумерки,"\
+                                                                   "Вечерняя сандхья\nкак 1/10 суток,Вечерняя сандхья\nкак 1/10 от половины суток,"\
+                                                                   "Вечерняя сандхья\nкак 1/10 светового дня").split(","));
+            }
+            else
+            {
+                // --без сумерек--
+                ui->tableWidget->setColumnCount(6);
+                // заголовки столбцов
+                ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход,Зенит,Долгота дня,").split(","));
+            }
+
             // строки
             ui->tableWidget->setRowCount(d1.daysTo(d2)+1);
 
@@ -205,82 +217,101 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                 // долгота дня
                 QTime lengthOfDay (QTime::fromMSecsSinceStartOfDay(sunRise.msecsTo(sunSet)));
 
-                // утренние гражданские сумерки сегодня
-                QPair<QTime,QTime> morningCivilTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,
-                                                                                             static_cast<double>(TComputings::civilTwilight),d1));
-                morningCivilTwilight = TComputings::roundToMinTime(morningCivilTwilight);
+                if (true == ui->checkBoxTwilight->isChecked())
+                {
+                    // --с сумерками--
 
-                // утренние навигационные сумерки (до восхода)
-                QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,
-                                                                                                  static_cast<double>(TComputings::navigationTwilight),d1));
-                morningNavigationTwilight = TComputings::roundToMinTime(morningNavigationTwilight);
+                    // утренние гражданские сумерки сегодня
+                    QPair<QTime,QTime> morningCivilTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,
+                                                                                                 static_cast<double>(TComputings::civilTwilight),d1));
+                    morningCivilTwilight = TComputings::roundToMinTime(morningCivilTwilight);
 
-                // утренние астрономические сумерки (до восхода)
-                QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,
-                                                                                                    static_cast<double>(TComputings::astronomicalTwilight),d1));
-                morningAstronomicalTwilight = TComputings::roundToMinTime(morningAstronomicalTwilight);
+                    // утренние навигационные сумерки (до восхода)
+                    QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,
+                                                                                                      static_cast<double>(TComputings::navigationTwilight),d1));
+                    morningNavigationTwilight = TComputings::roundToMinTime(morningNavigationTwilight);
 
-                // утренние сумерки (сандхья), как 1/10 часть от половины суток
-                QPair<QTime,QTime> morningSandhya(TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunRise,timeZoneOffset,true,d1));
-                morningSandhya = TComputings::roundToMinTime(morningSandhya);
+                    // утренние астрономические сумерки (до восхода)
+                    QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,
+                                                                                                        static_cast<double>(TComputings::astronomicalTwilight),d1));
+                    morningAstronomicalTwilight = TComputings::roundToMinTime(morningAstronomicalTwilight);
 
-                // утренние сумерки (сандхья), как 1/10 часть от суток
-                qint32 offset ((morningSandhya.second.msecsSinceStartOfDay() - morningSandhya.first.msecsSinceStartOfDay())*2);
-                QPair <QTime, QTime> morningSandhya1 (QTime::fromMSecsSinceStartOfDay(morningSandhya.second.msecsSinceStartOfDay() - offset),morningSandhya.second);
+                    // утренние сумерки (сандхья), как 1/10 часть от половины суток
+                    QPair<QTime,QTime> morningSandhya(TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunRise,timeZoneOffset,true,d1));
+                    morningSandhya = TComputings::roundToMinTime(morningSandhya);
 
-                // утренние сумерки (сандхья), как 1/10 часть от светового дня
-                QPair<QTime,QTime> morningSandhya2(TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset,true,d1));
-                morningSandhya2 = TComputings::roundToMinTime(morningSandhya2);
+                    // утренние сумерки (сандхья), как 1/10 часть от суток
+                    qint32 offset ((morningSandhya.second.msecsSinceStartOfDay() - morningSandhya.first.msecsSinceStartOfDay())*2);
+                    QPair <QTime, QTime> morningSandhya1 (QTime::fromMSecsSinceStartOfDay(morningSandhya.second.msecsSinceStartOfDay() - offset),morningSandhya.second);
 
-                // вечерние гражданские сумерки сегодня
-                QPair<QTime,QTime> eveningCivilTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,
-                                                                                             static_cast<double>(TComputings::civilTwilight),d1));
-                eveningCivilTwilight = TComputings::roundToMinTime(eveningCivilTwilight);
+                    // утренние сумерки (сандхья), как 1/10 часть от светового дня
+                    QPair<QTime,QTime> morningSandhya2(TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset,true,d1));
+                    morningSandhya2 = TComputings::roundToMinTime(morningSandhya2);
 
-                // вечерние навигационные сумерки (от захода)
-                QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,
-                                                                                                  static_cast<double>(TComputings::navigationTwilight),d1));
-                eveningNavigationTwilight = TComputings::roundToMinTime(eveningNavigationTwilight);
+                    // вечерние гражданские сумерки сегодня
+                    QPair<QTime,QTime> eveningCivilTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,
+                                                                                                 static_cast<double>(TComputings::civilTwilight),d1));
+                    eveningCivilTwilight = TComputings::roundToMinTime(eveningCivilTwilight);
 
-                // вечерние астрономические сумерки (от захода)
-                QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,
-                                                                                                    static_cast<double>(TComputings::astronomicalTwilight),d1));
-                eveningAstronomicalTwilight = TComputings::roundToMinTime(eveningAstronomicalTwilight);
+                    // вечерние навигационные сумерки (от захода)
+                    QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,
+                                                                                                      static_cast<double>(TComputings::navigationTwilight),d1));
+                    eveningNavigationTwilight = TComputings::roundToMinTime(eveningNavigationTwilight);
 
-                // вечерние сумерки (сандхья), как 1/10 часть от половины суток
-                QPair<QTime,QTime> eveningSandhya (TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunSet,timeZoneOffset,false,d1));
-                eveningSandhya = TComputings::roundToMinTime(eveningSandhya);
+                    // вечерние астрономические сумерки (от захода)
+                    QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,
+                                                                                                        static_cast<double>(TComputings::astronomicalTwilight),d1));
+                    eveningAstronomicalTwilight = TComputings::roundToMinTime(eveningAstronomicalTwilight);
 
-                // вечерние сумерки (сандхья), как 1/10 часть от суток
-                offset = (eveningSandhya.second.msecsSinceStartOfDay() - eveningSandhya.first.msecsSinceStartOfDay())*2;
-                QPair<QTime, QTime> eveningSandhya1 (eveningSandhya.first, eveningSandhya.first.addMSecs(offset));
+                    // вечерние сумерки (сандхья), как 1/10 часть от половины суток
+                    QPair<QTime,QTime> eveningSandhya (TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunSet,timeZoneOffset,false,d1));
+                    eveningSandhya = TComputings::roundToMinTime(eveningSandhya);
 
-                // вечерние сумерки (сандхья), как 1/10 часть от светового дня
-                QPair<QTime,QTime> eveningSandhya2 (TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset,false,d1));
-                eveningSandhya2 = TComputings::roundToMinTime(eveningSandhya2);
+                    // вечерние сумерки (сандхья), как 1/10 часть от суток
+                    offset = (eveningSandhya.second.msecsSinceStartOfDay() - eveningSandhya.first.msecsSinceStartOfDay())*2;
+                    QPair<QTime, QTime> eveningSandhya1 (eveningSandhya.first, eveningSandhya.first.addMSecs(offset));
 
-                //добавление в таблицу
-                ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
-                ui->tableWidget->setItem(c,1,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
-                ui->tableWidget->setItem(c,2,new QTableWidgetItem(sunRise.toString("hh:mm")));
-                ui->tableWidget->setItem(c,3,new QTableWidgetItem(sunSet.toString("hh:mm")));
-                if (true == aboveHorizont)
-                    ui->tableWidget->setItem(c,4,new QTableWidgetItem(sunTransit.toString("hh:mm")));
+                    // вечерние сумерки (сандхья), как 1/10 часть от светового дня
+                    QPair<QTime,QTime> eveningSandhya2 (TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset,false,d1));
+                    eveningSandhya2 = TComputings::roundToMinTime(eveningSandhya2);
+
+                    //добавление в таблицу
+                    ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
+                    ui->tableWidget->setItem(c,1,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
+                    ui->tableWidget->setItem(c,2,new QTableWidgetItem(sunRise.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,3,new QTableWidgetItem(sunSet.toString("hh:mm")));
+                    if (true == aboveHorizont)
+                        ui->tableWidget->setItem(c,4,new QTableWidgetItem(sunTransit.toString("hh:mm")));
+                    else
+                        ui->tableWidget->setItem(c,4,new QTableWidgetItem("под горизонтом"));
+                    ui->tableWidget->setItem(c,5,new QTableWidgetItem(lengthOfDay.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,6,new QTableWidgetItem(morningCivilTwilight.first.toString("hh:mm") + " - " + morningCivilTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,7,new QTableWidgetItem(morningNavigationTwilight.first.toString("hh:mm") + " - " + morningNavigationTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,8,new QTableWidgetItem(morningAstronomicalTwilight.first.toString("hh:mm") + " - " + morningAstronomicalTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,9,new QTableWidgetItem(morningSandhya1.first.toString("hh:mm") + " - " + morningSandhya1.second.toString("hh:mm")));;
+                    ui->tableWidget->setItem(c,10,new QTableWidgetItem(morningSandhya.first.toString("hh:mm") + " - " + morningSandhya.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,11,new QTableWidgetItem(morningSandhya2.first.toString("hh:mm") + " - " + morningSandhya2.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,12,new QTableWidgetItem(eveningCivilTwilight.first.toString("hh:mm") + " - " + eveningCivilTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,13,new QTableWidgetItem(eveningNavigationTwilight.first.toString("hh:mm") + " - " + eveningNavigationTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,14,new QTableWidgetItem(eveningAstronomicalTwilight.first.toString("hh:mm") + " - " + eveningAstronomicalTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,15,new QTableWidgetItem(eveningSandhya1.first.toString("hh:mm") + " - " + eveningSandhya1.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,16,new QTableWidgetItem(eveningSandhya.first.toString("hh:mm") + " - " + eveningSandhya.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,17,new QTableWidgetItem(eveningSandhya2.first.toString("hh:mm") + " - " + eveningSandhya2.second.toString("hh:mm")));
+
+                }
                 else
-                    ui->tableWidget->setItem(c,4,new QTableWidgetItem("под горизонтом"));
-                ui->tableWidget->setItem(c,5,new QTableWidgetItem(lengthOfDay.toString("hh:mm")));
-                ui->tableWidget->setItem(c,6,new QTableWidgetItem(morningCivilTwilight.first.toString("hh:mm") + " - " + morningCivilTwilight.second.toString("hh:mm")));
-                ui->tableWidget->setItem(c,7,new QTableWidgetItem(morningNavigationTwilight.first.toString("hh:mm") + " - " + morningNavigationTwilight.second.toString("hh:mm")));
-                ui->tableWidget->setItem(c,8,new QTableWidgetItem(morningAstronomicalTwilight.first.toString("hh:mm") + " - " + morningAstronomicalTwilight.second.toString("hh:mm")));
-                ui->tableWidget->setItem(c,9,new QTableWidgetItem(morningSandhya1.first.toString("hh:mm") + " - " + morningSandhya1.second.toString("hh:mm")));;
-                ui->tableWidget->setItem(c,10,new QTableWidgetItem(morningSandhya.first.toString("hh:mm") + " - " + morningSandhya.second.toString("hh:mm")));
-                ui->tableWidget->setItem(c,11,new QTableWidgetItem(morningSandhya2.first.toString("hh:mm") + " - " + morningSandhya2.second.toString("hh:mm")));
-                ui->tableWidget->setItem(c,12,new QTableWidgetItem(eveningCivilTwilight.first.toString("hh:mm") + " - " + eveningCivilTwilight.second.toString("hh:mm")));
-                ui->tableWidget->setItem(c,13,new QTableWidgetItem(eveningNavigationTwilight.first.toString("hh:mm") + " - " + eveningNavigationTwilight.second.toString("hh:mm")));
-                ui->tableWidget->setItem(c,14,new QTableWidgetItem(eveningAstronomicalTwilight.first.toString("hh:mm") + " - " + eveningAstronomicalTwilight.second.toString("hh:mm")));
-                ui->tableWidget->setItem(c,15,new QTableWidgetItem(eveningSandhya1.first.toString("hh:mm") + " - " + eveningSandhya1.second.toString("hh:mm")));
-                ui->tableWidget->setItem(c,16,new QTableWidgetItem(eveningSandhya.first.toString("hh:mm") + " - " + eveningSandhya.second.toString("hh:mm")));
-                ui->tableWidget->setItem(c,17,new QTableWidgetItem(eveningSandhya2.first.toString("hh:mm") + " - " + eveningSandhya2.second.toString("hh:mm")));
+                {
+                    // --без сумерек--
+                    ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
+                    ui->tableWidget->setItem(c,1,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
+                    ui->tableWidget->setItem(c,2,new QTableWidgetItem(sunRise.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,3,new QTableWidgetItem(sunSet.toString("hh:mm")));
+                    if (true == aboveHorizont)
+                        ui->tableWidget->setItem(c,4,new QTableWidgetItem(sunTransit.toString("hh:mm")));
+                    else
+                        ui->tableWidget->setItem(c,4,new QTableWidgetItem("под горизонтом"));
+                    ui->tableWidget->setItem(c,5,new QTableWidgetItem(lengthOfDay.toString("hh:mm")));
+                }
 
                 // следующая дата
                 d1 = d1.addDays(1);
@@ -394,6 +425,10 @@ void DialogTableView::init()
     ui->dateEditBegin->setDate(QDate::currentDate());
     ui->dateEditEnd->setDate(QDate::currentDate().addDays(1));
     ui->dateEditEnd->setMinimumDate(ui->dateEditBegin->date());
+
+    // чекбокс считать сумерки только для Солнечного времени
+    if (moonInfo == m_Type)
+        ui->checkBoxTwilight->setDisabled(true);
 }
 //---------------------------
 // КОНЕЦ: DialogTableView - private

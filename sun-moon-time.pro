@@ -169,3 +169,6 @@ OTHER_FILES += \
     sun-moon-time.rc \
     google_maps.html \
     version_history.txt
+
+DISTFILES += \
+    readme.txt
