@@ -210,24 +210,55 @@ void DialogTithi::on_comboBoxPeriod_currentIndexChanged(const QString &arg1)
 void DialogTithi::on_pushButtonSaveAs_clicked()
 {
     // сохранить как
-    QString fileName (QFileDialog::getSaveFileName(this, "Сохранить как..."));
+    QString filter ("Text (*.txt);;HyperText (*.html)");
+    QString selectedFilter;
+    QString fileName (QFileDialog::getSaveFileName(this, "Сохранить как...",QString(),filter,&selectedFilter));
     if (false == fileName.isEmpty())
     {
+//        if ((true == selectedFilter.contains("*.txt")) && (false == fileName.contains(".txt")))
+//            fileName += ".txt";
+//        else if (false == fileName.contains(".html"))
+//            fileName += ".html";
+
         QFile outFile (fileName);
         if (true == outFile.open(QIODevice::WriteOnly | QIODevice::Text))
         {
             // вывод в файл
             QTextStream out (&outFile);
             if (tithiType == m_Type)
-                out << QString("Титхи") << endl;
+            {
+                if (true == selectedFilter.contains("*.txt"))
+                    out << QString("Титхи") << endl;
+                else
+                    out << QString("<h1>Титхи</h1>") << endl;
+            }
             else if (ekadashiType == m_Type)
-                out << QString("Экадаши") << endl;
+            {
+                if (true == selectedFilter.contains("*.txt"))
+                    out << QString("Экадаши") << endl;
+                else
+                    out << QString("<h1>Экадаши</h1>") << endl;
+            }
             if (true == ui->radioButtonCalendar->isChecked())
-                out << QString("С ") << ui->dateEditBegin->date().toString("dd.MM.yyyy") <<
-                       QString(" по ") << ui->dateEditEnd->date().toString("dd.MM.yyyy") << endl << endl;
+            {
+                if (true == selectedFilter.contains("*.txt"))
+                    out << QString("С ") << ui->dateEditBegin->date().toString("dd.MM.yyyy") <<
+                           QString(" по ") << ui->dateEditEnd->date().toString("dd.MM.yyyy") << endl << endl;
+                else
+                    out << "<h2>" << QString("С ") << ui->dateEditBegin->date().toString("dd.MM.yyyy") <<
+                           QString(" по ") << ui->dateEditEnd->date().toString("dd.MM.yyyy") << "</h2>" << endl << endl;
+            }
             else if (true == ui->radioButtonPeriod->isChecked())
+            {
+                if (true == selectedFilter.contains("*.txt"))
                     out << QString("С ") << QDate::currentDate().toString("dd.MM.yyyy") << QString(" на ") << ui->comboBoxPeriod->currentText() << endl << endl;
-            out << ui->textEdit->toPlainText();
+                else
+                    out << "<h2>" << QString("С ") << QDate::currentDate().toString("dd.MM.yyyy") << QString(" на ") << ui->comboBoxPeriod->currentText() << "</h2>" << endl << endl;
+            }
+            if (true == selectedFilter.contains("*.txt"))
+                out << ui->textEdit->toPlainText();
+            else
+                out << ui->textEdit->toHtml();
             outFile.close();
         }
         else

@@ -310,7 +310,7 @@ void DialogTableView::on_pushButtonSaveAs_clicked()
 {
     //TODO: Сохранить как...
     // ---сохранить как---
-    QString fileName (QFileDialog::getSaveFileName(this, "Сохранить как..."));
+    QString fileName (QFileDialog::getSaveFileName(this, "Сохранить как...",QString(),"HyperText (*.html)"));
     if (false == fileName.isEmpty())
     {
         QFile outFile (fileName);
