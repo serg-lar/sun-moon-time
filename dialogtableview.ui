@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogTableView</class>
+ <widget class="QDialog" name="DialogTableView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>580</width>
+    <height>710</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>190</y>
+     <width>561</width>
+     <height>471</height>
+    </rect>
+   </property>
+   <property name="gridStyle">
+    <enum>Qt::SolidLine</enum>
+   </property>
+   <property name="columnCount">
+    <number>14</number>
+   </property>
+   <column>
+    <property name="text">
+     <string>№</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Дата</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Восход</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Заход</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Зенит</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Утренние гражданские сумерки</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Утренние навигационные сумерки</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Утренние астрономические сумерки</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Вечерние гражданские сумерки</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Вечерние навигационные сумерки</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Вечерние астрономические сумерки</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Утренняя сандхья как 1/10 от суток</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Утренняя сандхья как 1/10 от половины суток</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Утренняя сандхья как 1/10 от светового дня</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QGroupBox" name="groupBoxPeriod">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>10</y>
+     <width>131</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QGroupBox
+{
+             border: 3px solid black;                    
+             background-color: rgba(255, 255, 255, 0);
+			   font: bold;
+}
+QGroupBox::title
+{
+		left: 3px;
+		top: 3px;
+}</string>
+   </property>
+   <property name="title">
+    <string>Период</string>
+   </property>
+   <widget class="QRadioButton" name="radioButtonPeriod">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>20</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>111</width>
+      <height>52</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>На</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBoxPeriod">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>календарь</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>месяц</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>два месяца</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>три месяца</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>полгода</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>год</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>два года</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>три года</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>10 лет</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBoxCalendar">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>221</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QGroupBox
+{
+             border: 3px solid black;                    
+             background-color: rgba(255, 255, 255, 0);
+			   font: bold;
+}
+QGroupBox::title
+{
+		left: 3px;
+		top: 3px;
+}</string>
+   </property>
+   <property name="title">
+    <string>Календарь</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>201</width>
+      <height>54</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>С</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateEditBegin">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="currentSection">
+          <enum>QDateTimeEdit::DaySection</enum>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="timeSpec">
+          <enum>Qt::LocalTime</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>По</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateEditEnd">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="currentSection">
+          <enum>QDateTimeEdit::DaySection</enum>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="timeSpec">
+          <enum>Qt::LocalTime</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QRadioButton" name="radioButtonCalendar">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>20</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButtonCalculate">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>150</y>
+     <width>96</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Рассчитать</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSaveAs">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>670</y>
+     <width>120</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Сохранить как</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxTwilight">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>70</y>
+     <width>147</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>считать сумерки</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

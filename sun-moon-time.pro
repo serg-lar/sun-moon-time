@@ -13,7 +13,7 @@ QT  +=  webkitwidgets
 TARGET = sun-moon-time
 TEMPLATE = app
 
-#CONFIG += c++11
+CONFIG += c++11
 
 
 SOURCES += main.cpp\
@@ -80,7 +80,8 @@ SOURCES += main.cpp\
     calendar.cpp \
     computings.cpp \
     dialogsettings.cpp \
-    dialogtithi.cpp
+    dialogtithi.cpp \
+    dialogtableview.cpp
 
 HEADERS  += mainwindow.h \
     aaplus/AA+.h \
@@ -148,11 +149,13 @@ HEADERS  += mainwindow.h \
     calendar.h \
     computings.h \
     dialogsettings.h \
-    dialogtithi.h
+    dialogtithi.h \
+    dialogtableview.h
 
 FORMS    += mainwindow.ui \
     dialogsettings.ui \
-    dialogtithi.ui
+    dialogtithi.ui \
+    dialogtableview.ui
 
 RESOURCES += \
     resources.qrc
@@ -166,3 +169,6 @@ OTHER_FILES += \
     sun-moon-time.rc \
     google_maps.html \
     version_history.txt
+
+DISTFILES += \
+    readme.txt

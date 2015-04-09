@@ -129,6 +129,24 @@ QString TTitha::asTithiStr() const
 }
 //---------------------------
 
+QString TTitha::asTithiStr(const double timeZoneOffset) const
+{
+    QString result;
+
+    if (true == isValid())
+    {
+        result = "Часовой пояс: ";
+        if (timeZoneOffset >= 0)
+            result += "+"+QString::number(timeZoneOffset);
+        else
+            result += QString::number(timeZoneOffset);
+        result += "\n";
+    }
+
+    return result += asTithiStr();
+}
+//---------------------------
+
 QString TTitha::asTithiStrExt() const
 {
     QString tithiStr;
@@ -159,6 +177,36 @@ QString TTitha::asTithiStrExt() const
 }
 //---------------------------
 
+QString TTitha::asTithiStrExt(const double timeZoneOffset) const
+{
+    QString result;
+
+    if (true == isValid())
+    {
+        if (m_Paksha)
+            result += "шукла-пакша";
+        else
+            result += "кршна-пакша";
+        result += " - ";
+        result += nameStr();
+        result += "\n";
+        result += "(";
+        if (m_Paksha)
+            result += "Растущая Луна";
+        else
+            result += "Убывающая Луна";
+        result += " - ";
+        result += QString::number(m_Num) + " титхи";
+        result += ")";
+        result += "\n";
+
+        result += asTithiStr(timeZoneOffset);
+    }
+
+    return result;
+}
+//---------------------------
+
 QString TTitha::asCurTithiStr() const
 {
     QString tithiStr;
@@ -170,6 +218,19 @@ QString TTitha::asCurTithiStr() const
     }
 
     return tithiStr;
+}
+//---------------------------
+
+QString TTitha::asCurTithiStr(const double timeZoneOffset) const
+{
+    QString result;
+
+    if (true == isValid())
+    {
+        result = "Сейчас\n";
+    }
+
+    return result += asTithiStrExt(timeZoneOffset);
 }
 //---------------------------
 
@@ -187,6 +248,22 @@ QString TTitha::asEkadashStr() const
     }
 
     return ekadashStr;
+}
+//---------------------------
+
+QString TTitha::asEkadashStr(const double timeZoneOffset) const
+{
+    QString result;
+
+    if (true == isValid())
+    {
+        if (m_Paksha)
+            result += "шукла-пакша (Растущая Луна)\n";
+        else
+            result += "кршна-пакша (Убывающая Луна)\n";
+    }
+
+    return result += asTithiStr(timeZoneOffset);
 }
 //---------------------------
 
@@ -740,7 +817,14 @@ TTitha TTitha::findNearestEkadash(const double timeZoneOffset)
 
     // первый экадаш в списке является ближайшим экадашем
     if (false == (ekadashi.isEmpty()))
+    {
         result = ekadashi.first();
+
+        // Если ближайший экадаш сегодня, то возьмём следующий (при наличии такового)
+        if (QDate::currentDate() == result.beginDateTime().date())
+            if (ekadashi.size() >= 2)
+                result = ekadashi[1];
+    }
 
     return result;
 }

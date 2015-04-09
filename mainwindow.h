@@ -39,6 +39,10 @@ private slots:
     void on_pushButtonTithiPeriod_clicked();
     void on_pushButtonEkadashi_clicked();
 
+    void on_pushButtonSunTimePeriod_clicked();
+
+    void on_pushButtonMoonDatePeriod_clicked();
+
 private:
     /// \enum Перечисление констант
     enum Consts

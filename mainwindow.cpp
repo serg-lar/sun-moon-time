@@ -7,6 +7,7 @@
 #include "ui_mainwindow.h"
 #include "dialogsettings.h"
 #include "dialogtithi.h"
+#include "dialogtableview.h"
 #include "tithi.h"
 #include "calendar.h"
 #include "computings.h"
@@ -326,6 +327,24 @@ void MainWindow::on_pushButtonEkadashi_clicked()
     int result (ekadashiDialog.exec());
 }
 //---------------------------
+
+void MainWindow::on_pushButtonSunTimePeriod_clicked()
+{
+    // показать диалог рассчёта информации по Солнцу за период времени
+    DialogTableView sunTimePeriodDialog(DialogTableView::sunInfo,this);
+
+    int result (sunTimePeriodDialog.exec());
+}
+//---------------------------
+
+void MainWindow::on_pushButtonMoonDatePeriod_clicked()
+{
+    // показать диалог рассчёта информации по Луне за период времени
+    DialogTableView moontimePeriodDialog(DialogTableView::moonInfo,this);
+
+    int result (moontimePeriodDialog.exec());
+}
+//---------------------------
 // КОНЕЦ: MainWindow - private slots
 //---------------------------------------------------------------------------------
 
@@ -485,9 +504,41 @@ void MainWindow::showMoonTime()
         bool aboveHorizont;
         QTime moonTransit (TComputings::moonTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset));
 
+        // предыдущее новолуние
+//        QDateTime previousNewMoon (TComputings::moonTimeFindPreviousNewMoon(timeZoneOffset));
+//        if (false == previousNewMoon.isValid())
+//            qWarning() << "MainWindow::showMoonTime" << "invalid previousNewMoon";
+
+//        // следующее новолуние
+//        QDateTime nextNewMoon (TComputings::moonTimeFindNextNewMoon(timeZoneOffset));
+//        if (false == nextNewMoon.isValid())
+//            qWarning() << "MainWindow::showMoonTime" << "invalid nextNewMoon";
+
+        // лунные дни
+//        QList<QPair<QDateTime,QDateTime> > moonDays(TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset, TComputings::moonTimeFindPreviousNewMoon(),
+//                                                                                  QDateTime::currentDateTimeUtc().addDays(1)));
+
+        // ближайший лунный день
+//        QPair<quint8, QPair<QDateTime,QDateTime> > nearestMoonDay (TComputings::moonTimeNearestMoonDay(longitude,latitude,timeZoneOffset));
+//        if (false == nearestMoonDay.second.second.isValid())
+//            qWarning() << "MainWindow::showMoonTime" << "invalid nearestMoonDay";
+
         // вывести информацию о Луне
         ui->textEditMoonDate->clear();
+        ui->textEditMoonDate->append(QDate::currentDate().toString("dd.MM.yyyy"));
+        ui->textEditMoonDate->append("");
         ui->textEditMoonDate->append(TComputings::toStringMoonTimeInfo(moonSet,moonRise,moonTransit));
+
+//        ui->textEditMoonDate->append("Предыдущее новолуние: " + previousNewMoon.toString("dd.MM.yyyy hh:mm"));
+//        ui->textEditMoonDate->append("Следующее новолуние: " + nextNewMoon.toString("dd.MM.yyyy hh:mm"));
+//        ui->textEditMoonDate->append("Ближайший лунный день: "+QString::number(nearestMoonDay.first));
+//        ui->textEditMoonDate->append("Начало: "+nearestMoonDay.second.first.toString("dd.MM.yyyy hh:mm"));
+//        ui->textEditMoonDate->append("Конец: "+nearestMoonDay.second.second.toString("dd.MM.yyyy hh:mm"));
+//        ui->textEditMoonDate->append("");
+
+//        ui->textEditMoonDate->append("Лунные дни:");
+//        for (qint32 i = 0; i < moonDays.size(); ++i)
+//            ui->textEditMoonDate->append(moonDays.at(i).first.toString("dd.MM.yyyy hh:mm")+" - "+moonDays.at(i).second.toString("dd.MM.yyyy hh:mm"));
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());
@@ -497,7 +548,7 @@ void MainWindow::showMoonTime()
     else
     {
         // не получилось загрузить данные из настроек программы
-        qWarning() << "MainWindow::showSunTime" << "settings empty";
+        qWarning() << "MainWindow::showMoonTime" << "settings empty";
         ui->textEditMoonDate->clear();
         ui->textEditMoonDate->append("Не заданы необходимые настройки для рассчётов.");
         ui->textEditMoonDate->append("Опции -> Настройки (Ctrl+o)");
@@ -518,11 +569,17 @@ void MainWindow::showTithi()
         TTitha curTitha (TTitha::findCurrentTitha(timeZoneOffset));
         TTitha nearestEkadash (TTitha::findNearestEkadash(timeZoneOffset));
 
-        ui->textEditTithi->clear();
-        ui->textEditTithi->append(curTitha.asCurTithiStr());
-        ui->textEditTithi->append("");
+        ui->textEditTithi->clear();                
+        if (true == ui->checkBoxTithiPrintUtc->isChecked())
+            ui->textEditTithi->append(curTitha.asCurTithiStr(timeZoneOffset));
+        else
+            ui->textEditTithi->append(curTitha.asCurTithiStr());
+        ui->textEditTithi->append("");        
         ui->textEditTithi->append("Следующий экадаш");
-        ui->textEditTithi->append(nearestEkadash.asEkadashStr());
+        if (true == ui->checkBoxTithiPrintUtc->isChecked())
+            ui->textEditTithi->append(nearestEkadash.asEkadashStr(timeZoneOffset));
+        else
+            ui->textEditTithi->append(nearestEkadash.asEkadashStr());
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditTithi->textCursor());
@@ -541,6 +598,4 @@ void MainWindow::showTithi()
 //---------------------------
 // КОНЕЦ: MainWindow - private
 //---------------------------------------------------------------------------------
-
-
 
