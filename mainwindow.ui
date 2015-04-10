@@ -37,7 +37,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <attribute name="title">
@@ -588,7 +588,10 @@ color: navy;</string>
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://vk.com/topic-39053542_28027778&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Почему в экадаши нельзя&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://vk.com/topic-39053542_28027778&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;принимать зернобобовую пищу?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://vk.com/topic-39053542_28027778&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Почему в экадаши нельзя&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://vk.com/topic-39053542_28027778&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;принимать зернобобовую пищу?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="label_10">
@@ -602,6 +605,9 @@ color: navy;</string>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://www.advayta.org/cat/?id=1762&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Происхождение экадаши&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>

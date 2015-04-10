@@ -128,6 +128,16 @@ void DialogTithi::on_pushButtonCalculate_clicked()
         ui->textEdit->clear();
         ui->textEdit->repaint();
 
+        if (true == ui->checkBoxTithiPrintUtc->isChecked())
+        {
+            QString timeZoneOffsetStr ("Часовой пояс: ");
+            if (timeZoneOffset >= 0)
+                timeZoneOffsetStr += "+";
+            timeZoneOffsetStr += QString::number(timeZoneOffset);
+            ui->textEdit->append(timeZoneOffsetStr);
+            ui->textEdit->append("");
+        }
+
         // рассчёт
         if (tithiType == m_Type)
         {

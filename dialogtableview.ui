@@ -401,6 +401,22 @@ QGroupBox::title
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QCheckBox" name="checkBoxTwilight_2">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>90</y>
+     <width>147</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>считать сумерки</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
