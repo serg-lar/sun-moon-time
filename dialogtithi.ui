@@ -310,6 +310,22 @@ QGroupBox::title
     <string>Рассчитать</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="checkBoxTithiPrintUtc">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>150</y>
+     <width>177</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Писать часовой пояс</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
