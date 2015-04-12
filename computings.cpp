@@ -545,23 +545,23 @@ QTime TComputings::moonTimeTransit(const double longitude, const double latitude
 }
 //---------------------------
 
-QDateTime TComputings::moonTimeFindPreviousNewMoon(const double timeZoneOffset, const QDateTime& dt)
+QDateTime TComputings::moonTimeFindPreviousNewMoon(const double timeZoneOffset, const QDateTime& dateTime)
 {
     QDateTime result;
 
     // проверка входных данных
-    if ((true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dt.isValid()))
+    if ((true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dateTime.isValid()))
     {
         quint32 step = msecsInSec*secsInMin;
-        QDateTime dt1 (dt);    // дата-время начала отсчёта
+        QDateTime dt1 (dateTime);    // дата-время начала отсчёта
         // дата-время аварийного завершения рассчётов
         QDateTime dt2 (QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - static_cast<qint64>(msecsInSec*secsInMin*minsInHour*hoursInDay)*60));
 
         // поиск даты-времени новолуния
         while ((false == result.isValid()) && (dt1 > dt2))
         {
-            if (true == moonTimeIsNewMoon(dt1,0.0100))            
-                result = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset);            
+            if (true == moonTimeIsNewMoon(dt1,newMoonFindLongitudeThreshold()))
+                result = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset);
 
             // шаг
             dt1 = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - step);
@@ -572,26 +572,84 @@ QDateTime TComputings::moonTimeFindPreviousNewMoon(const double timeZoneOffset, 
 }
 //---------------------------
 
-QDateTime TComputings::moonTimeFindNextNewMoon(const double timeZoneOffset, const QDateTime& dt)
+QDateTime TComputings::moonTimeFindNextNewMoon(const double timeZoneOffset, const QDateTime& dateTime)
 {
     QDateTime result;
 
     // проверка входных данных
-    if ((true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dt.isValid()))
+    if ((true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dateTime.isValid()))
     {
         quint32 step = msecsInSec*secsInMin;
-        QDateTime dt1 (dt);    // дата-время начала отсчёта
+        QDateTime dt1 (dateTime);    // дата-время начала отсчёта
         // дата-время аварийного завершения рассчётов
         QDateTime dt2 (dt1.addMonths(2));
 
         // поиск даты-времени новолуния
         while ((false == result.isValid()) && (dt1 < dt2))
         {
-            if (true == moonTimeIsNewMoon(dt1,0.0100))
+            if (true == moonTimeIsNewMoon(dt1,newMoonFindLongitudeThreshold()))
                 result = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset);
 
             // шаг
             dt1 = QDateTime::fromMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + step);
+        }
+    }
+
+    return result;
+}
+//---------------------------
+
+QList<QDateTime> TComputings::moonTimeFindNewMoonForYear(const double timeZoneOffset, const QDateTime& dateTime)
+{
+    QList<QDateTime> result;
+
+    // проверка входных данных
+    if ((true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dateTime.isValid()))
+    {
+        QDateTime dt (dateTime);
+
+        while (dt <= dateTime.addYears(1))
+        {
+            // поиск следующего новолуния и занесение в список результата, если подходит во временные рамки
+            QDateTime subResult (moonTimeFindNextNewMoon(timeZoneOffset,dt));
+            if ((true == subResult.isValid()) && (subResult <= dateTime.addYears(1)))
+                result << subResult;
+            dt = dt.addDays(29);
+        }
+    }
+
+    QSet<QDateTime> unique (result.toSet());
+    result = QList<QDateTime>::fromSet(unique);
+    std::sort(result.begin(),result.end());
+
+    return result;
+}
+//---------------------------
+
+QList<TComputings::TMoonDay> TComputings::moonTimeMoonDaysFast(const double longitude, const double latitude, const double timeZoneOffset,
+                                                               const QDate& date1, const QDate &date2)
+{
+    QList<TMoonDay> result;
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
+            (true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == date1.isValid()) && (true == date2.isValid()))
+    {
+        QDate d1 (date1);
+        TMoonDay moonDay;
+
+        // рассчитать информацию по лунным дням за период дат
+        while (d1 <= date2)
+        {
+            moonDay.date = d1;
+            moonDay.rise = moonTimeRise(longitude,latitude,timeZoneOffset,d1);
+            moonDay.set = moonTimeSet(longitude,latitude,timeZoneOffset,d1);
+            moonDay.transit = moonTimeTransit(longitude,latitude,moonDay.transitAboveHorizont,timeZoneOffset,d1);
+
+            if ((true == moonDay.rise.isValid()) && (true == moonDay.set.isValid()) && (true == moonDay.transit.isValid()))
+                result << moonDay;
+
+            d1 = d1.addDays(1);
         }
     }
 
@@ -943,16 +1001,16 @@ QString TComputings::toStringMoonTimeInfo(const QTime& set, const QTime& rise, c
             moonTransit = roundToMinTime(moonTransit);
         }
 
-        if (moonSet > moonRise)
-        {
+//        if (moonSet > moonRise)
+//        {
             result += "Восход: " + moonRise.toString(QString("hh:mm")) + "\n";
             result += "Заход: " + moonSet.toString(QString("hh:mm")) + "\n";
-        }
-        else
-        {
-            result += "Заход: " + moonSet.toString(QString("hh:mm")) + "\n";
-            result += "Восход: " + moonRise.toString(QString("hh:mm")) + "\n";
-        }
+//        }
+//        else
+//        {
+//            result += "Заход: " + moonSet.toString(QString("hh:mm")) + "\n";
+//            result += "Восход: " + moonRise.toString(QString("hh:mm")) + "\n";
+//        }
         result += "Зенит: " + moonTransit.toString(QString("hh:mm")) + "\n";
 //        result += "Долгота дня: " + (QTime::fromMSecsSinceStartOfDay(moonRise.secsTo(moonSet)*msecsInSec)).toString(QString("hh:mm"));
     }
@@ -995,10 +1053,16 @@ QPair<QTime,QTime> TComputings::roundToMinTime(const QPair<QTime,QTime>& time)
 //---------------------------------------------------------------------------------
 
 // НАЧАЛО: TComputings - protected
+double TComputings::newMoonFindLongitudeThreshold()
+{
+    return 0.0100;
+}
+//---------------------------
+
 double TComputings::timeEquation(const quint32 N)
 {
-  double B = 2*M_PI * (static_cast<qint32>(N) - 81) / 365.;
-  return 9.87*sin(2*B) - 7.53*cos(B) - 1.5*sin(B);
+    double B = 2*M_PI * (static_cast<qint32>(N) - 81) / 365.;
+    return 9.87*sin(2*B) - 7.53*cos(B) - 1.5*sin(B);
 }
 //---------------------------
 

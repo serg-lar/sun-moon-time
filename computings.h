@@ -3,6 +3,7 @@
 
 // НАЧАЛО: директивы, глобальные переменные и константы
 #include <QtGlobal>
+#include <QtCore>
 #include <QDateTime>
 #include "aaplus/AA+.h"
 
@@ -187,14 +188,42 @@ public:
     /// \brief найти дату-время предыдущего новолуния
     /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
     /// @param dt - UTC дата-время, относительно которой начать поиск
-    /// @retval дата-время предыдущего новолуния (с учётом часового пояса)
-    static QDateTime moonTimeFindPreviousNewMoon(const double timeZoneOffset = 0, const QDateTime& dt = QDateTime::currentDateTimeUtc());
+    /// @retval дата-время предыдущего новолуния (с учётом часового пояса), в случае неудачи не валидная дата-время
+    static QDateTime moonTimeFindPreviousNewMoon(const double timeZoneOffset = 0, const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
 
     /// \brief найти дату-время следующего новолуния
     /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
     /// @param dt - UTC дата-время, относительно которой начать поиск
-    /// @retval дата-время следующего новолуния (с учётом часового пояса)
-    static QDateTime moonTimeFindNextNewMoon(const double timeZoneOffset = 0, const QDateTime& dt = QDateTime::currentDateTimeUtc());
+    /// @retval дата-время следующего новолуния (с учётом часового пояса), в случае неудачи не валидная дата-время
+    static QDateTime moonTimeFindNextNewMoon(const double timeZoneOffset = 0, const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
+
+    /// \brief найти даты-время новолуний на год вперёд
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param dt - UTC дата-время, относительно которой начать поиск
+    /// @retval список дат-время следующего новолуния (с учётом часового пояса), в случае неудачи пустой список
+    static QList<QDateTime> moonTimeFindNewMoonForYear(const double timeZoneOffset = 0, const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
+
+
+    // лунный день - восход, заход, зенит
+    struct TMoonDay
+    {
+        QDate date;
+        QTime rise;
+        QTime set;
+        QTime transit;
+        bool transitAboveHorizont;
+    };
+
+    /// \brief вычислить список "лунных дней" (дата время начала и завершения дня) простой (быстрый) вариант
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param date1 - дата для начала отсчёта
+    /// @param date2 - дата для завершения отсчёта
+    /// @retval список лунных дней, в случае не удачи пустой список
+    static QList<TMoonDay> moonTimeMoonDaysFast(const double longitude, const double latitude, const double timeZoneOffset = 0,
+                                                const QDate& date1 = QDate::currentDate(),
+                                                const QDate& date2 = QDate::currentDate().addMonths(1));
 
     /// \brief вычислить список "лунных дней" (дата время начала и завершения дня)
     /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
@@ -316,6 +345,9 @@ protected:
         // градус положения Солнца под горизонтом для начала/завершения астрономических сумерек
         astronomicalTwilightDegree = -18
     };
+
+    // порог, если разница между долготами Солнца и Луны меньше которого, то считается новолуние
+    static double newMoonFindLongitudeThreshold();
 
     /// \brief уравнение времени (используется в рассчётах истинного солнечного времени)
     /// \param N - номер дня в году: 1 для первого января и т.д.

@@ -523,6 +523,12 @@ void MainWindow::showMoonTime()
 //        if (false == nearestMoonDay.second.second.isValid())
 //            qWarning() << "MainWindow::showMoonTime" << "invalid nearestMoonDay";
 
+        // новолуния на год вперёд
+//        QList<QDateTime> newMoonForYear (TComputings::moonTimeFindNewMoonForYear(timeZoneOffset));
+
+        // простые лунные дни
+        QList<TComputings::TMoonDay> moonDaysSimple (TComputings::moonTimeMoonDaysFast(longitude,latitude,timeZoneOffset));
+
         // вывести информацию о Луне
         ui->textEditMoonDate->clear();
         ui->textEditMoonDate->append(QDate::currentDate().toString("dd.MM.yyyy"));
@@ -539,6 +545,22 @@ void MainWindow::showMoonTime()
 //        ui->textEditMoonDate->append("Лунные дни:");
 //        for (qint32 i = 0; i < moonDays.size(); ++i)
 //            ui->textEditMoonDate->append(moonDays.at(i).first.toString("dd.MM.yyyy hh:mm")+" - "+moonDays.at(i).second.toString("dd.MM.yyyy hh:mm"));
+//        ui->textEditMoonDate->append("Новолуния на год");
+//        ui->textEditMoonDate->append("");
+//        foreach (const QDateTime& newMoon, newMoonForYear)
+//            ui->textEditMoonDate->append(newMoon.toString("dd.MM.yyyy hh:mm"));
+        ui->textEditMoonDate->append("Лунные дни (простые)");
+        ui->textEditMoonDate->append("");
+        foreach (const TComputings::TMoonDay& moonDay, moonDaysSimple)
+        {
+            ui->textEditMoonDate->append(moonDay.date.toString("dd.MM.yyyy"));
+            ui->textEditMoonDate->append("Восход: "+moonDay.rise.toString("hh:mm"));
+            ui->textEditMoonDate->append("Заход: "+moonDay.set.toString("hh:mm"));
+            ui->textEditMoonDate->append("Зенит: "+moonDay.transit.toString("hh:mm"));
+            if (false == moonDay.transitAboveHorizont)
+                ui->textEditMoonDate->append("Зенит под горизонтом");
+            ui->textEditMoonDate->append("");
+        }
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());
