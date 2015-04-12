@@ -10,6 +10,12 @@
     <height>710</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>580</width>
+    <height>710</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -21,6 +27,12 @@
      <width>561</width>
      <height>471</height>
     </rect>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>580</width>
+     <height>710</height>
+    </size>
    </property>
    <property name="gridStyle">
     <enum>Qt::SolidLine</enum>

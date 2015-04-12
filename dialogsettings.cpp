@@ -96,7 +96,7 @@ void DialogSettings::processNetworkReply(QNetworkReply* reply)
         {
             // JSON документ прочитан удачно
 
-            if (reply->request().url().toString().contains("maps.googleapis.com/maps/api/elevation/json"))
+            if (reply->url().toString().contains("maps.googleapis.com/maps/api/elevation/json"))
             {
                 // выяснение результата обращения в службу высот гугл карт
                 QString status (jsonDocument.object().value("status").toString());
@@ -150,7 +150,7 @@ bool DialogSettings::loadSettings()
     double latitude (settings.value("latitude").toDouble(&ok));
     double longitude (settings.value("longitude").toDouble(&ok));
     double height (settings.value("height").toDouble(&ok));
-    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
+    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));    
 
     if (true == ok)
     {
@@ -158,7 +158,8 @@ bool DialogSettings::loadSettings()
         ui->doubleSpinBoxLatitude->setValue(latitude);
         ui->doubleSpinBoxLongitude->setValue(longitude);
         ui->doubleSpinBoxHeight->setValue(height);
-        ui->doubleSpinBoxTimeZoneOffset->setValue(timeZoneOffset);
+        ui->doubleSpinBoxHeight->setValue(height);
+        ui->doubleSpinBoxTimeZoneOffset->setValue(timeZoneOffset);        
     }
     else
     {

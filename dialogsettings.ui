@@ -68,6 +68,9 @@
    <property name="text">
     <string>Запрашивать высоту</string>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lineEditHeightResolution">
    <property name="enabled">
