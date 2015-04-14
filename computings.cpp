@@ -120,12 +120,12 @@ QPair<QTime,QTime> TComputings::sunTimeMorningTwilight(const double longitude, c
             (degree >= -90) && (degree <= 0) && (true == date.isValid()))
     {
         // время завершения сумерек равно времени восхода
-        result.second = (QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset)).time();
+        result.second = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
 
         // вычислить время начала сумерек
         horizontalCoords = sunHorizontalCoords(longitude,latitude,height,dt);
         prevHorizontalCoords = horizontalCoords;
-        while ((horizontalCoords.second >= degree) && (dt.date() == date))
+        while ((horizontalCoords.second >= degree) && (dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).date() == date))
         {
             // горизонтальные координаты Солнца
             horizontalCoords = sunHorizontalCoords(longitude,latitude,height,dt);
@@ -137,19 +137,19 @@ QPair<QTime,QTime> TComputings::sunTimeMorningTwilight(const double longitude, c
                 if (msecsInSec*secsInMin == step)
                 {
                     // шаг назад и продолжить с мелким шагом
-                    dt = QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() - step);
+                    dt = dt.addMSecs(-step);
                     step = msecsInSec;
                     horizontalCoords = prevHorizontalCoords;
                 }
                 else
                 {
                     // записать время начала сумерек
-                    result.first = (QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset)).time();
+                    result.first = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
                 }
             }
 
             // шаг
-            dt = QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + step);
+            dt = dt.addMSecs(+step);
             prevHorizontalCoords = horizontalCoords;
         }
     }
@@ -175,12 +175,12 @@ QPair<QTime,QTime> TComputings::sunTimeMorningTwilightWithRefraction(const doubl
             (degree >= -90) && (degree <= 0) && (true == date.isValid()))
     {
         // время завершения сумерек равно времени восхода
-        result.second = (QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset)).time();
+        result.second = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
 
         // вычислить время начала сумерек
         horizontalCoords = sunHorizontalCoordsWithRefraction(longitude,latitude,height,pressure,temperature,dt);
         prevHorizontalCoords = horizontalCoords;
-        while ((horizontalCoords.second >= degree) && (dt.date() == date))
+        while ((horizontalCoords.second >= degree) && (dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).date() == date))
         {
             // горизонтальные координаты Солнца
             horizontalCoords = sunHorizontalCoordsWithRefraction(longitude,latitude,height,pressure,temperature,dt);
@@ -192,19 +192,19 @@ QPair<QTime,QTime> TComputings::sunTimeMorningTwilightWithRefraction(const doubl
                 if (msecsInSec*secsInMin == step)
                 {
                     // шаг назад и продолжить с мелким шагом
-                    dt = QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() - step);
+                    dt = dt.addMSecs(-step);
                     step = msecsInSec;
                     horizontalCoords = prevHorizontalCoords;
                 }
                 else
                 {
                     // записать время начала сумерек
-                    result.first = (QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset)).time();
+                    result.first = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
                 }
             }
 
             // шаг
-            dt = QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + step);
+            dt = dt.addMSecs(+step);
             prevHorizontalCoords = horizontalCoords;
         }
     }
@@ -230,12 +230,12 @@ QPair<QTime,QTime> TComputings::sunTimeEveningTwilight(const double longitude, c
             (degree >= -90) && (degree <= 0) && (true == date.isValid()))
     {
         // время начала сумерек равно времени заката
-        result.first = (QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset)).time();
+        result.first = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
 
         // вычислить время завершения сумерек
         horizontalCoords = sunHorizontalCoords(longitude,latitude,height,dt);
         prevHorizontalCoords = horizontalCoords;
-        while ((horizontalCoords.second >= degree) && (dt.date() < date.addDays(1)))
+        while ((horizontalCoords.second >= degree) && (dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).date() == date))
         {
             // горизонтальные координаты Солнца
             horizontalCoords = sunHorizontalCoords(longitude,latitude,height,dt);
@@ -247,19 +247,19 @@ QPair<QTime,QTime> TComputings::sunTimeEveningTwilight(const double longitude, c
                 if (msecsInSec*secsInMin == step)
                 {
                     // шаг назад и продолжить с мелким шагом
-                    dt = QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() - step);
+                    dt = dt.addMSecs(-step);
                     step = msecsInSec;
                     horizontalCoords = prevHorizontalCoords;
                 }
                 else
                 {
                     // записать время завершения сумерек
-                    result.second = (QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset)).time();
+                    result.second = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
                 }
             }
 
             // шаг
-            dt = QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + step);
+            dt = dt.addMSecs(+step);
             prevHorizontalCoords = horizontalCoords;
         }
     }
@@ -286,12 +286,12 @@ QPair<QTime,QTime> TComputings::sunTimeEveningTwilightWithRefraction(const doubl
             (degree >= -90) && (degree <= 0) && (true == date.isValid()))
     {
         // время начала сумерек равно времени заката
-        result.first = (QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset)).time();
+        result.first = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
 
         // вычислить время завершения сумерек
         horizontalCoords = sunHorizontalCoordsWithRefraction(longitude,latitude,height,pressure,temperature,dt);
         prevHorizontalCoords = horizontalCoords;
-        while ((horizontalCoords.second >= degree) && (dt.date() < date.addDays(1)))
+        while ((horizontalCoords.second >= degree) && (dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).date() == date))
         {
             // горизонтальные координаты Солнца
             horizontalCoords = sunHorizontalCoordsWithRefraction(longitude,latitude,height,pressure,temperature,dt);
@@ -303,19 +303,19 @@ QPair<QTime,QTime> TComputings::sunTimeEveningTwilightWithRefraction(const doubl
                 if (msecsInSec*secsInMin == step)
                 {
                     // шаг назад и продолжить с мелким шагом
-                    dt = QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() - step);
+                    dt = dt.addMSecs(-step);
                     step = msecsInSec;
                     horizontalCoords = prevHorizontalCoords;
                 }
                 else
                 {
                     // записать время завершения сумерек
-                    result.second = (QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + msecsInSec*secsInMin*minsInHour*timeZoneOffset)).time();
+                    result.second = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
                 }
             }
 
             // шаг
-            dt = QDateTime::fromMSecsSinceEpoch(dt.toMSecsSinceEpoch() + step);
+            dt = dt.addMSecs(+step);
             prevHorizontalCoords = horizontalCoords;
         }
     }
@@ -372,8 +372,7 @@ QPair<QTime,QTime> TComputings::sunTimeSandhyaAsDayPart(const double longitude, 
             // утренняя сандхья как 1/10 часть от половины суток
             result.second = sunRiseSet;
             if (true == result.second.isValid())
-                result.first = QTime::fromMSecsSinceStartOfDay(result.second.hour()*minsInHour*secsInMin*msecsInSec + result.second.minute()*secsInMin*msecsInSec +
-                                                               result.second.second()*msecsInSec + result.second.msec() - (msecsInSec*secsInMin*minsInHour*(hoursInDay/2) / 10));
+                result.first = result.second.addSecs(-secsInMin*minsInHour*(hoursInDay/2) / 10);
         }
         else
         {
@@ -410,7 +409,7 @@ QPair<QTime,QTime> TComputings::sunTimeSandhyaAsLightDayPart(const double longit
             {
                 // утренняя сандхья как 1/10 часть светового дня
                 result.second = sunRise;
-                result.first =  QTime::fromMSecsSinceStartOfDay(sunRise.msecsSinceStartOfDay() - lightDayPart);
+                result.first =  sunRise.addMSecs(-lightDayPart);
             }
             else
             {
@@ -447,7 +446,7 @@ QPair<QTime,QTime> TComputings::sunTimeSandhyaAsLightDayPart(const double longit
             {
                 // утренняя сандхья как 1/10 часть светового дня
                 result.second = sunRiseTime;
-                result.first =  QTime::fromMSecsSinceStartOfDay(sunRiseTime.msecsSinceStartOfDay() - lightDayPart);
+                result.first = sunRiseTime.addMSecs(- lightDayPart);
             }
             else
             {
@@ -621,6 +620,43 @@ QList<QDateTime> TComputings::moonTimeFindNewMoonForYear(const double timeZoneOf
     QSet<QDateTime> unique (result.toSet());
     result = QList<QDateTime>::fromSet(unique);
     std::sort(result.begin(),result.end());
+
+    return result;
+}
+//---------------------------
+
+QList<TComputings::TMoonDay> TComputings::moonTimeRiseTransitSet(const double longitude, const double latitude, const double timeZoneOffset, const QDate& date)
+{
+    QList<TMoonDay> result;
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
+            (true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == date.isValid()))
+    {
+        TMoonDay dayBefore;
+        TMoonDay day;
+        TMoonDay dayAfter;
+
+        dayBefore.date = date.addDays(-1);
+        dayBefore.rise = moonTimeRise(longitude,latitude,timeZoneOffset,dayBefore.date);
+        dayBefore.set = moonTimeSet(longitude,latitude,timeZoneOffset,dayBefore.date);
+        dayBefore.transit = moonTimeTransit(longitude,latitude,dayBefore.transitAboveHorizont,timeZoneOffset,dayBefore.date);
+
+        day.date = date;
+        day.rise = moonTimeRise(longitude,latitude,timeZoneOffset,day.date);
+        day.set = moonTimeSet(longitude,latitude,timeZoneOffset,day.date);
+        day.transit = moonTimeTransit(longitude,latitude,day.transitAboveHorizont,timeZoneOffset,day.date);
+
+        dayAfter.date = date.addDays(1);
+        dayAfter.rise = moonTimeRise(longitude,latitude,timeZoneOffset,dayAfter.date);
+        dayAfter.set = moonTimeSet(longitude,latitude,timeZoneOffset,dayAfter.date);
+        dayAfter.transit = moonTimeTransit(longitude,latitude,dayAfter.transitAboveHorizont,timeZoneOffset,dayAfter.date);
+
+        if ((true == dayBefore.rise.isValid()) && (true == dayBefore.set.isValid()) && (true == dayBefore.transit.isValid()) &&
+                (true == day.rise.isValid()) && (true == day.set.isValid()) && (true == day.transit.isValid()) &&
+                (true == dayAfter.rise.isValid()) && (true == dayAfter.set.isValid()) && (true == dayAfter.transit.isValid()))
+            result << dayBefore << day << dayAfter;
+    }
 
     return result;
 }

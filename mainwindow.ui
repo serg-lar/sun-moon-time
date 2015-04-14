@@ -484,7 +484,7 @@ font: bold;</string>
         <x>280</x>
         <y>10</y>
         <width>260</width>
-        <height>251</height>
+        <height>371</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -546,7 +546,7 @@ color: navy;</string>
         <x>10</x>
         <y>10</y>
         <width>260</width>
-        <height>252</height>
+        <height>371</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -594,7 +594,7 @@ color: navy;</string>
       <property name="geometry">
        <rect>
         <x>280</x>
-        <y>280</y>
+        <y>400</y>
         <width>235</width>
         <height>41</height>
        </rect>
@@ -610,7 +610,7 @@ color: navy;</string>
       <property name="geometry">
        <rect>
         <x>280</x>
-        <y>340</y>
+        <y>450</y>
         <width>181</width>
         <height>21</height>
        </rect>

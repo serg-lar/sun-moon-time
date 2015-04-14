@@ -214,6 +214,15 @@ public:
         bool transitAboveHorizont;
     };
 
+    /// \brief найти восход зенит заход Луны "вокруг" заданной даты
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param date -  дата
+    /// @retval Список из трёх лунных дней до/в/после указанной даты, в случае неудачи пустой список
+    static QList<TMoonDay> moonTimeRiseTransitSet(const double longitude, const double latitude, const double timeZoneOffset = 0,
+                                                  const QDate& date = QDate::currentDate());
+
     /// \brief вычислить список "лунных дней" (дата время начала и завершения дня) простой (быстрый) вариант
     /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
     /// @param latitude - геогр. широта

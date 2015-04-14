@@ -492,17 +492,20 @@ void MainWindow::showMoonTime()
     double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
 
     // рассчёты и вывод информации
-    if (true == ok)
+    if (true == ok)        
     {
+        // простые лунные дни вокруг текущей даты
+        QList<TComputings::TMoonDay> currentMoonDays (TComputings::moonTimeRiseTransitSet(longitude,latitude,timeZoneOffset));
+
         // время захода Луны
-        QTime moonSet (TComputings::moonTimeSet(longitude,latitude,timeZoneOffset));
+//        QTime moonSet (TComputings::moonTimeSet(longitude,latitude,timeZoneOffset));
 
         // время восхода Луны
-        QTime moonRise (TComputings::moonTimeRise(longitude,latitude,timeZoneOffset));
+//        QTime moonRise (TComputings::moonTimeRise(longitude,latitude,timeZoneOffset));
 
         // время высшей точки Луны (зенит)
-        bool aboveHorizont;
-        QTime moonTransit (TComputings::moonTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset));
+//        bool aboveHorizont;
+//        QTime moonTransit (TComputings::moonTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset));
 
         // предыдущее новолуние
 //        QDateTime previousNewMoon (TComputings::moonTimeFindPreviousNewMoon(timeZoneOffset));
@@ -527,13 +530,13 @@ void MainWindow::showMoonTime()
 //        QList<QDateTime> newMoonForYear (TComputings::moonTimeFindNewMoonForYear(timeZoneOffset));
 
         // простые лунные дни
-        QList<TComputings::TMoonDay> moonDaysSimple (TComputings::moonTimeMoonDaysFast(longitude,latitude,timeZoneOffset));
+//        QList<TComputings::TMoonDay> moonDaysSimple (TComputings::moonTimeMoonDaysFast(longitude,latitude,timeZoneOffset));
 
         // вывести информацию о Луне
         ui->textEditMoonDate->clear();
-        ui->textEditMoonDate->append(QDate::currentDate().toString("dd.MM.yyyy"));
-        ui->textEditMoonDate->append("");
-        ui->textEditMoonDate->append(TComputings::toStringMoonTimeInfo(moonSet,moonRise,moonTransit));
+//        ui->textEditMoonDate->append(QDate::currentDate().toString("dd.MM.yyyy"));
+//        ui->textEditMoonDate->append("");
+//        ui->textEditMoonDate->append(TComputings::toStringMoonTimeInfo(moonSet,moonRise,moonTransit));
 
 //        ui->textEditMoonDate->append("Предыдущее новолуние: " + previousNewMoon.toString("dd.MM.yyyy hh:mm"));
 //        ui->textEditMoonDate->append("Следующее новолуние: " + nextNewMoon.toString("dd.MM.yyyy hh:mm"));
@@ -549,18 +552,38 @@ void MainWindow::showMoonTime()
 //        ui->textEditMoonDate->append("");
 //        foreach (const QDateTime& newMoon, newMoonForYear)
 //            ui->textEditMoonDate->append(newMoon.toString("dd.MM.yyyy hh:mm"));
-        ui->textEditMoonDate->append("Лунные дни (простые)");
+//        ui->textEditMoonDate->append("Лунные дни (простые)");
+//        ui->textEditMoonDate->append("");
+//        foreach (const TComputings::TMoonDay& moonDay, moonDaysSimple)
+//        {
+//            ui->textEditMoonDate->append(moonDay.date.toString("dd.MM.yyyy"));
+//            ui->textEditMoonDate->append("Восход: "+moonDay.rise.toString("hh:mm"));
+//            ui->textEditMoonDate->append("Заход: "+moonDay.set.toString("hh:mm"));
+//            ui->textEditMoonDate->append("Зенит: "+moonDay.transit.toString("hh:mm"));
+//            if (false == moonDay.transitAboveHorizont)
+//                ui->textEditMoonDate->append("Зенит под горизонтом");
+//            ui->textEditMoonDate->append("");
+//        }
+        ui->textEditMoonDate->append(currentMoonDays.first().date.toString("dd.MM.yyyy")+"-->"+currentMoonDays.at(1).date.toString("dd.MM.yyyy")+"\n-->"+currentMoonDays.last().date.toString("dd.MM.yyyy"));
         ui->textEditMoonDate->append("");
-        foreach (const TComputings::TMoonDay& moonDay, moonDaysSimple)
-        {
-            ui->textEditMoonDate->append(moonDay.date.toString("dd.MM.yyyy"));
-            ui->textEditMoonDate->append("Восход: "+moonDay.rise.toString("hh:mm"));
-            ui->textEditMoonDate->append("Заход: "+moonDay.set.toString("hh:mm"));
-            ui->textEditMoonDate->append("Зенит: "+moonDay.transit.toString("hh:mm"));
-            if (false == moonDay.transitAboveHorizont)
-                ui->textEditMoonDate->append("Зенит под горизонтом");
-            ui->textEditMoonDate->append("");
-        }
+        ui->textEditMoonDate->append("Восход: "+currentMoonDays.first().rise.toString("hh:mm"));
+        ui->textEditMoonDate->append("Заход: "+currentMoonDays.first().set.toString("hh:mm"));
+        ui->textEditMoonDate->append("Зенит: "+currentMoonDays.first().transit.toString("hh:mm"));
+        if (false == currentMoonDays.first().transitAboveHorizont)
+            ui->textEditMoonDate->append("зенит под горизонтом");
+        ui->textEditMoonDate->append("");
+        ui->textEditMoonDate->append("Восход: "+currentMoonDays.at(1).rise.toString("hh:mm"));
+        ui->textEditMoonDate->append("Заход: "+currentMoonDays.at(1).set.toString("hh:mm"));
+        ui->textEditMoonDate->append("Зенит: "+currentMoonDays.at(1).transit.toString("hh:mm"));
+        if (false == currentMoonDays.at(1).transitAboveHorizont)
+            ui->textEditMoonDate->append("зенит под горизонтом");
+        ui->textEditMoonDate->append("");
+        ui->textEditMoonDate->append("Восход: "+currentMoonDays.last().rise.toString("hh:mm"));
+        ui->textEditMoonDate->append("Заход: "+currentMoonDays.last().set.toString("hh:mm"));
+        ui->textEditMoonDate->append("Зенит: "+currentMoonDays.last().transit.toString("hh:mm"));
+        if (false == currentMoonDays.at(1).transitAboveHorizont)
+            ui->textEditMoonDate->append("зенит под горизонтом");
+
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());

@@ -820,8 +820,8 @@ TTitha TTitha::findNearestEkadash(const double timeZoneOffset)
     {
         result = ekadashi.first();
 
-        // Если ближайший экадаш сегодня, то возьмём следующий (при наличии такового)
-        if (QDate::currentDate() == result.beginDateTime().date())
+        // Если ближайший экадаш сейчас, то возьмём следующий (при наличии такового)
+        if (QDateTime::currentDateTime() >= result.beginDateTime())
             if (ekadashi.size() >= 2)
                 result = ekadashi[1];
     }
