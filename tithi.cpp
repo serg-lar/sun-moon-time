@@ -282,14 +282,14 @@ bool TTitha::roundToMin()
         t.setHMS(t.hour(),t.minute(),0);
         dtBegin.setTime(t);
         if (second >= secsInMin/2)
-            dtBegin.setMSecsSinceEpoch(dtBegin.toMSecsSinceEpoch() + msecsInSec*secsInMin);
+            dtBegin.addSecs(secsInMin);
 
         t = dtEnd.time();
         second = t.second();
         t.setHMS(t.hour(),t.minute(),0);
         dtEnd.setTime(t);
         if (second >= secsInMin/2)
-            dtEnd.setMSecsSinceEpoch(dtEnd.toMSecsSinceEpoch() + msecsInSec*secsInMin);
+            dtEnd.addSecs(secsInMin);
         result = true;
     }
     return result;
@@ -426,7 +426,7 @@ TTitha TTitha::findCurrentTitha(const double timeZoneOffset, const QDateTime& dt
             }
 
             // шаг
-            dt2.setMSecsSinceEpoch(dt2.toMSecsSinceEpoch() + step);
+            dt2 = dt2.addMSecs(+step);
 
             while (tithaN == prevTithaN)
             {
@@ -442,19 +442,19 @@ TTitha TTitha::findCurrentTitha(const double timeZoneOffset, const QDateTime& dt
                         if (qAbs(step) > minStepFindCurTitha)
                         {
                             // шаг "назад" и продолжить с меньшим шагом
-                            dt2.setMSecsSinceEpoch(dt2.toMSecsSinceEpoch() - step);
+                            dt2 = dt2.addMSecs(- step);
                             tithaN = prevTithaN;
                             step /= 2;
                         }
                         else
                         {
                             // время начала титхи найдено (записать с учётом часового пояса)
-                            titha.dtBegin.setMSecsSinceEpoch(dt2.toMSecsSinceEpoch() - step + static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
+                            titha.dtBegin = dt2.addMSecs(-step + static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
                         }
                     }
                 }
                 // шаг
-                dt2.setMSecsSinceEpoch(dt2.toMSecsSinceEpoch() + step);
+                dt2 = dt2.addMSecs(+ step);
             }
 
             // установить шаг для поиска завершения титхи
@@ -476,20 +476,20 @@ TTitha TTitha::findCurrentTitha(const double timeZoneOffset, const QDateTime& dt
                         if (step > minStep)
                         {
                             // шаг "назад" и продолжить с меньшим шагом
-                            dt2.setMSecsSinceEpoch(dt2.toMSecsSinceEpoch() - step);
+                            dt2 = dt2.addMSecs(- step);
                             tithaN = prevTithaN;
                             step /= 2;
                         }
                         else
                         {
                             // время завершения титхи найдено (записать с учётом часового пояса и округлить до минуты)
-                            titha.dtEnd.setMSecsSinceEpoch(dt2.toMSecsSinceEpoch() - step + static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
+                            titha.dtEnd = dt2.addMSecs(-step + static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
                             titha.roundToMin();
                         }
                     }
                 }
                 // шаг
-                dt2.setMSecsSinceEpoch(dt2.toMSecsSinceEpoch() + step);
+                dt2 = dt2.addMSecs(+step);
             }
         }
     }
@@ -597,7 +597,7 @@ QList<TTitha> TTitha::findTithi(const QDateTime& dateTime1, const QDateTime& dat
                         if (step > minStepFindTithi)
                         {
                             // шаг "назад" и продолжить с меньшим шагом
-                            dt1.setMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - step);
+                            dt1 = dt1.addMSecs(-step);
                             step /= 2;
                         }
                         else
@@ -606,7 +606,7 @@ QList<TTitha> TTitha::findTithi(const QDateTime& dateTime1, const QDateTime& dat
                             {
                                 // найдено время завершения текущей титхи
                                 // запись в объект с учётом часового пояса и округление до минуты
-                                titha.dtEnd.setMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - step + static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
+                                titha.dtEnd = dt1.addMSecs(-step + static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
                                 titha.roundToMin();
 
                                 // добавление определённой титхи в список
@@ -630,7 +630,7 @@ QList<TTitha> TTitha::findTithi(const QDateTime& dateTime1, const QDateTime& dat
                                 titha.m_Num = tithaN - 15;
                                 titha.m_Paksha = false;
                             }
-                            titha.dtBegin.setMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
+                            titha.dtBegin = dt1.addMSecs(+static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
 
                             if (false == tf)
                             {
@@ -645,7 +645,7 @@ QList<TTitha> TTitha::findTithi(const QDateTime& dateTime1, const QDateTime& dat
                     }
                 }
                 // шаг
-                dt1.setMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + step);
+                dt1 = dt1.addMSecs(+step);
             }
         }
     }
@@ -757,13 +757,13 @@ QList<TTitha> TTitha::findEkadashi(const QDateTime& dateTime1, const QDateTime& 
                         if (step > minStepFindEkadashi)
                         {
                             // шаг "назад" и продолжить с меньшим шагом
-                            dt1.setMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - step);
+                            dt1 = dt1.addMSecs(-step);
                             step /= 2;
                         }
                         else
                         {
                             // запись в переменную с учётом часового пояса
-                            ekadash.dtBegin.setMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
+                            ekadash.dtBegin = dt1.addMSecs(+static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
                             if (11 == tithaN)
                                 ekadash.m_Paksha = true;
                             else
@@ -781,13 +781,13 @@ QList<TTitha> TTitha::findEkadashi(const QDateTime& dateTime1, const QDateTime& 
                         if (step > minStepFindEkadashi)
                         {
                             // шаг "назад" и продолжить с меньшим шагом
-                            dt1.setMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - step);
+                            dt1 = dt1.addMSecs(-step);
                             step /= 2;
                         }
                         else
                         {
                             // запись в переменную с учётом часового пояса и округление до минуты
-                            ekadash.dtEnd.setMSecsSinceEpoch(dt1.toMSecsSinceEpoch() - step + static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
+                            ekadash.dtEnd = dt1.addMSecs(-step + static_cast<qint64>(msecsInSec*secsInMin*minsInHour*timeZoneOffset));
                             ekadash.roundToMin();
 
                             // добавление вычисленного экадаша в список
@@ -801,7 +801,7 @@ QList<TTitha> TTitha::findEkadashi(const QDateTime& dateTime1, const QDateTime& 
                     }
                 }
                 // шаг
-                dt1.setMSecsSinceEpoch(dt1.toMSecsSinceEpoch() + step);
+                dt1 = dt1.addMSecs(+step);
             }
         }
     }
