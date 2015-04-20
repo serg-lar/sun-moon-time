@@ -837,7 +837,9 @@ bool TTitha::isTimeZoneOffsetValid (const double timeZoneOffset)
 {
     bool result (true);
 
-    // TODO добавить реализацию и соответствующие константы
+    // определение валидности смещения часового пояса
+    if ((timeZoneOffset < timeZoneOffsetMin) || (timeZoneOffset > timeZoneOffsetMax))
+        result = false;
 
     return result;
 }

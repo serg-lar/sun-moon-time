@@ -564,7 +564,8 @@ void MainWindow::showMoonTime()
 //                ui->textEditMoonDate->append("Зенит под горизонтом");
 //            ui->textEditMoonDate->append("");
 //        }
-        ui->textEditMoonDate->append(currentMoonDays.first().date.toString("dd.MM.yyyy")+"-->"+currentMoonDays.at(1).date.toString("dd.MM.yyyy")+"\n-->"+currentMoonDays.last().date.toString("dd.MM.yyyy"));
+        ui->textEditMoonDate->append(currentMoonDays.first().date.toString("dd.MM.yyyy")+","+currentMoonDays.at(1).date.toString("dd.MM.yyyy")+\
+                                     ",\n"+currentMoonDays.last().date.toString("dd.MM.yyyy")+"*");
         ui->textEditMoonDate->append("");
         ui->textEditMoonDate->append("Восход: "+currentMoonDays.first().rise.toString("hh:mm"));
         ui->textEditMoonDate->append("Заход: "+currentMoonDays.first().set.toString("hh:mm"));

@@ -199,6 +199,14 @@ protected:
         minStep = minStepFindCurTitha
     };
 
+    /// \enum определение констант
+    enum Const
+    {
+        // минимальное и максимальное смещение часовых поясов
+        timeZoneOffsetMin = -12,
+        timeZoneOffsetMax = 14
+    };
+
     /// \brief узнать является ли смещение часового пояса верным значением
     /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
     /// \retval true в случае подтверждения, иначе false

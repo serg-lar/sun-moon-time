@@ -37,7 +37,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <attribute name="title">
@@ -151,6 +151,13 @@ QGroupBox::title
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Относительно грегорианского календаря&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QToolTip
+{
+	font: bold;
+	color: white;
+}</string>
+            </property>
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ведическая*&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -171,7 +178,7 @@ QGroupBox::title
              </size>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;За 1-ый год Кали-юги взят 3102г. до н.э., как известно из общедоступных источников. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;То есть этот календарь на данный момент не является точным, но интерпретирует грегорианский стиль с ведической позиции.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;За 1-ый год Кали-юги взят 3102г. до н.э., как известно из общедоступных источников. &lt;/p&gt;&lt;p&gt;То есть этот календарь на данный момент не является точным, но интерпретирует грегорианский стиль с ведической позиции.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QTextEdit
@@ -180,7 +187,7 @@ color: purple;
 font: bold;
 }
 
-QTextEdit::toolTip
+QToolTip
 {
 color: white;
 font: bold;
@@ -561,9 +568,21 @@ color: navy;</string>
          </item>
          <item>
           <widget class="QTextEdit" name="textEditMoonDate">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Если &amp;quot;Заход&amp;quot; позже 00:00, то это следующий день.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">font: bold;
-color: navy;</string>
+            <string notr="true">QTextEdit
+{
+font: bold;
+color: navy;
+}
+
+QToolTip
+{
+font: bold;
+color: white;
+}</string>
            </property>
            <property name="readOnly">
             <bool>true</bool>
