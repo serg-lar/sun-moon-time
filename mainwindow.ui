@@ -569,7 +569,7 @@ color: navy;</string>
          <item>
           <widget class="QTextEdit" name="textEditMoonDate">
            <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Если &amp;quot;Заход&amp;quot; позже 00:00, то это следующий день.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Если &amp;quot;Заход&amp;quot; позже 00:00, то это следующий день&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="styleSheet">
             <string notr="true">QTextEdit

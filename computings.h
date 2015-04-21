@@ -398,7 +398,7 @@ protected:
     };
 
     // порог, если разница между долготами Солнца и Луны меньше которого, то считается новолуние
-    static double newMoonFindLongitudeThreshold();
+    static inline double newMoonFindLongitudeThreshold();
 
     /// \brief уравнение времени (используется в рассчётах истинного солнечного времени)
     /// \param N - номер дня в году: 1 для первого января и т.д.
@@ -441,6 +441,9 @@ protected:
     /// \retval true в случае подтверждения, иначе false
     static bool isTimeZoneOffsetValid(const double timeZoneOffset);
 
+    // кэшируемые переменные с датой-временем предыдущего и последующего новолуния для убыстрения рассчётов
+    static QDateTime m_previousNewMoon;
+    static QDateTime m_nextNewMoon;
 };
 // КОНЕЦ: TComputings
 //---------------------------------------------------------------------------------

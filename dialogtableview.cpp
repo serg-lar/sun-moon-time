@@ -162,6 +162,7 @@ void DialogTableView::on_pushButtonCalculate_clicked()
         QCursor mouseCursor (cursor());
         setCursor(QCursor(Qt::WaitCursor));
         ui->pushButtonCalculate->setDisabled(true);
+        ui->pushButtonSaveAs->setDisabled(true);
         ui->tableWidget->clear();
         ui->tableWidget->setRowCount(0);
         ui->tableWidget->setColumnCount(0);
@@ -323,7 +324,8 @@ void DialogTableView::on_pushButtonCalculate_clicked()
             // столбцы
             ui->tableWidget->setColumnCount(7);
             // заголовки столбцов
-            ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход,Зенит,День №,Фаза,").split(","));
+            ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход*,Зенит,День №,Фаза,").split(","));
+            ui->tableWidget->horizontalHeaderItem(3)->setToolTip("Если 'Заход' позже 00:00, то это следующий день");
 
             // строки
             ui->tableWidget->setRowCount(d1.daysTo(d2)+1);
@@ -390,6 +392,7 @@ void DialogTableView::on_pushButtonCalculate_clicked()
         // разблокирование интерфейса
         setCursor(mouseCursor);
         ui->pushButtonCalculate->setDisabled(false);
+        ui->pushButtonSaveAs->setDisabled(false);
     }
     else
         qWarning() << "DialogTableView::on_pushButtonCalculate_clicked" << "load settings error";
@@ -413,20 +416,20 @@ void DialogTableView::on_pushButtonSaveAs_clicked()
             out << "<html>" << endl;
             out << "<head>" << endl;
 
+            // заголовок html файла для солнечного времени
+            out << "<h1 align='center'>" << endl;
             if (sunInfo == m_Type)
-            {
-                // заголовок html файла
-                out << "<h1 align='center'>" << endl;
                 out << QString("Солнечное время") << endl;
+            else if (moonInfo == m_Type)
+                out << QString("Лунное время") << endl;
 
-                if (true == ui->radioButtonCalendar->isChecked())
-                    out << QString("с ") << ui->dateEditBegin->date().toString("dd.MM.yyyy")
-                        << QString(" по ") << ui->dateEditEnd->date().toString("dd.MM.yyyy") << endl << endl;
-                else if (true == ui->radioButtonPeriod->isChecked())
-                    out << QString("с ") << QDate::currentDate().toString("dd.MM.yyyy") << QString(" на ") << ui->comboBoxPeriod->currentText() << endl << endl;
-                out << "</h1>";
-                out << "</head>" << endl;
-            }
+            if (true == ui->radioButtonCalendar->isChecked())
+                out << QString("с ") << ui->dateEditBegin->date().toString("dd.MM.yyyy")
+                    << QString(" по ") << ui->dateEditEnd->date().toString("dd.MM.yyyy") << endl << endl;
+            else if (true == ui->radioButtonPeriod->isChecked())
+                out << QString("с ") << QDate::currentDate().toString("dd.MM.yyyy") << QString(" на ") << ui->comboBoxPeriod->currentText() << endl << endl;
+            out << "</h1>";
+            out << "</head>" << endl;
 
             // содержимое html файла - таблица
             out << "<body>" << endl;

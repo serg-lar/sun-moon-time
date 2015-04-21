@@ -6,6 +6,9 @@
 #include "computings.h"
 #include <QtMath>
 #include <limits>
+
+QDateTime TComputings::m_previousNewMoon;
+QDateTime TComputings::m_nextNewMoon;
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -812,23 +815,46 @@ quint32 TComputings::moonTimeMoonDayNum(const double longitude, const double lat
     if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
             (true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == date.isValid()))
     {
-        QDateTime dt (QDateTime::currentDateTimeUtc());
-        dt.setDate(date);
-        dt.setTime(QTime(0,0));
-        QDateTime previousNewMoon (moonTimeFindPreviousNewMoon(timeZoneOffset,dt));
-        TMoonDay moonDay;
-
-        moonDay.date = previousNewMoon.date();
-        moonDay.rise = moonTimeRise(longitude,latitude,timeZoneOffset,moonDay.date);
-        moonDay.set = moonTimeSet(longitude,latitude,timeZoneOffset,moonDay.date);
-        moonDay.transit = moonTimeTransit(longitude,latitude,moonDay.transitAboveHorizont,timeZoneOffset,moonDay.date);
-
-        if (true == moonDay.rise.isValid())
+        // обновление кэшируемых переменных, если необходимо
+        if ((date < m_previousNewMoon.date()) || (false == m_previousNewMoon.isValid()))
         {
-            // если новолуние случилось раньше восхода, то добавить ещё один день, образовавшийся в этот временной промежуток
-            result = moonDay.date.daysTo(date) + 1;
-            if (previousNewMoon.time() < moonDay.rise)
-                result++;
+            m_previousNewMoon = moonTimeFindPreviousNewMoon(timeZoneOffset,QDateTime(date,QTime(23,59,59,999)));
+            m_nextNewMoon = moonTimeFindNextNewMoon(timeZoneOffset,QDateTime(date,QTime(0,0)));
+        }
+        if ((date > m_nextNewMoon.date()) || (false == m_nextNewMoon.isValid()))
+        {
+            m_previousNewMoon = moonTimeFindPreviousNewMoon(timeZoneOffset,QDateTime(date,QTime(23,59,59,999)));
+            m_nextNewMoon = moonTimeFindNextNewMoon(timeZoneOffset,QDateTime(date,QTime(0,0)));
+        }
+
+        // лунный день предыдущего новолуния и сегодняшний лунный день
+        TMoonDay moonDayPNewMoon;
+        TMoonDay moonDayToday;
+
+        moonDayPNewMoon.date = m_previousNewMoon.date();
+        moonDayPNewMoon.rise = moonTimeRise(longitude,latitude,timeZoneOffset,moonDayPNewMoon.date);
+
+        moonDayToday.date = date;
+        moonDayToday.rise = moonTimeRise(longitude,latitude,timeZoneOffset,moonDayToday.date);
+
+        if ((true == moonDayPNewMoon.rise.isValid()) && (true == moonDayToday.rise.isValid()))
+        {
+            if (m_nextNewMoon.date() == date)
+            {
+                // --сегодня "следующее" новолуние--
+                if (m_nextNewMoon.time() < moonDayToday.rise)
+                    return 2;   // второй лунный день
+                else if (m_nextNewMoon.time() >= moonDayToday.rise)
+                    return 1;   // первый лунный день
+            }
+            else
+            {
+                // --сегодня "предыдущее" новолуние или просто лунный день--
+                result = moonDayPNewMoon.date.daysTo(date) + 1;
+                // если новолуние случилось раньше восхода, то добавить ещё один день, образовавшийся в этот временной промежуток
+                if (m_previousNewMoon.time() < moonDayPNewMoon.rise)
+                    result++;
+            }
         }
     }
 
@@ -859,8 +885,9 @@ qint32 TComputings::moonTimePhase(const QDate& date)
         getMoonIllumination(JD, illuminated_fraction, position_angle, phase_angle);
         double phase(position_angle < 180 ? phase_angle + 180 : 180 - phase_angle);
 
-        if (((phase / 3.6) >= 0) && ((phase / 3.6) <= 100))
-            result = phase / 3.6;
+        quint32 phasePercent (static_cast<quint32>(qFloor(phase/3.6 + 0.5)));
+        if (phasePercent <= 100)
+            result = phasePercent;
     }
 
     return result;

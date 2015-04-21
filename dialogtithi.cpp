@@ -121,10 +121,11 @@ void DialogTithi::on_pushButtonCalculate_clicked()
             dt2 = dt2.addDays(2);
         }
 
-        // интерфейс
+        // заблокировать интерфейс
         QCursor mouseCursor (cursor());
         setCursor(QCursor(Qt::WaitCursor));
         ui->pushButtonCalculate->setDisabled(true);
+        ui->pushButtonSaveAs->setDisabled(true);
         ui->textEdit->clear();
         ui->textEdit->repaint();
 
@@ -162,9 +163,10 @@ void DialogTithi::on_pushButtonCalculate_clicked()
             }
         }
 
-        // интерфейс
+        // разблокировать интерфейс
         setCursor(mouseCursor);
         ui->pushButtonCalculate->setEnabled(true);
+        ui->pushButtonSaveAs->setEnabled(true);
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEdit->textCursor());
