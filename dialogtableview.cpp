@@ -113,66 +113,64 @@ void DialogTableView::on_pushButtonCalculate_clicked()
 
     if (true == ok)
     {
+        // --определение временных рамок--
+        QDate d1 (QDate::currentDate());
+        QDate d2 (QDate::currentDate());
+
+        if (true == ui->radioButtonCalendar->isChecked())
+        {
+            // календарь
+            d1 = (ui->dateEditBegin->date());
+            d2 = (ui->dateEditEnd->date());
+        }
+        else if (true == ui->radioButtonPeriod->isChecked())
+        {
+            // период (с... по...)
+            switch (ui->comboBoxPeriod->currentIndex())
+            {
+            case 1:
+                d2 = d1.addMonths(1);
+                break;
+            case 2:
+                d2 = d1.addMonths(2);
+                break;
+            case 3:
+                d2 = d1.addMonths(3);
+                break;
+            case 4:
+                d2 = d1.addMonths(6);
+                break;
+            case 5:
+                d2 = d1.addYears(1);
+                break;
+            case 6:
+                d2 = d1.addYears(2);
+                break;
+            case 7:
+                d2 = d1.addYears(3);
+                break;
+            case 8:
+                d2 = d1.addYears(10);
+                break;
+            default:
+                d2 = d1.addMonths(1);
+                break;
+            }
+        }
+
+        // блокирование интерфейса
+        QCursor mouseCursor (cursor());
+        setCursor(QCursor(Qt::WaitCursor));
+        ui->pushButtonCalculate->setDisabled(true);
+        ui->tableWidget->clear();
+        ui->tableWidget->setRowCount(0);
+        ui->tableWidget->setColumnCount(0);
+        ui->tableWidget->repaint();
 
         if (sunInfo == m_Type)
         {
             //--------- рассчёт для Солнца ---------
-            QDate d1 (QDate::currentDate());
-            QDate d2 (QDate::currentDate());
-
-            if (true == ui->radioButtonCalendar->isChecked())
-            {
-                // календарь
-                d1 = (ui->dateEditBegin->date());
-                d2 = (ui->dateEditEnd->date());
-            }
-            else if (true == ui->radioButtonPeriod->isChecked())
-            {
-                // период (с... по...)
-    //            d1 = QDate::currentDate();
-
-                switch (ui->comboBoxPeriod->currentIndex())
-                {
-                case 1:
-                    d2 = d1.addMonths(1);
-                    break;
-                case 2:
-                    d2 = d1.addMonths(2);
-                    break;
-                case 3:
-                    d2 = d1.addMonths(3);
-                    break;
-                case 4:
-                    d2 = d1.addMonths(6);
-                    break;
-                case 5:
-                    d2 = d1.addYears(1);
-                    break;
-                case 6:
-                    d2 = d1.addYears(2);
-                    break;
-                case 7:
-                    d2 = d1.addYears(3);
-                    break;
-                case 8:
-                    d2 = d1.addYears(10);
-                    break;
-                default:
-                    d2 = d1.addMonths(1);
-                    break;
-                }
-            }
-
-            // интерфейс
-            QCursor mouseCursor (cursor());
-            setCursor(QCursor(Qt::WaitCursor));
-            ui->pushButtonCalculate->setDisabled(true);
-            ui->tableWidget->clear();
-            ui->tableWidget->setRowCount(0);
-            ui->tableWidget->setColumnCount(0);
-            ui->tableWidget->repaint();
-
-            // таблица
+            // ----таблица----
             // столбцы
             if (true == ui->checkBoxTwilight->isChecked())
             {
@@ -197,7 +195,7 @@ void DialogTableView::on_pushButtonCalculate_clicked()
             // строки
             ui->tableWidget->setRowCount(d1.daysTo(d2)+1);
 
-            // рассчёт для периода времени
+            // ----рассчёт для периода времени----
             quint32 c (0);
             while (d1 <= d2)
             {
@@ -222,17 +220,17 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     // --с сумерками--
 
                     // утренние гражданские сумерки сегодня
-                    QPair<QTime,QTime> morningCivilTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,
+                    QPair<QTime,QTime> morningCivilTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,
                                                                                                  static_cast<double>(TComputings::civilTwilight),d1));
                     morningCivilTwilight = TComputings::roundToMinTime(morningCivilTwilight);
 
                     // утренние навигационные сумерки (до восхода)
-                    QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,
+                    QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,
                                                                                                       static_cast<double>(TComputings::navigationTwilight),d1));
                     morningNavigationTwilight = TComputings::roundToMinTime(morningNavigationTwilight);
 
                     // утренние астрономические сумерки (до восхода)
-                    QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,
+                    QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,
                                                                                                         static_cast<double>(TComputings::astronomicalTwilight),d1));
                     morningAstronomicalTwilight = TComputings::roundToMinTime(morningAstronomicalTwilight);
 
@@ -249,17 +247,17 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     morningSandhya2 = TComputings::roundToMinTime(morningSandhya2);
 
                     // вечерние гражданские сумерки сегодня
-                    QPair<QTime,QTime> eveningCivilTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,
+                    QPair<QTime,QTime> eveningCivilTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,
                                                                                                  static_cast<double>(TComputings::civilTwilight),d1));
                     eveningCivilTwilight = TComputings::roundToMinTime(eveningCivilTwilight);
 
                     // вечерние навигационные сумерки (от захода)
-                    QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,
+                    QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,
                                                                                                       static_cast<double>(TComputings::navigationTwilight),d1));
                     eveningNavigationTwilight = TComputings::roundToMinTime(eveningNavigationTwilight);
 
                     // вечерние астрономические сумерки (от захода)
-                    QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,
+                    QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,
                                                                                                         static_cast<double>(TComputings::astronomicalTwilight),d1));
                     eveningAstronomicalTwilight = TComputings::roundToMinTime(eveningAstronomicalTwilight);
 
@@ -317,20 +315,81 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                 d1 = d1.addDays(1);
                 ++c;
             }
-
-            // вся таблица только для чтения, выравнивание текста по центру
-            for (qint32 i = 0; i < ui->tableWidget->rowCount(); ++i)
-                for (qint32 j = 0; j < ui->tableWidget->columnCount(); ++j)
-                {
-                    (ui->tableWidget->item(i,j))->setFlags((ui->tableWidget->item(i,j))->flags() & ~Qt::ItemIsEditable);
-                    ui->tableWidget->item(i,j)->setTextAlignment(Qt::AlignCenter);
-                }
-
-            // интерфейс
-            ui->tableWidget->resizeColumnsToContents(); // расширение столбцов под содержимое
-            setCursor(mouseCursor);
-            ui->pushButtonCalculate->setDisabled(false);
         }
+        else if (moonInfo == m_Type)
+        {
+            //--------- рассчёт для Луны ---------
+            // ----таблица----
+            // столбцы
+            ui->tableWidget->setColumnCount(7);
+            // заголовки столбцов
+            ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход,Зенит,День №,Фаза,").split(","));
+
+            // строки
+            ui->tableWidget->setRowCount(d1.daysTo(d2)+1);
+
+            // ----рассчёт для периода времени----
+            quint32 c (0);
+            while (d1 <= d2)
+            {
+                // время восхода Луны
+                QTime moonRise (TComputings::moonTimeRise(longitude,latitude,timeZoneOffset,d1));
+                moonRise = TComputings::roundToMinTime(moonRise);
+
+                // время захода Луны
+                QTime moonSet (TComputings::moonTimeSet(longitude,latitude,timeZoneOffset,d1));
+                moonSet = TComputings::roundToMinTime(moonSet);
+
+                // время зенита Луны
+                bool aboveHorizont;
+                QTime moonTransit (TComputings::moonTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset,d1));
+                moonTransit = TComputings::roundToMinTime(moonTransit);
+
+                // лунный день номер
+                quint32 moonDayNum (TComputings::moonTimeMoonDayNum(longitude,latitude,timeZoneOffset,d1));
+                QString moonDayNumStr (QString::number(moonDayNum));
+                if (0 == moonDayNum)
+                    moonDayNumStr = "-";
+
+                // фаза %
+                qint32 moonPhase (TComputings::moonTimePhase(d1));
+                QString moonPhaseStr (QString::number(moonPhase));
+                if (-1 == moonPhase)
+                    moonPhaseStr = "-";
+                else
+                    moonPhaseStr += "%";
+
+                //добавление в таблицу
+                ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
+                ui->tableWidget->setItem(c,1,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
+                ui->tableWidget->setItem(c,2,new QTableWidgetItem(moonRise.toString("hh:mm")));
+                ui->tableWidget->setItem(c,3,new QTableWidgetItem(moonSet.toString("hh:mm")));
+                if (true == aboveHorizont)
+                    ui->tableWidget->setItem(c,4,new QTableWidgetItem(moonTransit.toString("hh:mm")));
+                else
+                    ui->tableWidget->setItem(c,4,new QTableWidgetItem("под горизонтом"));
+                ui->tableWidget->setItem(c,5,new QTableWidgetItem(moonDayNumStr));
+                ui->tableWidget->setItem(c,6,new QTableWidgetItem(moonPhaseStr));
+
+                // следующая дата
+                d1 = d1.addDays(1);
+                ++c;
+            }
+        }
+
+        // вся таблица только для чтения, выравнивание текста по центру
+        for (qint32 i = 0; i < ui->tableWidget->rowCount(); ++i)
+            for (qint32 j = 0; j < ui->tableWidget->columnCount(); ++j)
+            {
+                (ui->tableWidget->item(i,j))->setFlags((ui->tableWidget->item(i,j))->flags() & ~Qt::ItemIsEditable);
+                ui->tableWidget->item(i,j)->setTextAlignment(Qt::AlignCenter);
+            }
+
+        // расширение столбцов под содержимое
+        ui->tableWidget->resizeColumnsToContents();
+        // разблокирование интерфейса
+        setCursor(mouseCursor);
+        ui->pushButtonCalculate->setDisabled(false);
     }
     else
         qWarning() << "DialogTableView::on_pushButtonCalculate_clicked" << "load settings error";

@@ -162,6 +162,61 @@ QPair<QTime,QTime> TComputings::sunTimeMorningTwilight(const double longitude, c
 }
 //---------------------------
 
+QPair<QTime,QTime> TComputings::sunTimeMorningTwilight(const double longitude, const double latitude, const QTime& sunRise, const double height,
+                                                       const double timeZoneOffset, const double degree, const QDate& date)
+{
+    QPair<QTime, QTime> result;
+    QDateTime dt (date,sunRise.addMSecs(-1*msecsInSec*secsInMin*minsInHour*timeZoneOffset));         // UTC время восхода для начала поиска
+    QPair<double, double> horizontalCoords, prevHorizontalCoords;
+    qint64 step = -1*msecsInSec*secsInMin;                                                           // начальный шаг поиска примем в минуту времени
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) && (true == isTimeZoneOffsetValid(timeZoneOffset)) &&
+            (degree >= -90) && (degree <= 0) && (true == date.isValid()) && (true == sunRise.isValid()))
+    {
+        // время завершения сумерек равно времени восхода
+        result.second = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
+
+        // вычислить время начала сумерек
+        horizontalCoords = sunHorizontalCoords(longitude,latitude,height,dt);
+        prevHorizontalCoords = horizontalCoords;
+        while ((horizontalCoords.second >= degree) && (dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).date() == date))
+        {
+            // горизонтальные координаты Солнца
+            horizontalCoords = sunHorizontalCoords(longitude,latitude,height,dt);
+
+            // найдено ли время начала сумерек
+            if (horizontalCoords.second <= degree)
+            {
+                // если используется крупный шаг
+                if (msecsInSec*secsInMin == step)
+                {
+                    // шаг назад и продолжить с мелким шагом
+                    dt = dt.addMSecs(-step);
+                    step = msecsInSec;
+                    horizontalCoords = prevHorizontalCoords;
+                }
+                else
+                {
+                    // записать время начала сумерек
+                    result.first = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
+                }
+            }
+
+            // шаг
+            dt = dt.addMSecs(+step);
+            prevHorizontalCoords = horizontalCoords;
+        }
+    }
+
+    // если не найдено начало значит сумерки не определены вовсе
+    if ((false == result.first.isValid()))
+        result = QPair<QTime, QTime>();
+
+    return result;
+}
+//---------------------------
+
 QPair<QTime,QTime> TComputings::sunTimeMorningTwilightWithRefraction(const double longitude, const double latitude, const double height, const double pressure,
                                                                      const double temperature, const double timeZoneOffset, const double degree, const QDate& date)
 {
@@ -228,6 +283,61 @@ QPair<QTime,QTime> TComputings::sunTimeEveningTwilight(const double longitude, c
     // проверка входных данных
     if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) && (true == isTimeZoneOffsetValid(timeZoneOffset)) &&
             (degree >= -90) && (degree <= 0) && (true == date.isValid()))
+    {
+        // время начала сумерек равно времени заката
+        result.first = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
+
+        // вычислить время завершения сумерек
+        horizontalCoords = sunHorizontalCoords(longitude,latitude,height,dt);
+        prevHorizontalCoords = horizontalCoords;
+        while ((horizontalCoords.second >= degree) && (dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).date() == date))
+        {
+            // горизонтальные координаты Солнца
+            horizontalCoords = sunHorizontalCoords(longitude,latitude,height,dt);
+
+            // найдено ли время завершения сумерек
+            if (horizontalCoords.second <= degree)
+            {
+                // если используется крупный шаг
+                if (msecsInSec*secsInMin == step)
+                {
+                    // шаг назад и продолжить с мелким шагом
+                    dt = dt.addMSecs(-step);
+                    step = msecsInSec;
+                    horizontalCoords = prevHorizontalCoords;
+                }
+                else
+                {
+                    // записать время завершения сумерек
+                    result.second = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
+                }
+            }
+
+            // шаг
+            dt = dt.addMSecs(+step);
+            prevHorizontalCoords = horizontalCoords;
+        }
+    }
+
+    // если не найдено завершение значит сумерки не определены вовсе
+    if ((false == result.second.isValid()))
+        result = QPair<QTime, QTime>();
+
+    return result;
+}
+//---------------------------
+
+QPair<QTime,QTime> TComputings::sunTimeEveningTwilight(const double longitude, const double latitude, const QTime& sunSet, const double height,
+                                                       const double timeZoneOffset, const double degree, const QDate& date)
+{
+    QPair<QTime, QTime> result;
+    QDateTime dt (date,sunSet.addMSecs(-1*msecsInSec*secsInMin*minsInHour*timeZoneOffset));      // UTC время заката для начала поиска
+    QPair<double, double> horizontalCoords, prevHorizontalCoords;
+    qint64 step = msecsInSec*secsInMin;                                                          // начальный шаг поиска примем в минуту времени
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) && (true == isTimeZoneOffsetValid(timeZoneOffset)) &&
+            (degree >= -90) && (degree <= 0) && (true == date.isValid()) && (true == sunSet.isValid()))
     {
         // время начала сумерек равно времени заката
         result.first = dt.addMSecs(msecsInSec*secsInMin*minsInHour*timeZoneOffset).time();
@@ -550,10 +660,10 @@ QDateTime TComputings::moonTimeFindPreviousNewMoon(const double timeZoneOffset, 
     // проверка входных данных
     if ((true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dateTime.isValid()))
     {
-        quint32 step = msecsInSec*secsInMin;
+        qint32 step = msecsInSec*secsInMin;
         QDateTime dt1 (dateTime);    // дата-время начала отсчёта
         // дата-время аварийного завершения рассчётов
-        QDateTime dt2 (dt1.addMSecs(-static_cast<qint64>(msecsInSec*secsInMin*minsInHour*hoursInDay)*60));
+        QDateTime dt2 (dt1.addMSecs(-1*static_cast<qint64>(msecsInSec*secsInMin*minsInHour*hoursInDay)*60));
 
         // поиск даты-времени новолуния
         while ((false == result.isValid()) && (dt1 > dt2))
@@ -577,7 +687,7 @@ QDateTime TComputings::moonTimeFindNextNewMoon(const double timeZoneOffset, cons
     // проверка входных данных
     if ((true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dateTime.isValid()))
     {
-        quint32 step = msecsInSec*secsInMin;
+        qint32 step = msecsInSec*secsInMin;
         QDateTime dt1 (dateTime);    // дата-время начала отсчёта
         // дата-время аварийного завершения рассчётов
         QDateTime dt2 (dt1.addMonths(2));
@@ -688,6 +798,69 @@ QList<TComputings::TMoonDay> TComputings::moonTimeMoonDaysFast(const double long
 
             d1 = d1.addDays(1);
         }
+    }
+
+    return result;
+}
+//---------------------------
+
+quint32 TComputings::moonTimeMoonDayNum(const double longitude, const double latitude, const double timeZoneOffset, const QDate& date)
+{
+    quint32 result (0);
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
+            (true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == date.isValid()))
+    {
+        QDateTime dt (QDateTime::currentDateTimeUtc());
+        dt.setDate(date);
+        dt.setTime(QTime(0,0));
+        QDateTime previousNewMoon (moonTimeFindPreviousNewMoon(timeZoneOffset,dt));
+        TMoonDay moonDay;
+
+        moonDay.date = previousNewMoon.date();
+        moonDay.rise = moonTimeRise(longitude,latitude,timeZoneOffset,moonDay.date);
+        moonDay.set = moonTimeSet(longitude,latitude,timeZoneOffset,moonDay.date);
+        moonDay.transit = moonTimeTransit(longitude,latitude,moonDay.transitAboveHorizont,timeZoneOffset,moonDay.date);
+
+        if (true == moonDay.rise.isValid())
+        {
+            // если новолуние случилось раньше восхода, то добавить ещё один день, образовавшийся в этот временной промежуток
+            result = moonDay.date.daysTo(date) + 1;
+            if (previousNewMoon.time() < moonDay.rise)
+                result++;
+        }
+    }
+
+    return result;
+}
+//---------------------------
+
+qint32 TComputings::moonTimePhase(const QDate& date)
+{
+    qint32 result (-1);
+
+    // проверка входных данных
+    if (true == date.isValid())
+    {
+        CAADate d (date.year(),date.month(),date.day(),0,0,0,true);
+        double JD (d.Julian());
+        double illuminated_fraction;
+        double position_angle;
+        double phase_angle;
+
+        //Phase:
+        //right side illuminated: 0 - 180 degrees
+        //left side illuminated:  180 - 360 degrees
+        //0 degrees = new moon
+        //90 degrees = first quarter (right half illuminated)
+        //180 degrees = full moon
+        //270 degrees = last quarter (left half illuminated)
+        getMoonIllumination(JD, illuminated_fraction, position_angle, phase_angle);
+        double phase(position_angle < 180 ? phase_angle + 180 : 180 - phase_angle);
+
+        if (((phase / 3.6) >= 0) && ((phase / 3.6) <= 100))
+            result = phase / 3.6;
     }
 
     return result;
@@ -1166,6 +1339,22 @@ CAARiseTransitSetDetails TComputings::getMoonRiseTransitSet(double JD, double lo
   double delta3 = 0;
   getLunarRaDecByJulian(JD + 1, alpha3, delta3);
   return CAARiseTransitSet::Calculate(CAADynamicalTime::UTC2TT(JD), alpha1, delta1, alpha2, delta2, alpha3, delta3, longitude, latitude, 0.125);
+}
+//---------------------------
+
+void TComputings::getMoonIllumination(double JD, double& illuminated_fraction, double& position_angle, double& phase_angle)
+{
+  double moon_alpha = 0;
+  double moon_delta = 0;
+  getLunarRaDecByJulian(JD, moon_alpha, moon_delta);
+  double sun_alpha = 0;
+  double sun_delta = 0;
+  getSolarRaDecByJulian(JD, sun_alpha, sun_delta);
+  double geo_elongation = CAAMoonIlluminatedFraction::GeocentricElongation(moon_alpha, moon_delta, sun_alpha, sun_delta);
+
+  position_angle = CAAMoonIlluminatedFraction::PositionAngle(sun_alpha, sun_delta, moon_alpha, moon_delta);
+  phase_angle = CAAMoonIlluminatedFraction::PhaseAngle(geo_elongation, 368410.0, 149971520.0);
+  illuminated_fraction = CAAMoonIlluminatedFraction::IlluminatedFraction(phase_angle);
 }
 //---------------------------
 

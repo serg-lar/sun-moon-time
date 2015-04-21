@@ -417,13 +417,13 @@ void MainWindow::showSunTime()
         QTime sunTransit (TComputings::sunTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset));
 
         // утренние гражданские сумерки сегодня
-        QPair<QTime,QTime> morningCivilTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset));
+        QPair<QTime,QTime> morningCivilTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset));
 
         // утренние навигационные сумерки (до восхода)
-        QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,static_cast<double>(TComputings::navigationTwilight)));
+        QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,static_cast<double>(TComputings::navigationTwilight)));
 
         // утренние астрономические сумерки (до восхода)
-        QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,height,timeZoneOffset,static_cast<double>(TComputings::astronomicalTwilight)));
+        QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,static_cast<double>(TComputings::astronomicalTwilight)));
 
         // утренние сумерки (сандхья), как 1/10 часть от половины суток
         QPair<QTime,QTime> morningSandhya(TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunRise,timeZoneOffset));
@@ -432,13 +432,13 @@ void MainWindow::showSunTime()
         QPair<QTime,QTime> morningSandhya2(TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset));
 
         // вечерние гражданские сумерки сегодня
-        QPair<QTime,QTime> eveningCivilTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset));
+        QPair<QTime,QTime> eveningCivilTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset));
 
         // вечерние навигационные сумерки (от захода)
-        QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,static_cast<double>(TComputings::navigationTwilight)));
+        QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,static_cast<double>(TComputings::navigationTwilight)));
 
         // вечерние астрономические сумерки (от захода)
-        QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,height,timeZoneOffset,static_cast<double>(TComputings::astronomicalTwilight)));
+        QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,static_cast<double>(TComputings::astronomicalTwilight)));
 
         // вечерние сумерки (сандхья), как 1/10 часть от половины суток
         QPair<QTime,QTime> eveningSandhya (TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunSet,timeZoneOffset,false));
@@ -451,15 +451,9 @@ void MainWindow::showSunTime()
         ui->textEditSunTime->append(TComputings::toStringSunTimeInfo(sunRise,sunSet,sunTransit));
 
         // вывести информацию по Солнцу 2 (утренние сумерки), во избежание расхождения в несколько секунд время восхода/захода берётся ранее вычисленное
-        morningCivilTwilight.second = sunRise;
-        morningNavigationTwilight.second = sunRise;
-        morningAstronomicalTwilight.second = sunRise;
         ui->textEditSunTime->append(TComputings::toStringSunTimeInfo2(morningCivilTwilight,morningNavigationTwilight,morningAstronomicalTwilight));
 
         // вывести информацию по Солнцу 2 (вечерние сумерки), во избежание расхождения в несколько секунд время восхода/захода берётся ранее вычисленное
-        eveningCivilTwilight.first = sunSet;
-        eveningNavigationTwilight.first = sunSet;
-        eveningAstronomicalTwilight.first = sunSet;
         ui->textEditSunTime->append(TComputings::toStringSunTimeInfo2(eveningCivilTwilight,eveningNavigationTwilight,eveningAstronomicalTwilight,false));
 
         // вывести информацию по Солнцу 3 (Сандхьи)
@@ -578,13 +572,16 @@ void MainWindow::showMoonTime()
         ui->textEditMoonDate->append("Зенит: "+currentMoonDays.at(1).transit.toString("hh:mm"));
         if (false == currentMoonDays.at(1).transitAboveHorizont)
             ui->textEditMoonDate->append("зенит под горизонтом");
+        ui->textEditMoonDate->append("Лунный день номер: "+QString::number(TComputings::moonTimeMoonDayNum(longitude,latitude,timeZoneOffset)));
         ui->textEditMoonDate->append("");
         ui->textEditMoonDate->append("Восход: "+currentMoonDays.last().rise.toString("hh:mm"));
         ui->textEditMoonDate->append("Заход: "+currentMoonDays.last().set.toString("hh:mm"));
         ui->textEditMoonDate->append("Зенит: "+currentMoonDays.last().transit.toString("hh:mm"));
         if (false == currentMoonDays.at(1).transitAboveHorizont)
             ui->textEditMoonDate->append("зенит под горизонтом");
+        ui->textEditMoonDate->append("");
 
+        ui->textEditMoonDate->append("Фаза: "+QString::number(TComputings::moonTimePhase())+"%");
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());

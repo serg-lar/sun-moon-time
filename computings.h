@@ -76,6 +76,19 @@ public:
     static QPair<QTime,QTime> sunTimeMorningTwilight(const double longitude, const double latitude, const double height = 0, const double timeZoneOffset = 0,
                                                      const double degree = static_cast<double>(civilTwilight), const QDate& date = QDate::currentDate());
 
+    /// \brief найти время начала и завершения утренних солнечных сумерек в заданном месте в заданную дату (с использованием уже вычисленного времени восхода)
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param sunRise - ранее вычисленное время восхода (не UTC)
+    /// @param height - высота над уровнем моря
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param degree - значение вертикальной координаты солнца в градусах (-90 - +90) при котором фиксируется начало сумерек
+    /// @param date -  дата
+    /// @retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
+    static QPair<QTime,QTime> sunTimeMorningTwilight(const double longitude, const double latitude, const QTime& sunRise, const double height = 0,
+                                                     const double timeZoneOffset = 0, const double degree = static_cast<double>(civilTwilight),
+                                                     const QDate& date = QDate::currentDate());
+
     /// \brief найти время начала и завершения утренних солнечных сумерек в заданном месте в заданную дату с учётом рефракции
     /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
     /// \param latitude - геогр. широта
@@ -100,6 +113,19 @@ public:
     /// \retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
     static QPair<QTime,QTime> sunTimeEveningTwilight(const double longitude, const double latitude, const double height = 0, const double timeZoneOffset = 0,
                                                      const double degree = static_cast<double>(civilTwilight), const QDate& date = QDate::currentDate());
+
+    /// \brief найти время начала и завершения вечерних солнечных сумерек в заданном месте в заданную дату (с использованием уже вычисленного времени захода)
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param sunSet - ранее вычисленное время захода (не UTC)
+    /// @param height - высота над уровнем моря
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param degree - значение вертикальной координаты солнца в градусах (-90 - +90) при котором фиксируется начало сумерек
+    /// @param date -  дата
+    /// @retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
+    static QPair<QTime,QTime> sunTimeEveningTwilight(const double longitude, const double latitude, const QTime& sunSet, const double height = 0,
+                                                     const double timeZoneOffset = 0, const double degree = static_cast<double>(civilTwilight),
+                                                     const QDate& date = QDate::currentDate());
 
     /// \brief найти время начала и завершения вечерних солнечных сумерек в заданном месте в заданную дату с учётом рефракции
     /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
@@ -233,6 +259,19 @@ public:
     static QList<TMoonDay> moonTimeMoonDaysFast(const double longitude, const double latitude, const double timeZoneOffset = 0,
                                                 const QDate& date1 = QDate::currentDate(),
                                                 const QDate& date2 = QDate::currentDate().addMonths(1));
+
+    /// \brief вычислить номер лунного дня в заданный день (по умолчанию сегодня)
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param date -  дата
+    /// @retval номер лунного дня, в случае не удачи 0
+    static quint32 moonTimeMoonDayNum(const double longitude, const double latitude, const double timeZoneOffset = 0, const QDate& date = QDate::currentDate());
+
+    /// \brief вычислить фазу Луны в заданную дату    
+    /// @param date -  дата
+    /// @retval % фазы Луны, в случае не удачи -1
+    static qint32 moonTimePhase(const QDate& date = QDate::currentDate());
 
     /// \brief вычислить список "лунных дней" (дата время начала и завершения дня)
     /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
@@ -389,7 +428,10 @@ protected:
     /// \brief функция из астрономической библиотеки AA+ для вычисления восхода-заката-высшей_точки (зенита) Луны
     static CAARiseTransitSetDetails getMoonRiseTransitSet(double JD, double longitude, double latitude);
 
-    /// \brief функция из астрономической библиотеки AA+ определяет является лт заданное время временем новолуния
+    /// \brief функция из астрономической библиотеки AA+ необходимая для вычисления фазы Луны
+    static void getMoonIllumination(double JD, double& illuminated_fraction, double& position_angle, double& phase_angle);
+
+    /// \brief функция на базе астрономической библиотеки AA+ определяет является ли заданное время временем новолуния
     /// @param dt - дата-время
     /// @param threshold - пороговое значение разницы эклиптических долгот Солнца и Луны
     static bool moonTimeIsNewMoon(const QDateTime& dt, const double threshold);
