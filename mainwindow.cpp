@@ -572,7 +572,19 @@ void MainWindow::showMoonTime()
         ui->textEditMoonDate->append("Зенит: "+currentMoonDays.at(1).transit.toString("hh:mm"));
         if (false == currentMoonDays.at(1).transitAboveHorizont)
             ui->textEditMoonDate->append("зенит под горизонтом");
-        ui->textEditMoonDate->append("Лунный день номер: "+QString::number(TComputings::moonTimeMoonDayNum(longitude,latitude,timeZoneOffset)));
+        // номер лунного дня
+        TComputings::moonTimeMoonDayNum(longitude,latitude,timeZoneOffset,QDate::currentDate().addDays(-1));
+        quint32 moonDayNum (TComputings::moonTimeMoonDayNum(longitude,latitude,timeZoneOffset));
+        QString moonDayNumStr (QString::number(moonDayNum));
+        if (0 == moonDayNum)
+            moonDayNumStr = "-";
+        else if ((2 == moonDayNum) && (TComputings::prevMoonDayNum() > 1))
+            moonDayNumStr = "1-2";
+        else if ((1 == moonDayNum) && (29 == TComputings::prevMoonDayNum()))
+            moonDayNumStr = "30-1";
+        else if ((1 == moonDayNum) && (30 == TComputings::prevMoonDayNum()) && (currentMoonDays.at(1).rise < TComputings::nextNewMoon().time()))
+            moonDayNumStr = "31-1";
+        ui->textEditMoonDate->append("Лунный день номер: "+moonDayNumStr);
         ui->textEditMoonDate->append("");
         ui->textEditMoonDate->append("Восход: "+currentMoonDays.last().rise.toString("hh:mm"));
         ui->textEditMoonDate->append("Заход: "+currentMoonDays.last().set.toString("hh:mm"));

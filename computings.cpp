@@ -9,6 +9,8 @@
 
 QDateTime TComputings::m_previousNewMoon;
 QDateTime TComputings::m_nextNewMoon;
+quint32 TComputings::m_MoonDayNum = 0;
+quint32 TComputings::m_PrevMoonDayNum = 0;
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -843,9 +845,9 @@ quint32 TComputings::moonTimeMoonDayNum(const double longitude, const double lat
             {
                 // --сегодня "следующее" новолуние--
                 if (m_nextNewMoon.time() < moonDayToday.rise)
-                    return 2;   // второй лунный день
+                    result = 2;   // второй лунный день
                 else if (m_nextNewMoon.time() >= moonDayToday.rise)
-                    return 1;   // первый лунный день
+                    result = 1;   // первый лунный день
             }
             else
             {
@@ -857,6 +859,13 @@ quint32 TComputings::moonTimeMoonDayNum(const double longitude, const double lat
             }
         }
     }
+
+    if ((1 == result) || (2 == result))
+        int y = 85;
+
+    // кэширование
+    m_PrevMoonDayNum = m_MoonDayNum;
+    m_MoonDayNum = result;
 
     return result;
 }
@@ -1284,6 +1293,24 @@ QPair<QTime,QTime> TComputings::roundToMinTime(const QPair<QTime,QTime>& time)
     }
 
     return result;
+}
+//---------------------------
+
+QDateTime TComputings::prevNewMoon()
+{
+    return m_previousNewMoon;
+}
+//---------------------------
+
+QDateTime TComputings::nextNewMoon()
+{
+    return m_nextNewMoon;
+}
+//---------------------------
+
+quint32 TComputings::prevMoonDayNum()
+{
+    return m_PrevMoonDayNum;
 }
 //---------------------------
 // КОНЕЦ: TComputings - public

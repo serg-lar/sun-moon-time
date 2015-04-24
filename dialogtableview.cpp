@@ -219,7 +219,6 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                 if (true == ui->checkBoxTwilight->isChecked())
                 {
                     // --с сумерками--
-
                     // утренние гражданские сумерки сегодня
                     QPair<QTime,QTime> morningCivilTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,
                                                                                                  static_cast<double>(TComputings::civilTwilight),d1));
@@ -229,11 +228,13 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,
                                                                                                       static_cast<double>(TComputings::navigationTwilight),d1));
                     morningNavigationTwilight = TComputings::roundToMinTime(morningNavigationTwilight);
+                    morningNavigationTwilight.second = morningCivilTwilight.first;
 
                     // утренние астрономические сумерки (до восхода)
                     QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,
                                                                                                         static_cast<double>(TComputings::astronomicalTwilight),d1));
                     morningAstronomicalTwilight = TComputings::roundToMinTime(morningAstronomicalTwilight);
+                    morningAstronomicalTwilight.second = morningNavigationTwilight.first;
 
                     // утренние сумерки (сандхья), как 1/10 часть от половины суток
                     QPair<QTime,QTime> morningSandhya(TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunRise,timeZoneOffset,true,d1));
@@ -256,11 +257,13 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,
                                                                                                       static_cast<double>(TComputings::navigationTwilight),d1));
                     eveningNavigationTwilight = TComputings::roundToMinTime(eveningNavigationTwilight);
+                    eveningNavigationTwilight.first = eveningCivilTwilight.second;
 
                     // вечерние астрономические сумерки (от захода)
                     QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,
                                                                                                         static_cast<double>(TComputings::astronomicalTwilight),d1));
                     eveningAstronomicalTwilight = TComputings::roundToMinTime(eveningAstronomicalTwilight);
+                    eveningAstronomicalTwilight.first = eveningNavigationTwilight.second;
 
                     // вечерние сумерки (сандхья), как 1/10 часть от половины суток
                     QPair<QTime,QTime> eveningSandhya (TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunSet,timeZoneOffset,false,d1));
@@ -322,9 +325,9 @@ void DialogTableView::on_pushButtonCalculate_clicked()
             //--------- рассчёт для Луны ---------
             // ----таблица----
             // столбцы
-            ui->tableWidget->setColumnCount(7);
+            ui->tableWidget->setColumnCount(8);
             // заголовки столбцов
-            ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход*,Зенит,День №,Фаза,").split(","));
+            ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход*,Зенит,День №,Фаза,Новолуние").split(","));
             ui->tableWidget->horizontalHeaderItem(3)->setToolTip("Если 'Заход' позже 00:00, то это следующий день");
 
             // строки
@@ -352,6 +355,12 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                 QString moonDayNumStr (QString::number(moonDayNum));
                 if (0 == moonDayNum)
                     moonDayNumStr = "-";
+                else if ((2 == moonDayNum) && (TComputings::prevMoonDayNum() > 1))
+                    moonDayNumStr = "1-2";
+                else if ((1 == moonDayNum) && (29 == TComputings::prevMoonDayNum()))
+                    moonDayNumStr = "30-1";
+                else if ((1 == moonDayNum) && (30 == TComputings::prevMoonDayNum()) && (moonRise < TComputings::nextNewMoon().time()))
+                    moonDayNumStr = "31-1";
 
                 // фаза %
                 qint32 moonPhase (TComputings::moonTimePhase(d1));
@@ -360,6 +369,16 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     moonPhaseStr = "-";
                 else
                     moonPhaseStr += "%";
+
+                // Новолуние
+                QTime newMoon;
+                QString newMoonStr ("-");
+                if (d1 == TComputings::prevNewMoon().date())
+                    newMoon = TComputings::prevNewMoon().time();
+                else if (d1 == TComputings::nextNewMoon().date())
+                    newMoon = TComputings::nextNewMoon().time();
+                if (true == newMoon.isValid())
+                    newMoonStr = newMoon.toString("hh:mm");
 
                 //добавление в таблицу
                 ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
@@ -372,6 +391,7 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     ui->tableWidget->setItem(c,4,new QTableWidgetItem("под горизонтом"));
                 ui->tableWidget->setItem(c,5,new QTableWidgetItem(moonDayNumStr));
                 ui->tableWidget->setItem(c,6,new QTableWidgetItem(moonPhaseStr));
+                ui->tableWidget->setItem(c,7,new QTableWidgetItem(newMoonStr));
 
                 // следующая дата
                 d1 = d1.addDays(1);
@@ -490,7 +510,7 @@ void DialogTableView::init()
 
     // чекбокс считать сумерки только для Солнечного времени
     if (moonInfo == m_Type)
-        ui->checkBoxTwilight->setDisabled(true);
+        ui->checkBoxTwilight->setVisible(false);
 }
 //---------------------------
 // КОНЕЦ: DialogTableView - private
