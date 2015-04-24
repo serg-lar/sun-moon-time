@@ -384,7 +384,7 @@ void MainWindow::showVedicDate()
     ui->textEditVedicDate->append("Кали-юга в Маха-юге");
     ui->textEditVedicDate->append("28-ая Маха-юга в Манвантаре");
     ui->textEditVedicDate->append("7-ая Манвантара в Кальпе, Вайвасвата Ману");
-    ui->textEditVedicDate->append("1-ая Кальпа в 51-ом году жизни Брахмы, Вараха");
+    ui->textEditVedicDate->append("1-ая Кальпа в 51-ом году жизни Брахмы, Швета-вараха");
 
     // позицию текстового курсора в начало
     QTextCursor textCursorToBegin (ui->textEditVedicDate->textCursor());
