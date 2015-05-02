@@ -64,6 +64,9 @@ private:
     /// \brief Вывести титхи
     void showTithi();
 
+    /// \brief Вывести информацию по сварам
+    void showSvara();
+
     Ui::MainWindow *ui;                                 ///< интерфейс
     QTimer          m_Timer;                            ///< таймер для обновления времени
     quint32         m_cTimer;                           ///< счётчик срабатываний таймера

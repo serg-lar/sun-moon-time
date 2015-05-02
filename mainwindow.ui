@@ -37,7 +37,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <attribute name="title">
@@ -648,6 +648,21 @@ QToolTip
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="tabSvara">
+     <attribute name="title">
+      <string>Свара</string>
+     </attribute>
+     <widget class="QTableWidget" name="tableWidgetSvaras">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>321</width>
+        <height>321</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -656,7 +671,7 @@ QToolTip
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

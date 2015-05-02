@@ -1020,6 +1020,60 @@ QPair<quint8, QPair<QDateTime,QDateTime> > TComputings::moonTimeNearestMoonDay(c
 }
 //---------------------------
 
+QList<TComputings::TSvara> TComputings::sunMoonTimeSvaraList(const double longitude, const double latitude, const double timeZoneOffset, const QDate& date)
+{
+    QList<TSvara> svaras;
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
+            (true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == date.isValid()))
+    {
+        // восход, заход Солнца и список свар
+        QTime sunRise (sunTimeRise(longitude,latitude,timeZoneOffset,date));
+        QTime sunSet (sunTimeSet(longitude,latitude,timeZoneOffset,date));
+
+        svaras = sunMoonTimeSvaraList(sunRise,sunSet);
+    }
+
+    return svaras;
+}
+//---------------------------
+
+QList<TComputings::TSvara> TComputings::sunMoonTimeSvaraList(const QTime& sunRise, const QTime& sunSet)
+{
+    QList<TSvara> svaras;
+
+    // проверка входных данных
+    if ((true == sunRise.isValid()) && (true == sunSet.isValid()))
+    {
+        QTime t (sunRise);
+        quint32 c (0);
+
+        // расчёт свар продолжительностью по полтара часа
+        while (t < sunSet)
+        {
+            TSvara svara;
+            if (1 == (c % 2))
+                svara.moonSvara = true;
+            else
+                svara.moonSvara = false;
+            svara.num = c+1;
+            svara.begin = t;
+            svara.end = t.addSecs(secsInMin*minsInHour*1.5);
+            if (svara.end > sunSet)
+                svara.end = sunSet;
+
+            svaras << svara;
+
+            t.addSecs(secsInMin*minsInHour*1.5);
+            ++c;
+        }
+    }
+
+    return svaras;
+}
+//---------------------------
+
 QPair<double, double> TComputings::sunHorizontalCoords(const double longitude, const double latitude, const double height, const QDateTime& dateTime)
 {
     QPair<double, double> result;

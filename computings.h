@@ -239,6 +239,7 @@ public:
         QTime transit;
         bool transitAboveHorizont;
     };
+    //---------------------------
 
     /// \brief найти восход зенит заход Луны "вокруг" заданной даты
     /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
@@ -293,6 +294,31 @@ public:
     static QPair<quint8, QPair<QDateTime,QDateTime> > moonTimeNearestMoonDay(const double longitude, const double latitude, const double timeZoneOffset = 0,
                                                               const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
 
+    // свара лунная или солнечная, начало, конец, порядковый номер
+    struct TSvara
+    {
+        bool moonSvara;
+        quint32 num;
+        QTime begin;
+        QTime end;
+    };
+    //---------------------------
+
+    /// \brief вычислить список свар на заданную дату (с вычислением внутри времени восхода и захода Солнца)
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param date - дата для вычисления
+    /// @retval список свар, в случае неудачи пустой список
+    static QList<TSvara> sunMoonTimeSvaraList(const double longitude, const double latitude, const double timeZoneOffset = 0,
+                                              const QDate& date = QDate::currentDate());
+
+    /// \brief вычислить список свар на заданную дату (с заранее вычисленным временем восхода и захода Солнца)
+    /// @param sunRise - время восхода Солнца (не UTC)
+    /// @param sunSet - время захода Солнца (не UTC)
+    /// @retval список свар, в случае неудачи пустой список
+    static QList<TSvara> sunMoonTimeSvaraList(const QTime& sunRise, const QTime& sunSet);
+
     /// \brief определить горизонтальные координаты Солнца в заданный момент времени (UTC), в заданном месте
     /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
     /// \param latitude - геогр. широта
@@ -310,8 +336,6 @@ public:
     /// @retval пара координат (X,Y)
     static QPair<double, double> moonHorizontalCoords(const double longitude, const double latitude, const double height = 0,
                                                      const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
-
-
 
     /// \brief определить горизонтальные координаты Солнца в заданный момент времени (UTC), в заданном месте с учётом рефракции
     /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)

@@ -76,6 +76,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // вывести информацию по титхам
     showTithi();
 
+    // вывести информацию по сварам
+    showSvara();
+
     // вернуть интерфейс на страницу о Солнце
     ui->tabWidget->setCurrentIndex(0);
 
@@ -248,15 +251,23 @@ void MainWindow::updateTime()
         showSunTime();
         showMoonTime();
         showTithi();
+        showSvara();
     }
 
     // текущая дата
     m_Date = QDate::currentDate();
 
     // обновить текущее солнечное время
-    const double lng = 38.155600; // геогр. долгота моего дома
-    ui->timeEditSunAverage->setTime(TComputings::sunTimeAverage(lng));
-    ui->timeEditSunTrue->setTime(TComputings::sunTimeTrue(lng));
+    QSettings settings;
+    bool ok;
+    double longitude (settings.value("longitude").toDouble(&ok));
+    if (true == ok)
+    {
+        ui->timeEditSunAverage->setTime(TComputings::sunTimeAverage(longitude));
+        ui->timeEditSunTrue->setTime(TComputings::sunTimeTrue(longitude));
+    }
+    else
+        qWarning() << "MainWindow::updateTime" << "longitude not set";
 }
 //---------------------------
 
@@ -644,10 +655,48 @@ void MainWindow::showTithi()
     else
     {
         // не получилось загрузить данные из настроек программы
-        qWarning() << "MainWindow::showSunTime" << "settings empty";
+        qWarning() << "MainWindow::showTithi" << "settings empty";
         ui->textEditTithi->clear();
         ui->textEditTithi->append("Не заданы необходимые настройки для рассчётов.");
         ui->textEditTithi->append("Опции -> Настройки (Ctrl+o)");
+    }
+}
+//---------------------------
+
+void MainWindow::showSvara()
+{
+    // восстановить данные для вычисления из настроек программы
+    QSettings settings;
+    bool ok;
+    double latitude (settings.value("latitude").toDouble(&ok));
+    double longitude (-1*settings.value("longitude").toDouble(&ok));
+    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
+
+    // рассчёты и вывод информации
+    if (true == ok)
+    {
+        // вычисление свар
+        QList<TComputings::TSvara> svaras (TComputings::sunMoonTimeSvaraList(longitude,latitude,timeZoneOffset));
+
+        // вывод в таблицу
+        ui->tableWidgetSvaras->setColumnCount(3);
+        ui->tableWidgetSvaras->setRowCount(svaras.size());
+        ui->tableWidgetSvaras->setHorizontalHeaderLabels(QString("№,Тип,Время").split(","));
+
+        foreach (const TComputings::TSvara& svara, svaras)
+        {
+             ui->tableWidgetSvaras->setItem(svara.num-1,0,new QTableWidgetItem(QString::number(svara.num)));
+             svara.moonSvara ? ui->tableWidgetSvaras->setItem(svara.num-1,1,new QTableWidgetItem("Лунная")) : ui->tableWidgetSvaras->setItem(svara.num-1,1,new QTableWidgetItem("Солнечная"));
+             ui->tableWidgetSvaras->setItem(svara.num-1,2,new QTableWidgetItem(svara.begin.toString("hh:mm")+" - "+svara.end.toString("hh:mm")));
+        }
+    }
+    else
+    {
+        // не получилось загрузить данные из настроек программы
+        qWarning() << "MainWindow::showSvara" << "settings empty";
+
+//        ui->textEditTithi->append("Не заданы необходимые настройки для рассчётов.");
+//        ui->textEditTithi->append("Опции -> Настройки (Ctrl+o)");
     }
 }
 //---------------------------
