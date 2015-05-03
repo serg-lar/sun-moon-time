@@ -1065,12 +1065,59 @@ QList<TComputings::TSvara> TComputings::sunMoonTimeSvaraList(const QTime& sunRis
 
             svaras << svara;
 
-            t.addSecs(secsInMin*minsInHour*1.5);
+            t = t.addSecs(secsInMin*minsInHour*1.5);
             ++c;
         }
     }
 
     return svaras;
+}
+//---------------------------
+
+TComputings::TSvara TComputings::sunMoonTimeCurrentSvara(const double longitude, const double latitude, const double timeZoneOffset)
+{
+    TSvara svara;
+
+    // проверка входных данных
+    if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) &&
+            (true == isTimeZoneOffsetValid(timeZoneOffset)))
+    {
+        QList<TSvara> svaras (sunMoonTimeSvaraList(longitude,latitude,timeZoneOffset));
+
+        qint32 c (0);
+        while ((false == svara.begin.isValid()) && (c < svaras.size()))
+        {
+            if ((QTime::currentTime() >= svaras.at(c).begin) && (QTime::currentTime() < svaras.at(c).end))
+                svara = svaras.at(c);
+
+            ++c;
+        }
+    }
+
+    return svara;
+}
+//---------------------------
+
+TComputings::TSvara TComputings::sunMoonTimeCurrentSvara(const QTime& sunRise, const QTime& sunSet)
+{
+    TSvara svara;
+
+    // проверка входных данных
+    if ((true == sunRise.isValid()) && (true == sunSet.isValid()))
+    {
+        QList<TSvara> svaras (sunMoonTimeSvaraList(sunRise,sunSet));
+
+        qint32 c (0);
+        while ((false == svara.begin.isValid()) && (c < svaras.size()))
+        {
+            if ((QTime::currentTime() >= svaras.at(c).begin) && (QTime::currentTime() < svaras.at(c).end))
+                svara = svaras.at(c);
+
+            ++c;
+        }
+    }
+
+    return svara;
 }
 //---------------------------
 

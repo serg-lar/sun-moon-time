@@ -176,9 +176,9 @@ void DialogTableView::on_pushButtonCalculate_clicked()
             if (true == ui->checkBoxTwilight->isChecked())
             {
                 // --с сумерками--
-                ui->tableWidget->setColumnCount(18);
+                ui->tableWidget->setColumnCount(17);
                 // заголовки столбцов
-                ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход,Зенит,Долгота дня,Утренние гражданские\nсумерки,Утренние навигационные\nсумерки,"\
+                ui->tableWidget->setHorizontalHeaderLabels(QString("Дата,Восход,Заход,Зенит,Долгота дня,Утренние гражданские\nсумерки,Утренние навигационные\nсумерки,"\
                                                                    "Утренние астрономические\nсумерки,Утренняя сандхья\nкак 1/10 суток,"\
                                                                    "Утренняя сандхья\nкак 1/10 от половины суток,Утренняя сандхья\nкак 1/10 светового дня,"\
                                                                    "Вечерние гражданские\nсумерки,Вечерние навигационные\nсумерки,Вечерние астрономические\nсумерки,"\
@@ -188,9 +188,9 @@ void DialogTableView::on_pushButtonCalculate_clicked()
             else
             {
                 // --без сумерек--
-                ui->tableWidget->setColumnCount(6);
+                ui->tableWidget->setColumnCount(5);
                 // заголовки столбцов
-                ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход,Зенит,Долгота дня,").split(","));
+                ui->tableWidget->setHorizontalHeaderLabels(QString("Дата,Восход,Заход,Зенит,Долгота дня,").split(","));
             }
 
             // строки
@@ -290,41 +290,41 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     eveningSandhya2 = TComputings::roundToMinTime(eveningSandhya2);
 
                     //добавление в таблицу
-                    ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
-                    ui->tableWidget->setItem(c,1,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
-                    ui->tableWidget->setItem(c,2,new QTableWidgetItem(sunRise.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,3,new QTableWidgetItem(sunSet.toString("hh:mm")));
+//                    ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
+                    ui->tableWidget->setItem(c,0,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
+                    ui->tableWidget->setItem(c,1,new QTableWidgetItem(sunRise.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,2,new QTableWidgetItem(sunSet.toString("hh:mm")));
                     if (true == aboveHorizont)
-                        ui->tableWidget->setItem(c,4,new QTableWidgetItem(sunTransit.toString("hh:mm")));
+                        ui->tableWidget->setItem(c,3,new QTableWidgetItem(sunTransit.toString("hh:mm")));
                     else
-                        ui->tableWidget->setItem(c,4,new QTableWidgetItem("под горизонтом"));
-                    ui->tableWidget->setItem(c,5,new QTableWidgetItem(lengthOfDay.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,6,new QTableWidgetItem(morningCivilTwilight.first.toString("hh:mm") + " - " + morningCivilTwilight.second.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,7,new QTableWidgetItem(morningNavigationTwilight.first.toString("hh:mm") + " - " + morningNavigationTwilight.second.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,8,new QTableWidgetItem(morningAstronomicalTwilight.first.toString("hh:mm") + " - " + morningAstronomicalTwilight.second.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,9,new QTableWidgetItem(morningSandhya1.first.toString("hh:mm") + " - " + morningSandhya1.second.toString("hh:mm")));;
-                    ui->tableWidget->setItem(c,10,new QTableWidgetItem(morningSandhya.first.toString("hh:mm") + " - " + morningSandhya.second.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,11,new QTableWidgetItem(morningSandhya2.first.toString("hh:mm") + " - " + morningSandhya2.second.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,12,new QTableWidgetItem(eveningCivilTwilight.first.toString("hh:mm") + " - " + eveningCivilTwilight.second.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,13,new QTableWidgetItem(eveningNavigationTwilight.first.toString("hh:mm") + " - " + eveningNavigationTwilight.second.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,14,new QTableWidgetItem(eveningAstronomicalTwilight.first.toString("hh:mm") + " - " + eveningAstronomicalTwilight.second.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,15,new QTableWidgetItem(eveningSandhya1.first.toString("hh:mm") + " - " + eveningSandhya1.second.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,16,new QTableWidgetItem(eveningSandhya.first.toString("hh:mm") + " - " + eveningSandhya.second.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,17,new QTableWidgetItem(eveningSandhya2.first.toString("hh:mm") + " - " + eveningSandhya2.second.toString("hh:mm")));
+                        ui->tableWidget->setItem(c,3,new QTableWidgetItem("под горизонтом"));
+                    ui->tableWidget->setItem(c,4,new QTableWidgetItem(lengthOfDay.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,5,new QTableWidgetItem(morningCivilTwilight.first.toString("hh:mm") + " - " + morningCivilTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,6,new QTableWidgetItem(morningNavigationTwilight.first.toString("hh:mm") + " - " + morningNavigationTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,7,new QTableWidgetItem(morningAstronomicalTwilight.first.toString("hh:mm") + " - " + morningAstronomicalTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,8,new QTableWidgetItem(morningSandhya1.first.toString("hh:mm") + " - " + morningSandhya1.second.toString("hh:mm")));;
+                    ui->tableWidget->setItem(c,9,new QTableWidgetItem(morningSandhya.first.toString("hh:mm") + " - " + morningSandhya.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,10,new QTableWidgetItem(morningSandhya2.first.toString("hh:mm") + " - " + morningSandhya2.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,11,new QTableWidgetItem(eveningCivilTwilight.first.toString("hh:mm") + " - " + eveningCivilTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,12,new QTableWidgetItem(eveningNavigationTwilight.first.toString("hh:mm") + " - " + eveningNavigationTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,13,new QTableWidgetItem(eveningAstronomicalTwilight.first.toString("hh:mm") + " - " + eveningAstronomicalTwilight.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,14,new QTableWidgetItem(eveningSandhya1.first.toString("hh:mm") + " - " + eveningSandhya1.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,15,new QTableWidgetItem(eveningSandhya.first.toString("hh:mm") + " - " + eveningSandhya.second.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,16,new QTableWidgetItem(eveningSandhya2.first.toString("hh:mm") + " - " + eveningSandhya2.second.toString("hh:mm")));
 
                 }
                 else
                 {
                     // --без сумерек--
-                    ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
-                    ui->tableWidget->setItem(c,1,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
-                    ui->tableWidget->setItem(c,2,new QTableWidgetItem(sunRise.toString("hh:mm")));
-                    ui->tableWidget->setItem(c,3,new QTableWidgetItem(sunSet.toString("hh:mm")));
+//                    ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
+                    ui->tableWidget->setItem(c,0,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
+                    ui->tableWidget->setItem(c,1,new QTableWidgetItem(sunRise.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,2,new QTableWidgetItem(sunSet.toString("hh:mm")));
                     if (true == aboveHorizont)
-                        ui->tableWidget->setItem(c,4,new QTableWidgetItem(sunTransit.toString("hh:mm")));
+                        ui->tableWidget->setItem(c,3,new QTableWidgetItem(sunTransit.toString("hh:mm")));
                     else
-                        ui->tableWidget->setItem(c,4,new QTableWidgetItem("под горизонтом"));
-                    ui->tableWidget->setItem(c,5,new QTableWidgetItem(lengthOfDay.toString("hh:mm")));
+                        ui->tableWidget->setItem(c,3,new QTableWidgetItem("под горизонтом"));
+                    ui->tableWidget->setItem(c,4,new QTableWidgetItem(lengthOfDay.toString("hh:mm")));
                 }
 
                 // следующая дата
@@ -337,9 +337,9 @@ void DialogTableView::on_pushButtonCalculate_clicked()
             //--------- рассчёт для Луны ---------
             // ----таблица----
             // столбцы
-            ui->tableWidget->setColumnCount(8);
+            ui->tableWidget->setColumnCount(7);
             // заголовки столбцов
-            ui->tableWidget->setHorizontalHeaderLabels(QString("№,Дата,Восход,Заход*,Зенит,День №,Фаза,Новолуние").split(","));
+            ui->tableWidget->setHorizontalHeaderLabels(QString("Дата,Восход,Заход*,Зенит,День №,Фаза,Новолуние").split(","));
             ui->tableWidget->horizontalHeaderItem(3)->setToolTip("Если 'Заход' позже 00:00, то это следующий день");
 
             // строки
@@ -393,17 +393,17 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     newMoonStr = newMoon.toString("hh:mm");
 
                 //добавление в таблицу
-                ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
-                ui->tableWidget->setItem(c,1,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
-                ui->tableWidget->setItem(c,2,new QTableWidgetItem(moonRise.toString("hh:mm")));
-                ui->tableWidget->setItem(c,3,new QTableWidgetItem(moonSet.toString("hh:mm")));
+//                ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
+                ui->tableWidget->setItem(c,0,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
+                ui->tableWidget->setItem(c,1,new QTableWidgetItem(moonRise.toString("hh:mm")));
+                ui->tableWidget->setItem(c,2,new QTableWidgetItem(moonSet.toString("hh:mm")));
                 if (true == aboveHorizont)
-                    ui->tableWidget->setItem(c,4,new QTableWidgetItem(moonTransit.toString("hh:mm")));
+                    ui->tableWidget->setItem(c,3,new QTableWidgetItem(moonTransit.toString("hh:mm")));
                 else
-                    ui->tableWidget->setItem(c,4,new QTableWidgetItem("под горизонтом"));
-                ui->tableWidget->setItem(c,5,new QTableWidgetItem(moonDayNumStr));
-                ui->tableWidget->setItem(c,6,new QTableWidgetItem(moonPhaseStr));
-                ui->tableWidget->setItem(c,7,new QTableWidgetItem(newMoonStr));
+                    ui->tableWidget->setItem(c,3,new QTableWidgetItem("под горизонтом"));
+                ui->tableWidget->setItem(c,4,new QTableWidgetItem(moonDayNumStr));
+                ui->tableWidget->setItem(c,5,new QTableWidgetItem(moonPhaseStr));
+                ui->tableWidget->setItem(c,6,new QTableWidgetItem(newMoonStr));
 
                 // следующая дата
                 d1 = d1.addDays(1);

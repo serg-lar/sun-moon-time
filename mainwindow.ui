@@ -649,6 +649,9 @@ QToolTip
      </widget>
     </widget>
     <widget class="QWidget" name="tabSvara">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <attribute name="title">
       <string>Свара</string>
      </attribute>
@@ -657,9 +660,12 @@ QToolTip
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>321</width>
-        <height>321</height>
+        <width>211</width>
+        <height>411</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: bold;</string>
       </property>
      </widget>
     </widget>

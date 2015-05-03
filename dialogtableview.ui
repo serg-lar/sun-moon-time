@@ -38,78 +38,8 @@
     <enum>Qt::SolidLine</enum>
    </property>
    <property name="columnCount">
-    <number>14</number>
+    <number>0</number>
    </property>
-   <column>
-    <property name="text">
-     <string>№</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Дата</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Восход</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Заход</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Зенит</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Утренние гражданские сумерки</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Утренние навигационные сумерки</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Утренние астрономические сумерки</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Вечерние гражданские сумерки</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Вечерние навигационные сумерки</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Вечерние астрономические сумерки</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Утренняя сандхья как 1/10 от суток</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Утренняя сандхья как 1/10 от половины суток</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Утренняя сандхья как 1/10 от светового дня</string>
-    </property>
-   </column>
   </widget>
   <widget class="QGroupBox" name="groupBoxPeriod">
    <property name="geometry">

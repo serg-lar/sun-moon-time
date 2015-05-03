@@ -231,18 +231,31 @@ MainWindow::~MainWindow()
 // НАЧАЛО: MainWindow - private slots
 void MainWindow::updateTime()
 {
+    bool needUpdateSvaras (false);  // нужно обновить информацию о сварах
+    if (0 == m_cTimer)
+        needUpdateSvaras = true;
+
     // счётчик срабатывания таймера
     ++m_cTimer;
 
     // обновить текущее гражданское время
     ui->timeEditCivil->setTime(QTime::currentTime());
 
-    if (0 == (calendarUpdateInterval - timerInterval*m_cTimer))
+    if (0 == (timerInterval*m_cTimer % calendarUpdateInterval))
     {
         // обновить грегорианский календарь
         ui->calendarWidgetGregorian->showToday();
         ui->calendarWidgetGregorian->setSelectedDate(QDate::currentDate());
-        m_cTimer = 0;
+
+        // проверить более длительный период времени
+        if (0 == (timerInterval*m_cTimer % sunMoonInfoUpdateInterval))
+        {
+            // нужно обновить информацию по сварам
+            needUpdateSvaras = true;
+
+            // обнулить счётчик срабатываний
+            m_cTimer = 0;
+        }
     }
 
     if (QDate::currentDate() != m_Date)
@@ -257,14 +270,39 @@ void MainWindow::updateTime()
     // текущая дата
     m_Date = QDate::currentDate();
 
-    // обновить текущее солнечное время
+    // загрузить настройки
     QSettings settings;
     bool ok;
-    double longitude (settings.value("longitude").toDouble(&ok));
+    double longitude (-1*settings.value("longitude").toDouble(&ok));
+    double latitude (settings.value("latitude").toDouble(&ok));
+    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
     if (true == ok)
     {
+        // обновить текущее солнечное время
         ui->timeEditSunAverage->setTime(TComputings::sunTimeAverage(longitude));
         ui->timeEditSunTrue->setTime(TComputings::sunTimeTrue(longitude));
+
+        if (true == needUpdateSvaras)
+        {
+            // текущая свара
+            TComputings::TSvara currentSvara (TComputings::sunMoonTimeCurrentSvara(m_currentSunRise,m_currentSunSet));
+
+            // округление до минуты
+            currentSvara.begin = TComputings::roundToMinTime(currentSvara.begin);
+            currentSvara.end = TComputings::roundToMinTime(currentSvara.end);
+
+            // вывод в заголовок вкладки
+            if (true == currentSvara.moonSvara)
+            {
+                ui->tabWidget->setTabText(2,"Лунная свара до "+currentSvara.end.toString("hh:mm"));
+                ui->tabWidget->tabBar()->setTabTextColor(2,"navy");
+            }
+            else
+            {
+                ui->tabWidget->setTabText(2,"Солнечная свара до "+currentSvara.end.toString("hh:mm"));
+                ui->tabWidget->tabBar()->setTabTextColor(2,"purple");
+            }
+        }
     }
     else
         qWarning() << "MainWindow::updateTime" << "longitude not set";
@@ -419,9 +457,11 @@ void MainWindow::showSunTime()
     {
         // время восхода Солнца
         QTime sunRise (TComputings::sunTimeRise(longitude,latitude,timeZoneOffset));
+        m_currentSunRise = TComputings::roundToMinTime(sunRise);
 
         // время захода Солнца
         QTime sunSet (TComputings::sunTimeSet(longitude,latitude,timeZoneOffset));
+        m_currentSunSet = TComputings::roundToMinTime(sunSet);
 
         // высшая точка Солнца (зенит)
         bool aboveHorizont;
@@ -679,16 +719,40 @@ void MainWindow::showSvara()
         QList<TComputings::TSvara> svaras (TComputings::sunMoonTimeSvaraList(longitude,latitude,timeZoneOffset));
 
         // вывод в таблицу
-        ui->tableWidgetSvaras->setColumnCount(3);
+        ui->tableWidgetSvaras->setColumnCount(2);
         ui->tableWidgetSvaras->setRowCount(svaras.size());
-        ui->tableWidgetSvaras->setHorizontalHeaderLabels(QString("№,Тип,Время").split(","));
+        ui->tableWidgetSvaras->setHorizontalHeaderLabels(QString("Тип,Время").split(","));
 
-        foreach (const TComputings::TSvara& svara, svaras)
-        {
-             ui->tableWidgetSvaras->setItem(svara.num-1,0,new QTableWidgetItem(QString::number(svara.num)));
-             svara.moonSvara ? ui->tableWidgetSvaras->setItem(svara.num-1,1,new QTableWidgetItem("Лунная")) : ui->tableWidgetSvaras->setItem(svara.num-1,1,new QTableWidgetItem("Солнечная"));
-             ui->tableWidgetSvaras->setItem(svara.num-1,2,new QTableWidgetItem(svara.begin.toString("hh:mm")+" - "+svara.end.toString("hh:mm")));
+        for (qint32 i = 0; i < svaras.size(); ++i)
+        {             
+            // округление до минуты
+            svaras[i].begin = TComputings::roundToMinTime(svaras.at(i).begin);
+            svaras[i].end = TComputings::roundToMinTime(svaras.at(i).end);
+
+            svaras.at(i).moonSvara ? ui->tableWidgetSvaras->setItem(svaras.at(i).num-1,0,new QTableWidgetItem("Лунная")) : ui->tableWidgetSvaras->setItem(svaras.at(i).num-1,0,new QTableWidgetItem("Солнечная"));
+            ui->tableWidgetSvaras->setItem(svaras.at(i).num-1,1,new QTableWidgetItem(svaras.at(i).begin.toString("hh:mm")+" - "+svaras.at(i).end.toString("hh:mm")));
+            QColor itemTextColor("purple");
+            if (true == svaras.at(i).moonSvara)
+                itemTextColor = QColor("navy");
+            ui->tableWidgetSvaras->item(svaras.at(i).num-1,0)->setTextColor(itemTextColor);
+            ui->tableWidgetSvaras->item(svaras.at(i).num-1,1)->setTextColor(itemTextColor);
+            if ((QTime::currentTime() >= svaras.at(i).begin) && (QTime::currentTime() < svaras.at(i).end))
+            {
+                ui->tableWidgetSvaras->item(svaras.at(i).num-1,0)->setBackgroundColor("gray");
+                ui->tableWidgetSvaras->item(svaras.at(i).num-1,1)->setBackgroundColor("gray");
+            }
         }
+
+        // вся таблица только для чтения, выравнивание текста по центру
+        for (qint32 i = 0; i < ui->tableWidgetSvaras->rowCount(); ++i)
+            for (qint32 j = 0; j < ui->tableWidgetSvaras->columnCount(); ++j)
+            {
+                (ui->tableWidgetSvaras->item(i,j))->setFlags((ui->tableWidgetSvaras->item(i,j))->flags() & ~Qt::ItemIsEditable);
+                ui->tableWidgetSvaras->item(i,j)->setTextAlignment(Qt::AlignCenter);
+            }
+
+        // расширение столбцов под содержимое
+        ui->tableWidgetSvaras->resizeColumnsToContents();
     }
     else
     {

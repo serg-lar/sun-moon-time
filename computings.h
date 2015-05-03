@@ -319,6 +319,19 @@ public:
     /// @retval список свар, в случае неудачи пустой список
     static QList<TSvara> sunMoonTimeSvaraList(const QTime& sunRise, const QTime& sunSet);
 
+    /// \brief вычислить свару в данный момент
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @retval свара, в случае неудачи свара с невалидным временем начала и конца
+    static TSvara sunMoonTimeCurrentSvara(const double longitude, const double latitude, const double timeZoneOffset = 0);
+
+    /// \brief вычислить свару в данный момент
+    /// @param sunRise - время восхода Солнца (не UTC)
+    /// @param sunSet - время захода Солнца (не UTC)
+    /// @retval свара, в случае неудачи свара с невалидным временем начала и конца
+    static TSvara sunMoonTimeCurrentSvara(const QTime& sunRise, const QTime& sunSet);
+
     /// \brief определить горизонтальные координаты Солнца в заданный момент времени (UTC), в заданном месте
     /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
     /// \param latitude - геогр. широта
