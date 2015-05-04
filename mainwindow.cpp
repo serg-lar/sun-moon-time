@@ -273,7 +273,7 @@ void MainWindow::updateTime()
     // загрузить настройки
     QSettings settings;
     bool ok;
-    double longitude (-1*settings.value("longitude").toDouble(&ok));
+    double longitude (settings.value("longitude").toDouble(&ok));
     double latitude (settings.value("latitude").toDouble(&ok));
     double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
     if (true == ok)
