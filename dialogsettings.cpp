@@ -218,7 +218,7 @@ void DialogSettings::on_webView_loadFinished(bool arg1)
 void DialogSettings::on_pushButtonAutoTimeZoneOffset_clicked()
 {
     // установить значение смещения от универсального мирового времени автоматически из системных параметров
-    ui->doubleSpinBoxTimeZoneOffset->setValue(QDateTime::currentDateTime().timeZone().offsetFromUtc(QDateTime::currentDateTime()) / 3600.);
+    ui->doubleSpinBoxTimeZoneOffset->setValue(QDateTime::currentDateTime().timeZone().offsetFromUtc(QDateTime::currentDateTime()) / 3600.);    
 }
 //---------------------------
 // КОНЕЦ: DialogSettings - private slots

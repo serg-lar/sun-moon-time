@@ -322,6 +322,7 @@ void MainWindow::showSettingsDialog()
         showSunTime();
         showMoonTime();
         showTithi();
+        showSvara();
 
         // открыть вкладку с информацией о Солнце
         ui->tabWidget->setCurrentWidget(ui->tabSun);
