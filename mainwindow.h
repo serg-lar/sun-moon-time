@@ -5,6 +5,8 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QDate>
+#include <QSystemTrayIcon>
+#include <QMenu>
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -20,16 +22,15 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
 private slots:
     /// \brief Обновить виджеты, отображающие время
     void updateTime();
 
     /// \brief Показать диалог настроек программы
     void showSettingsDialog();
+
+    /// \brief Закрыть окно насовсем
+    void realClose();
 
     void on_radioButtonKaliYuga_clicked();
     void on_radioButtonMahaYuga_clicked();
@@ -42,6 +43,15 @@ private slots:
     void on_pushButtonSunTimePeriod_clicked();
 
     void on_pushButtonMoonDatePeriod_clicked();
+    void on_systemTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
+protected:
+    /// \brief переопределение метода для перехвата событий закрытия окна
+    virtual void closeEvent(QCloseEvent* e);
 
 private:
     /// \enum Перечисление констант
@@ -67,12 +77,17 @@ private:
     /// \brief Вывести информацию по сварам
     void showSvara();
 
-    Ui::MainWindow *ui;                                 ///< интерфейс
-    QTimer          m_Timer;                            ///< таймер для обновления времени
-    quint32         m_cTimer;                           ///< счётчик срабатываний таймера
-    QDate           m_Date;                             ///< дата на момент срабатывания таймера
-    QTime           m_currentSunRise;                   ///< время текущего восхода Солнца
-    QTime           m_currentSunSet;                    ///< время текущего захода Солнца
+    Ui::MainWindow*     ui;                          ///< интерфейс
+    QTimer              m_Timer;                     ///< таймер для обновления времени
+    quint32             m_cTimer;                    ///< счётчик срабатываний таймера
+    QDate               m_Date;                      ///< дата на момент срабатывания таймера
+    QTime               m_currentSunRise;            ///< время текущего восхода Солнца
+    QTime               m_currentSunSet;             ///< время текущего захода Солнца
+    QSystemTrayIcon     m_TrayIcon;                  ///< значок приложения на панели (в трее)
+    QMenu               m_TrayIconMenu;              ///< контекстное меню для значка в трее
+    QAction*            mp_TrayIconMenuActionQuit;   ///< пункт "выход" контекстного меню для иконки в трее
+    bool                mf_realClose;                ///< флаг закрытия окна на совсем
+
 };
 //---------------------------
 // КОНЕЦ: классы

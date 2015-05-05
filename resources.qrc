@@ -5,6 +5,7 @@
         <file>Солнце и луна-2.jpg</file>
         <file>Солнце и луна-2_1.jpg</file>
         <file>sun_moon.jpg</file>
+        <file>sun_moon.ico</file>
     </qresource>
     <qresource prefix="/">
         <file>google_maps.html</file>
