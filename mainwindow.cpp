@@ -585,6 +585,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint),
     ui(new Ui::MainWindow)
 {
+    // основной интерфейс
     ui->setupUi(this);
 
     // инициализация переменных
@@ -593,6 +594,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mf_realClose = false;
 
     // значок в трее и меню к нему
+    m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
+    m_TrayIcon.setToolTip("Солнечно-Лунное время");
     m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
     m_TrayIcon.setToolTip("Солнечно-Лунное время");
 

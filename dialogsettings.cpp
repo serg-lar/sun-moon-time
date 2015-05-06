@@ -151,6 +151,10 @@ bool DialogSettings::loadSettings()
     double longitude (settings.value("longitude").toDouble(&ok));
     double height (settings.value("height").toDouble(&ok));
     double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));    
+    bool ekadashWarn (settings.value("EkadashWarn").toBool());
+    bool ekadashWarnAfter (settings.value("EkadashWarnAfter").toBool());
+    quint32 ekadashWarnTimeBefore (settings.value("EkadashWarnTimeBefore").toUInt(&ok));
+    bool ekadashWarnRequireConfirmation (settings.value("EkadashWarnRequireConfirmation").toBool());
 
     if (true == ok)
     {
@@ -159,7 +163,37 @@ bool DialogSettings::loadSettings()
         ui->doubleSpinBoxLongitude->setValue(longitude);
         ui->doubleSpinBoxHeight->setValue(height);
         ui->doubleSpinBoxHeight->setValue(height);
-        ui->doubleSpinBoxTimeZoneOffset->setValue(timeZoneOffset);        
+        ui->doubleSpinBoxTimeZoneOffset->setValue(timeZoneOffset);
+        ui->checkBoxEkadashWarn->setChecked(ekadashWarn);
+        ui->checkBoxEkadashWarnAfter->setChecked(ekadashWarnAfter);
+        switch (ekadashWarnTimeBefore)
+        {
+        case 0 :
+            ui->comboBoxEkadashWarnHours->setCurrentIndex(4);
+            break;
+        case 1 :
+            ui->comboBoxEkadashWarnHours->setCurrentIndex(2);
+            break;
+        case 2 :
+            ui->comboBoxEkadashWarnHours->setCurrentIndex(1);
+            break;
+        case 3 :
+            ui->comboBoxEkadashWarnHours->setCurrentIndex(0);;
+            break;
+        case 6 :
+            ui->comboBoxEkadashWarnHours->setCurrentIndex(3);
+            break;
+        }
+        ui->checkBoxEkadashWarnRequireConfirmation->setChecked(ekadashWarnRequireConfirmation);
+
+        if (false == ui->checkBoxEkadashWarn->isChecked())
+        {
+            ui->checkBoxEkadashWarnBefore->setChecked(false);
+            ui->checkBoxEkadashWarnAfter->setDisabled(true);
+            ui->checkBoxEkadashWarnRequireConfirmation->setDisabled(true);
+            ui->comboBoxEkadashWarnHours->setDisabled(true);
+            ui->label_5->setDisabled(true);
+        }
     }
     else
     {
@@ -183,6 +217,29 @@ bool DialogSettings::saveSettings() const
     settings.setValue("longitude",ui->doubleSpinBoxLongitude->value());
     settings.setValue("height",ui->doubleSpinBoxHeight->value());
     settings.setValue("timeZoneOffset",ui->doubleSpinBoxTimeZoneOffset->value());
+    settings.setValue("EkadashWarn",ui->checkBoxEkadashWarn->isChecked());
+    settings.setValue("EkadashWarnAfter",ui->checkBoxEkadashWarnAfter->isChecked());
+    quint32 ekadashWarnTimeBefore (0);
+    switch (ui->comboBoxEkadashWarnHours->currentIndex())
+    {
+    case 0 :
+        ekadashWarnTimeBefore = 3;
+        break;
+    case 1 :
+        ekadashWarnTimeBefore = 2;
+        break;
+    case 2 :
+        ekadashWarnTimeBefore = 1;
+        break;
+    case 3 :
+        ekadashWarnTimeBefore = 6;
+        break;
+    case 4:
+        ekadashWarnTimeBefore = 0;
+        break;
+    }
+    settings.setValue("EkadashWarnTimeBefore",ekadashWarnTimeBefore);
+    settings.setValue("EkadashWarnRequireConfirmation",ui->checkBoxEkadashWarnRequireConfirmation->isChecked());
     settings.sync();
     if (QSettings::NoError != settings.status())
     {
@@ -221,6 +278,46 @@ void DialogSettings::on_pushButtonAutoTimeZoneOffset_clicked()
     ui->doubleSpinBoxTimeZoneOffset->setValue(QDateTime::currentDateTime().timeZone().offsetFromUtc(QDateTime::currentDateTime()) / 3600.);    
 }
 //---------------------------
+
+void DialogSettings::on_checkBoxEkadashWarn_toggled(bool checked)
+{
+    if (true == checked)
+    {
+        ui->checkBoxEkadashWarnBefore->setChecked(true);
+        ui->checkBoxEkadashWarnAfter->setEnabled(true);
+        ui->comboBoxEkadashWarnHours->setEnabled(true);
+        ui->checkBoxEkadashWarnRequireConfirmation->setEnabled(true);
+        ui->label_5->setEnabled(true);
+    }
+    else
+    {
+        ui->checkBoxEkadashWarnBefore->setChecked(false);
+        ui->checkBoxEkadashWarnAfter->setChecked(false);
+        ui->checkBoxEkadashWarnAfter->setEnabled(false);
+        ui->comboBoxEkadashWarnHours->setEnabled(false);
+        ui->checkBoxEkadashWarnRequireConfirmation->setChecked(false);
+        ui->checkBoxEkadashWarnRequireConfirmation->setEnabled(false);
+        ui->label_5->setEnabled(false);
+    }
+}
+//---------------------------
+
+void DialogSettings::on_checkBoxEkadashWarnAfter_toggled(bool checked)
+{
+    if (true == checked)
+    {
+        ui->label_5->setText("За/По истечении");
+    }
+    else
+    {
+        ui->label_5->setText("За");
+    }
+}
+//---------------------------
 // КОНЕЦ: DialogSettings - private slots
 //---------------------------------------------------------------------------------
+
+
+
+
 

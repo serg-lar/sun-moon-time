@@ -48,6 +48,10 @@ private slots:
     void on_webView_loadFinished(bool arg1);
     void on_pushButtonAutoTimeZoneOffset_clicked();
 
+    void on_checkBoxEkadashWarn_toggled(bool checked);
+
+    void on_checkBoxEkadashWarnAfter_toggled(bool checked);
+
 private:
     Ui::DialogSettings *ui;                 ///< интерфейс
     QNetworkAccessManager m_Nas;            ///< менеджер запросов по сети
