@@ -9,6 +9,7 @@
 #include <QtDebug>
 #include <QSettings>
 #include <QFileDialog>
+#include "dialogsettings.h"
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -69,7 +70,7 @@ void DialogTithi::on_pushButtonCalculate_clicked()
     QDateTime dt2 (QDateTime::currentDateTimeUtc());
 
     // прочитать часовой пояс из настроек программы
-    timeZoneOffset = settings.value("timeZoneOffset").toDouble(&ok);
+    timeZoneOffset = settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok);
     if (true == ok)
     {
         // рассчитать титхи или экадаши

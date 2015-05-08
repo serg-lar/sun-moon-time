@@ -15,6 +15,7 @@
 #include <QtDebug>
 #include <QSettings>
 #include <QCloseEvent>
+#include <QMessageBox>
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -23,8 +24,12 @@
 void MainWindow::updateTime()
 {
     bool needUpdateSvaras (false);  // нужно обновить информацию о сварах
+    bool needCheckWarns (false);    // нужно проверить наличие событий
     if (0 == m_cTimer)
+    {
         needUpdateSvaras = true;
+        needCheckWarns = true;
+    }
 
     // счётчик срабатывания таймера
     ++m_cTimer;
@@ -44,18 +49,30 @@ void MainWindow::updateTime()
             // нужно обновить информацию по сварам
             needUpdateSvaras = true;
 
-            // обнулить счётчик срабатываний
-            m_cTimer = 0;
+            // проверить ещё более длительный период времени
+            if (0 == (timerInterval*m_cTimer % warnInfoInterval))
+            {
+                // нужно проверить, не пора ли оповестить о событии
+                needCheckWarns = true;
+
+                // обнулить счётчик срабатываний
+                m_cTimer = 0;
+            }
         }
     }
 
     if (QDate::currentDate() != m_Date)
     {
-        // обновить информацию о Солнце и Луне
+        // обновить информацию о Солнце и Луне привязанную к дате
         showSunTime();
         showMoonTime();
-        showTithi();
         showSvara();
+        needUpdateSvaras = false;
+    }
+    if (QDateTime::currentDateTime() >= m_currentTitha.endDateTime())
+    {
+        // обновить информацию по титхам
+        showTithi();
     }
 
     // текущая дата
@@ -64,9 +81,9 @@ void MainWindow::updateTime()
     // загрузить настройки
     QSettings settings;
     bool ok;
-    double longitude (settings.value("longitude").toDouble(&ok));
-    double latitude (settings.value("latitude").toDouble(&ok));
-    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
+    double longitude (settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
+//    double latitude (settings.value("latitude").toDouble(&ok));
+//    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
     if (true == ok)
     {
         // обновить текущее солнечное время
@@ -74,25 +91,51 @@ void MainWindow::updateTime()
         ui->timeEditSunTrue->setTime(TComputings::sunTimeTrue(longitude));
 
         if (true == needUpdateSvaras)
+            showSvara();                // обновить инфрмацию о сварах
+        if (true == needCheckWarns)
         {
-            // текущая свара
-            TComputings::TSvara currentSvara (TComputings::sunMoonTimeCurrentSvara(m_currentSunRise,m_currentSunSet));
+            // проверить необходимость оповещения о экадаше
 
-            // округление до минуты
-            currentSvara.begin = TComputings::roundToMinTime(currentSvara.begin);
-            currentSvara.end = TComputings::roundToMinTime(currentSvara.end);
-
-            // вывод в заголовок вкладки
-            if (true == currentSvara.moonSvara)
+            // загрузить настройки
+            bool ekadashWarn (settings.value(DialogSettings::ekadashWarnSettingName()).toBool());
+            bool ekadashWarnAfter (settings.value(DialogSettings::ekadashWarnAfterSettingName()).toBool());
+            quint32 ekadashWarnTimeBefore (settings.value(DialogSettings::ekadashWarnTimeBeforeSettingName()).toUInt(&ok));
+            bool ekadashWarnRequireConfirmation (settings.value(DialogSettings::ekadashWarnRequireConfirmationSettingName()).toBool());
+            if (true == ok)
             {
-                ui->tabWidget->setTabText(2,"Лунная свара до "+currentSvara.end.toString("hh:mm"));
-                ui->tabWidget->tabBar()->setTabTextColor(2,"navy");
+                if (true == ekadashWarn)
+                {
+                    if ((10 == m_currentTitha.num()) && (QDateTime::currentDateTime().secsTo(m_currentTitha.endDateTime()) <= ekadashWarnTimeBefore*60*60))
+                    {
+                        // необходимо оповестить о начале экадаша
+                        m_TrayIcon.showMessage("Экадаш","Начало: "+m_currentTitha.endDateTime().toString("dd MMMM yyyy hh:mm"));
+                        if (true == ekadashWarnRequireConfirmation)
+                        {
+                            QMessageBox msgBox;
+                            msgBox.setText("Экадаш начинается");
+                            msgBox.exec();
+                        }
+
+                        mf_ekadashWarned = true;
+                    }
+                    else if ((true == ekadashWarnAfter) && (12 == m_currentTitha.num()) &&
+                             (m_currentTitha.beginDateTime().secsTo(QDateTime::currentDateTime()) >= ekadashWarnTimeBefore*60*60))
+                    {
+                        // необходимо оповестить о завершении экадаша
+                        m_TrayIcon.showMessage("Экадаш","Конец: "+m_currentTitha.beginDateTime().toString("dd MMMM yyyy hh:mm"));
+                        if (true == ekadashWarnRequireConfirmation)
+                        {
+                            QMessageBox msgBox;
+                            msgBox.setText("Экадаш завершается");
+                            msgBox.exec();
+                        }
+
+                        mf_ekadashWarned = true;
+                    }
+                }
             }
             else
-            {
-                ui->tabWidget->setTabText(2,"Солнечная свара до "+currentSvara.end.toString("hh:mm"));
-                ui->tabWidget->tabBar()->setTabTextColor(2,"purple");
-            }
+                qWarning() << "MainWindow::updateTime" << "ekadashWarnTimeBefore setting load error";
         }
     }
     else
@@ -259,10 +302,10 @@ void MainWindow::showSunTime()
     // восстановить данные для вычисления из настроек программы
     QSettings settings;
     bool ok;
-    double latitude (settings.value("latitude").toDouble(&ok));
-    double longitude (-1*settings.value("longitude").toDouble(&ok));
-    double height (settings.value("height").toDouble(&ok));
-    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
+    double latitude (settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok));
+    double longitude (-1*settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
+    double height (settings.value(DialogSettings::heightSettingName()).toDouble(&ok));
+    double timeZoneOffset (settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok));
 
     // рассчёты и вывод информации
     if (true == ok)
@@ -344,9 +387,9 @@ void MainWindow::showMoonTime()
     // восстановить данные для вычисления из настроек программы
     QSettings settings;
     bool ok;
-    double latitude (settings.value("latitude").toDouble(&ok));
-    double longitude (-1*settings.value("longitude").toDouble(&ok));
-    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
+    double latitude (settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok));
+    double longitude (-1*settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
+    double timeZoneOffset (settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok));
 
     // рассчёты и вывод информации
     if (true == ok)
@@ -478,13 +521,19 @@ void MainWindow::showTithi()
     // восстановить данные для вычисления из настроек программы
     QSettings settings;
     bool ok;
-    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
+    double timeZoneOffset (settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok));
 
     if (true == ok)
     {
         // рассчитать и вывести информацию о титхах
         TTitha curTitha (TTitha::findCurrentTitha(timeZoneOffset));
         TTitha nearestEkadash (TTitha::findNearestEkadash(timeZoneOffset));
+
+        // сохранить данные текущей титхи
+        m_currentTitha = curTitha;
+
+        // сбросить флаг предупрежедния о экадаше
+        mf_ekadashWarned = false;
 
         ui->textEditTithi->clear();
         if (true == ui->checkBoxTithiPrintUtc->isChecked())
@@ -519,15 +568,19 @@ void MainWindow::showSvara()
     // восстановить данные для вычисления из настроек программы
     QSettings settings;
     bool ok;
-    double latitude (settings.value("latitude").toDouble(&ok));
-    double longitude (-1*settings.value("longitude").toDouble(&ok));
-    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
+    double latitude (settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok));
+    double longitude (-1*settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
+    double timeZoneOffset (settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok));
 
     // рассчёты и вывод информации
     if (true == ok)
     {
         // вычисление свар
-        QList<TComputings::TSvara> svaras (TComputings::sunMoonTimeSvaraList(longitude,latitude,timeZoneOffset));
+        QList<TComputings::TSvara> svaras;
+        if ((true == m_currentSunRise.isValid()) && (true == m_currentSunSet.isValid()))
+            svaras = TComputings::sunMoonTimeSvaraList(m_currentSunRise,m_currentSunSet);
+        else
+            svaras = TComputings::sunMoonTimeSvaraList(longitude,latitude,timeZoneOffset);
 
         // вывод в таблицу
         ui->tableWidgetSvaras->setColumnCount(2);
@@ -551,6 +604,18 @@ void MainWindow::showSvara()
             {
                 ui->tableWidgetSvaras->item(svaras.at(i).num-1,0)->setBackgroundColor("gray");
                 ui->tableWidgetSvaras->item(svaras.at(i).num-1,1)->setBackgroundColor("gray");
+
+                // вывод в заголовок вкладки
+                if (true == svaras.at(i).moonSvara)
+                {
+                    ui->tabWidget->setTabText(2,"Лунная свара до "+svaras.at(i).end.toString("hh:mm"));
+                    ui->tabWidget->tabBar()->setTabTextColor(2,"navy");
+                }
+                else
+                {
+                    ui->tabWidget->setTabText(2,"Солнечная свара до "+svaras.at(i).end.toString("hh:mm"));
+                    ui->tabWidget->tabBar()->setTabTextColor(2,"purple");
+                }
             }
         }
 
@@ -592,6 +657,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_cTimer = 0;
     m_Date = QDate::currentDate();
     mf_realClose = false;
+    mf_ekadashWarned = false;
 
     // значок в трее и меню к нему
     m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));

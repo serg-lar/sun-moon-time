@@ -9,6 +9,7 @@
 #include <QSettings>
 #include <QFileDialog>
 #include "computings.h"
+#include "dialogsettings.h"
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -106,10 +107,10 @@ void DialogTableView::on_pushButtonCalculate_clicked()
     bool ok;    
 
     // прочитать долготу, широту, часовой пояс из настроек программы
-    longitude = -1*(settings.value("longitude").toDouble(&ok));
-    latitude = settings.value("latitude").toDouble(&ok);
-    height = settings.value("height").toDouble(&ok);
-    timeZoneOffset = settings.value("timeZoneOffset").toDouble(&ok);
+    longitude = -1*(settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
+    latitude = settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok);
+    height = settings.value(DialogSettings::heightSettingName()).toDouble(&ok);
+    timeZoneOffset = settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok);
 
     if (true == ok)
     {

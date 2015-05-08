@@ -45,36 +45,6 @@ void DialogSettings::setCoord(const double latitude, const double longitude)
 // КОНЕЦ: DialogSettings - public slots
 //---------------------------------------------------------------------------------
 
-// НАЧАЛО: DialogSettings - public
-DialogSettings::DialogSettings(QWidget *parent) :
-    QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint |
-            Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint),
-    ui(new Ui::DialogSettings)
-{
-    // загрузить интерфейс
-    ui->setupUi(this);
-
-    // соединения
-    connect(ui->webView->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(updateJavaScriptWindow()));
-    connect(&m_Nas, SIGNAL(finished(QNetworkReply*)), this, SLOT(processNetworkReply(QNetworkReply*)));
-
-    // загрузить настройки программы
-    if (false == loadSettings())
-        qWarning() << "DialogSettings::DialogSettings" << "error loadSettings";
-
-    // загрузить карты гугл
-    ui->webView->load(QUrl("qrc:/google_maps.html"));
-}
-//---------------------------
-
-DialogSettings::~DialogSettings()
-{
-    delete ui;
-}
-//---------------------------
-// КОНЕЦ: DialogSettings - public
-//---------------------------------------------------------------------------------
-
 // НАЧАЛО: DialogSettings - private slots
 void DialogSettings::updateJavaScriptWindow()
 {
@@ -95,7 +65,6 @@ void DialogSettings::processNetworkReply(QNetworkReply* reply)
         if (QJsonParseError::NoError == jsonParseError.error)
         {
             // JSON документ прочитан удачно
-
             if (reply->url().toString().contains("maps.googleapis.com/maps/api/elevation/json"))
             {
                 // выяснение результата обращения в службу высот гугл карт
@@ -119,6 +88,8 @@ void DialogSettings::processNetworkReply(QNetworkReply* reply)
                     // ошибка выполнения запроса обращения в службу высот гугл карт
                     qWarning() << "DialogSettings::processNetworkReply" << "google maps elevation API" << status;
             }
+            // ответ на неизвестный запрос
+            qWarning() << "DialogSettings::processNetworkReply" << "reply for unknown request";
         }
         else
         {
@@ -147,14 +118,14 @@ bool DialogSettings::loadSettings()
 
     // загрузить настройки
     bool ok;
-    double latitude (settings.value("latitude").toDouble(&ok));
-    double longitude (settings.value("longitude").toDouble(&ok));
-    double height (settings.value("height").toDouble(&ok));
-    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));    
-    bool ekadashWarn (settings.value("EkadashWarn").toBool());
-    bool ekadashWarnAfter (settings.value("EkadashWarnAfter").toBool());
-    quint32 ekadashWarnTimeBefore (settings.value("EkadashWarnTimeBefore").toUInt(&ok));
-    bool ekadashWarnRequireConfirmation (settings.value("EkadashWarnRequireConfirmation").toBool());
+    double latitude (settings.value(latitudeSettingName()).toDouble(&ok));
+    double longitude (settings.value(longitudeSettingName()).toDouble(&ok));
+    double height (settings.value(heightSettingName()).toDouble(&ok));
+    double timeZoneOffset (settings.value(timeZoneOffsetSettingName()).toDouble(&ok));
+    bool ekadashWarn (settings.value(ekadashWarnSettingName()).toBool());
+    bool ekadashWarnAfter (settings.value(ekadashWarnAfterSettingName()).toBool());
+    quint32 ekadashWarnTimeBefore (settings.value(ekadashWarnTimeBeforeSettingName()).toUInt(&ok));
+    bool ekadashWarnRequireConfirmation (settings.value(ekadashWarnRequireConfirmationSettingName()).toBool());
 
     if (true == ok)
     {
@@ -213,12 +184,12 @@ bool DialogSettings::saveSettings() const
 //    QSettings settings(QSettings::IniFormat,QSettings::UserScope, const_cast<DialogSettings*>(this));
     QSettings settings;
 
-    settings.setValue("latitude",ui->doubleSpinBoxLatitude->value());
-    settings.setValue("longitude",ui->doubleSpinBoxLongitude->value());
-    settings.setValue("height",ui->doubleSpinBoxHeight->value());
-    settings.setValue("timeZoneOffset",ui->doubleSpinBoxTimeZoneOffset->value());
-    settings.setValue("EkadashWarn",ui->checkBoxEkadashWarn->isChecked());
-    settings.setValue("EkadashWarnAfter",ui->checkBoxEkadashWarnAfter->isChecked());
+    settings.setValue(latitudeSettingName(),ui->doubleSpinBoxLatitude->value());
+    settings.setValue(longitudeSettingName(),ui->doubleSpinBoxLongitude->value());
+    settings.setValue(heightSettingName(),ui->doubleSpinBoxHeight->value());
+    settings.setValue(timeZoneOffsetSettingName(),ui->doubleSpinBoxTimeZoneOffset->value());
+    settings.setValue(ekadashWarnSettingName(),ui->checkBoxEkadashWarn->isChecked());
+    settings.setValue(ekadashWarnAfterSettingName(),ui->checkBoxEkadashWarnAfter->isChecked());
     quint32 ekadashWarnTimeBefore (0);
     switch (ui->comboBoxEkadashWarnHours->currentIndex())
     {
@@ -238,8 +209,8 @@ bool DialogSettings::saveSettings() const
         ekadashWarnTimeBefore = 0;
         break;
     }
-    settings.setValue("EkadashWarnTimeBefore",ekadashWarnTimeBefore);
-    settings.setValue("EkadashWarnRequireConfirmation",ui->checkBoxEkadashWarnRequireConfirmation->isChecked());
+    settings.setValue(ekadashWarnTimeBeforeSettingName(),ekadashWarnTimeBefore);
+    settings.setValue(ekadashWarnRequireConfirmationSettingName(),ui->checkBoxEkadashWarnRequireConfirmation->isChecked());
     settings.sync();
     if (QSettings::NoError != settings.status())
     {
@@ -315,6 +286,84 @@ void DialogSettings::on_checkBoxEkadashWarnAfter_toggled(bool checked)
 }
 //---------------------------
 // КОНЕЦ: DialogSettings - private slots
+//---------------------------------------------------------------------------------
+
+// НАЧАЛО: DialogSettings - public
+DialogSettings::DialogSettings(QWidget *parent) :
+    QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint |
+            Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint),
+    ui(new Ui::DialogSettings)
+{
+    // загрузить интерфейс
+    ui->setupUi(this);
+
+    // соединения
+    connect(ui->webView->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(updateJavaScriptWindow()));
+    connect(&m_Nas, SIGNAL(finished(QNetworkReply*)), this, SLOT(processNetworkReply(QNetworkReply*)));
+
+    // загрузить настройки программы
+    if (false == loadSettings())
+        qWarning() << "DialogSettings::DialogSettings" << "error loadSettings";
+
+    // загрузить карты гугл
+    ui->webView->load(QUrl("qrc:/google_maps.html"));
+}
+//---------------------------
+
+DialogSettings::~DialogSettings()
+{
+    delete ui;
+}
+//---------------------------
+
+QString DialogSettings::longitudeSettingName()
+{
+    return "longitude";
+}
+//---------------------------
+
+QString DialogSettings::latitudeSettingName()
+{
+    return "latitude";
+}
+//---------------------------
+
+QString DialogSettings::timeZoneOffsetSettingName()
+{
+    return "timeZoneOffset";
+}
+//---------------------------
+
+QString DialogSettings::heightSettingName()
+{
+    return "height";
+}
+//---------------------------
+
+QString DialogSettings::ekadashWarnSettingName()
+{
+    return "ekadashWarn";
+}
+//---------------------------
+
+QString DialogSettings::ekadashWarnAfterSettingName()
+{
+    return "ekadashWarnAfter";
+}
+//---------------------------
+
+QString DialogSettings::ekadashWarnTimeBeforeSettingName()
+{
+    return "ekadashWarnTimeBefore";
+}
+//---------------------------
+
+QString DialogSettings::ekadashWarnRequireConfirmationSettingName()
+{
+    return "ekadashWarnRequireConfirmation";
+}
+//---------------------------
+// КОНЕЦ: DialogSettings - public
 //---------------------------------------------------------------------------------
 
 

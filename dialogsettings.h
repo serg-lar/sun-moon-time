@@ -24,10 +24,6 @@ public slots:
     /// \brief Установить координаты с гугл карт
     void setCoord(const double latitude, const double longitude);
 
-public:
-    explicit DialogSettings(QWidget *parent = 0);
-    ~DialogSettings();
-
 private slots:
     /// \brief "Обновить javaScript"
     void updateJavaScriptWindow();
@@ -51,6 +47,20 @@ private slots:
     void on_checkBoxEkadashWarn_toggled(bool checked);
 
     void on_checkBoxEkadashWarnAfter_toggled(bool checked);
+
+public:
+    explicit DialogSettings(QWidget *parent = 0);
+    ~DialogSettings();
+
+    // имена настроек в файле настроек
+    static QString longitudeSettingName();
+    static QString latitudeSettingName();
+    static QString timeZoneOffsetSettingName();
+    static QString heightSettingName();
+    static QString ekadashWarnSettingName();
+    static QString ekadashWarnAfterSettingName();
+    static QString ekadashWarnTimeBeforeSettingName();
+    static QString ekadashWarnRequireConfirmationSettingName();
 
 private:
     Ui::DialogSettings *ui;                 ///< интерфейс
