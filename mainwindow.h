@@ -33,6 +33,9 @@ private slots:
     /// \brief Закрыть окно насовсем
     void realClose();
 
+    /// \brief Пересчитать и отобразить всю информацию во всех вкладках
+    void computeAndShowAll();
+
     void on_radioButtonKaliYuga_clicked();
     void on_radioButtonMahaYuga_clicked();
     void on_radioButtonManvantara_clicked();

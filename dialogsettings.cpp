@@ -285,6 +285,31 @@ void DialogSettings::on_checkBoxEkadashWarnAfter_toggled(bool checked)
     }
 }
 //---------------------------
+
+void DialogSettings::on_checkBoxAutoStartUp_toggled(bool checked)
+{
+    // кликнут чекбокс "автозапуск при загрузке ОС"
+    if (true == checked)
+    {
+        // установить авто запуск при загрузке ОС (для windows)
+#ifdef Q_OS_WIN32
+        QSettings autoStartSetting ("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+                                    QSettings::NativeFormat);
+        autoStartSetting.setValue(QApplication::applicationName(),
+                                  QApplication::applicationFilePath().replace("/","\\")+" --minimized");
+#endif
+    }
+    else
+    {
+        // отключить авто запуск при загрузке (windows)
+#ifdef Q_OS_WIN32
+        QSettings autoStartSetting ("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+                                    QSettings::NativeFormat);
+        autoStartSetting.remove(QApplication::applicationName());
+#endif
+    }
+}
+//---------------------------
 // КОНЕЦ: DialogSettings - private slots
 //---------------------------------------------------------------------------------
 
@@ -365,8 +390,3 @@ QString DialogSettings::ekadashWarnRequireConfirmationSettingName()
 //---------------------------
 // КОНЕЦ: DialogSettings - public
 //---------------------------------------------------------------------------------
-
-
-
-
-

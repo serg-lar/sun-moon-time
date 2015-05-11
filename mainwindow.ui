@@ -715,13 +715,15 @@ QToolTip
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>Файл</string>
     </property>
+    <addaction name="actionReCompAll"/>
+    <addaction name="separator"/>
     <addaction name="actionExitApp"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
@@ -753,6 +755,11 @@ QToolTip
   <action name="actionExitApp">
    <property name="text">
     <string>Выход</string>
+   </property>
+  </action>
+  <action name="actionReCompAll">
+   <property name="text">
+    <string>Пересчитать всё</string>
    </property>
   </action>
  </widget>

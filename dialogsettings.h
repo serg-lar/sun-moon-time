@@ -48,6 +48,8 @@ private slots:
 
     void on_checkBoxEkadashWarnAfter_toggled(bool checked);
 
+    void on_checkBoxAutoStartUp_toggled(bool checked);
+
 public:
     explicit DialogSettings(QWidget *parent = 0);
     ~DialogSettings();

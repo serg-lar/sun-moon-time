@@ -96,19 +96,21 @@ void MainWindow::updateTime()
         {
             // проверить необходимость оповещения о экадаше
 
-            // загрузить настройки
+            // загрузить ещё необходимые настройки
             bool ekadashWarn (settings.value(DialogSettings::ekadashWarnSettingName()).toBool());
             bool ekadashWarnAfter (settings.value(DialogSettings::ekadashWarnAfterSettingName()).toBool());
             quint32 ekadashWarnTimeBefore (settings.value(DialogSettings::ekadashWarnTimeBeforeSettingName()).toUInt(&ok));
             bool ekadashWarnRequireConfirmation (settings.value(DialogSettings::ekadashWarnRequireConfirmationSettingName()).toBool());
             if (true == ok)
             {
-                if (true == ekadashWarn)
+                if ((true == ekadashWarn) && (false == mf_ekadashWarned))
                 {
-                    if ((10 == m_currentTitha.num()) && (QDateTime::currentDateTime().secsTo(m_currentTitha.endDateTime()) <= ekadashWarnTimeBefore*60*60))
+                    if ((10 == m_currentTitha.num()) &&
+                            (QDateTime::currentDateTime().secsTo(m_currentTitha.endDateTime()) <= static_cast<qint64>(ekadashWarnTimeBefore*60*60)))
                     {
                         // необходимо оповестить о начале экадаша
                         m_TrayIcon.showMessage("Экадаш","Начало: "+m_currentTitha.endDateTime().toString("dd MMMM yyyy hh:mm"));
+                        QApplication::alert(this);
                         if (true == ekadashWarnRequireConfirmation)
                         {
                             QMessageBox msgBox;
@@ -119,10 +121,11 @@ void MainWindow::updateTime()
                         mf_ekadashWarned = true;
                     }
                     else if ((true == ekadashWarnAfter) && (12 == m_currentTitha.num()) &&
-                             (m_currentTitha.beginDateTime().secsTo(QDateTime::currentDateTime()) >= ekadashWarnTimeBefore*60*60))
+                             (m_currentTitha.beginDateTime().secsTo(QDateTime::currentDateTime()) >= static_cast<qint64>(ekadashWarnTimeBefore*60*60)))
                     {
                         // необходимо оповестить о завершении экадаша
                         m_TrayIcon.showMessage("Экадаш","Конец: "+m_currentTitha.beginDateTime().toString("dd MMMM yyyy hh:mm"));
+                        QApplication::alert(this);
                         if (true == ekadashWarnRequireConfirmation)
                         {
                             QMessageBox msgBox;
@@ -169,6 +172,25 @@ void MainWindow::realClose()
     // закрыть окно по-настоящему насовсем
     mf_realClose = true;
     close();
+}
+//---------------------------
+
+void MainWindow::computeAndShowAll()
+{
+    // пересчитать все данные и отобразить в соответствующих вкладках
+
+    // блокировка работы пользователя с интерфейсом
+    QCursor currentCursor (cursor());
+    setDisabled(true);
+
+    showSunTime();
+    showMoonTime();
+    showTithi();
+    showSvara();
+
+    // разблокировка работы пользователя с интерфейсом
+    setEnabled(true);
+    setCursor(currentCursor);
 }
 //---------------------------
 
@@ -672,8 +694,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // соединения
     connect(&m_Timer, SIGNAL(timeout()), this, SLOT(updateTime()));
-    connect(ui->actionExitApp, SIGNAL(triggered()), this, SLOT(close()));
-    connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(showSettingsDialog()));    
+    connect(ui->actionExitApp, SIGNAL(triggered()), this, SLOT(realClose()));
+    connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(showSettingsDialog()));
+    connect(ui->actionReCompAll, SIGNAL(triggered()), this, SLOT(computeAndShowAll()));
     connect(&m_TrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this,
             SLOT(on_systemTrayIconActivated(QSystemTrayIcon::ActivationReason)));
 
@@ -881,7 +904,7 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent* e)
 {
     // при нажатии на крестик вместо закрытия прятать окно
-    // закрывать на совсем только в случае нажатия "выход" в меню в трее
+    // закрывать на совсем только в случае нажатия "выход" в меню в трее    
     if (false == mf_realClose)
     {
         e->ignore();
