@@ -10,4 +10,7 @@
     <qresource prefix="/">
         <file>google_maps.html</file>
     </qresource>
+    <qresource prefix="/sounds">
+        <file>OM_NAMO_NARAYANA.wav</file>
+    </qresource>
 </RCC>

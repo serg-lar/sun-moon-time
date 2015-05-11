@@ -16,6 +16,7 @@
 #include <QSettings>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QSound>
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -111,6 +112,7 @@ void MainWindow::updateTime()
                         // необходимо оповестить о начале экадаша
                         m_TrayIcon.showMessage("Экадаш","Начало: "+m_currentTitha.endDateTime().toString("dd MMMM yyyy hh:mm"));
                         QApplication::alert(this);
+                        QSound::play(":/sounds/OM_NAMO_NARAYANA.wav");
                         if (true == ekadashWarnRequireConfirmation)
                         {
                             QMessageBox msgBox;
@@ -126,6 +128,7 @@ void MainWindow::updateTime()
                         // необходимо оповестить о завершении экадаша
                         m_TrayIcon.showMessage("Экадаш","Конец: "+m_currentTitha.beginDateTime().toString("dd MMMM yyyy hh:mm"));
                         QApplication::alert(this);
+                        QSound::play(":/sounds/OM_NAMO_NARAYANA.wav");
                         if (true == ekadashWarnRequireConfirmation)
                         {
                             QMessageBox msgBox;
@@ -163,7 +166,7 @@ void MainWindow::showSettingsDialog()
 
         // открыть вкладку с информацией о Солнце
         ui->tabWidget->setCurrentWidget(ui->tabSun);
-    }
+    }    
 }
 //---------------------------
 
@@ -182,7 +185,9 @@ void MainWindow::computeAndShowAll()
     // блокировка работы пользователя с интерфейсом
     QCursor currentCursor (cursor());
     setDisabled(true);
+    setCursor(QCursor(Qt::WaitCursor));
 
+    // пересчёт и отображение
     showSunTime();
     showMoonTime();
     showTithi();
@@ -190,7 +195,7 @@ void MainWindow::computeAndShowAll()
 
     // разблокировка работы пользователя с интерфейсом
     setEnabled(true);
-    setCursor(currentCursor);
+    setCursor(currentCursor);    
 }
 //---------------------------
 

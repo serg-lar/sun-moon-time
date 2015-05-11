@@ -162,8 +162,9 @@ void DialogTableView::on_pushButtonCalculate_clicked()
         // блокирование интерфейса
         QCursor mouseCursor (cursor());
         setCursor(QCursor(Qt::WaitCursor));
-        ui->pushButtonCalculate->setDisabled(true);
-        ui->pushButtonSaveAs->setDisabled(true);
+        setDisabled(true);
+//        ui->pushButtonCalculate->setDisabled(true);
+//        ui->pushButtonSaveAs->setDisabled(true);
         ui->tableWidget->clear();
         ui->tableWidget->setRowCount(0);
         ui->tableWidget->setColumnCount(0);
@@ -341,7 +342,7 @@ void DialogTableView::on_pushButtonCalculate_clicked()
             ui->tableWidget->setColumnCount(7);
             // заголовки столбцов
             ui->tableWidget->setHorizontalHeaderLabels(QString("Дата,Восход,Заход*,Зенит,День №,Фаза,Новолуние").split(","));
-            ui->tableWidget->horizontalHeaderItem(3)->setToolTip("Если 'Заход' позже 00:00, то это следующий день");
+            ui->tableWidget->horizontalHeaderItem(2)->setToolTip("Получаемое время не всегда соответствует дате");
 
             // строки
             ui->tableWidget->setRowCount(d1.daysTo(d2)+1);
@@ -424,8 +425,9 @@ void DialogTableView::on_pushButtonCalculate_clicked()
         ui->tableWidget->resizeColumnsToContents();
         // разблокирование интерфейса
         setCursor(mouseCursor);
-        ui->pushButtonCalculate->setDisabled(false);
-        ui->pushButtonSaveAs->setDisabled(false);
+//        ui->pushButtonCalculate->setDisabled(false);
+//        ui->pushButtonSaveAs->setDisabled(false);
+        setEnabled(true);
     }
     else
         qWarning() << "DialogTableView::on_pushButtonCalculate_clicked" << "load settings error";

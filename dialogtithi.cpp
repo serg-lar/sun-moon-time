@@ -125,8 +125,9 @@ void DialogTithi::on_pushButtonCalculate_clicked()
         // заблокировать интерфейс
         QCursor mouseCursor (cursor());
         setCursor(QCursor(Qt::WaitCursor));
-        ui->pushButtonCalculate->setDisabled(true);
-        ui->pushButtonSaveAs->setDisabled(true);
+//        ui->pushButtonCalculate->setDisabled(true);
+//        ui->pushButtonSaveAs->setDisabled(true);
+        setDisabled(true);
         ui->textEdit->clear();
         ui->textEdit->repaint();
 
@@ -166,8 +167,9 @@ void DialogTithi::on_pushButtonCalculate_clicked()
 
         // разблокировать интерфейс
         setCursor(mouseCursor);
-        ui->pushButtonCalculate->setEnabled(true);
-        ui->pushButtonSaveAs->setEnabled(true);
+//        ui->pushButtonCalculate->setEnabled(true);
+//        ui->pushButtonSaveAs->setEnabled(true);
+        setEnabled(true);
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEdit->textCursor());
