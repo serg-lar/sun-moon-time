@@ -322,6 +322,11 @@ DialogSettings::DialogSettings(QWidget *parent) :
     // загрузить интерфейс
     ui->setupUi(this);
 
+    // автозапуск при загрузке ОС доступен пока только в windows
+#ifdef Q_OS_WIN32
+    ui->checkBoxAutoStartUp->setEnabled(true);
+#endif
+
     // соединения
     connect(ui->webView->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(updateJavaScriptWindow()));
     connect(&m_Nas, SIGNAL(finished(QNetworkReply*)), this, SLOT(processNetworkReply(QNetworkReply*)));

@@ -250,7 +250,7 @@ public:
     static QList<TMoonDay> moonTimeRiseTransitSet(const double longitude, const double latitude, const double timeZoneOffset = 0,
                                                   const QDate& date = QDate::currentDate());
 
-    /// \brief вычислить список "лунных дней" (дата время начала и завершения дня) простой (быстрый) вариант
+    /// \brief вычислить список "лунных дней" (дата, время начала и завершения дня) простой (быстрый) вариант, основанный на привязке к дате
     /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
     /// @param latitude - геогр. широта
     /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
@@ -261,7 +261,7 @@ public:
                                                 const QDate& date1 = QDate::currentDate(),
                                                 const QDate& date2 = QDate::currentDate().addMonths(1));
 
-    /// \brief вычислить номер лунного дня в заданный день (по умолчанию сегодня)
+    /// \brief вычислить номер лунного дня в заданный день (по умолчанию сегодня), основываясь на быстром варианте вычисления лунных дней
     /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
     /// @param latitude - геогр. широта
     /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
@@ -274,14 +274,25 @@ public:
     /// @retval % фазы Луны, в случае не удачи -1
     static qint32 moonTimePhase(const QDate& date = QDate::currentDate());
 
-    /// \brief вычислить список "лунных дней" (дата время начала и завершения дня)
+    // лунный день - восход, заход, зенит, вариант для рассчётов, основанных на горизонтальных координатах и переменных дата-время
+    struct TMoonDay2
+    {
+        QDateTime rise;
+        QDateTime set;
+        QDateTime transit;
+        bool transitAboveHorisont;
+        QString num;
+    };
+    //---------------------------
+
+    /// \brief вычислить список "лунных дней" (дата-время начала и завершения дня)
     /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
     /// @param latitude - геогр. широта
     /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
     /// @param dt1 - UTC дата-время для начала отсчёта
     /// @param dt2 - UTC дата-время для завершения отсчёта
-    /// @retval список пар дата-время - список пар начало конец лунного дня, пустой список в случае неудачи
-    static QList<QPair<QDateTime,QDateTime> > moonTimeMoonDays(const double longitude, const double latitude, const double timeZoneOffset = 0,
+    /// @retval список лунных дней, пустой список в случае неудачи
+    static QList<TMoonDay2> moonTimeMoonDays(const double longitude, const double latitude, const double timeZoneOffset = 0,
                                                                const QDateTime& dateTime1 = moonTimeFindPreviousNewMoon(),
                                                                const QDateTime& dateTime2 = QDateTime::currentDateTimeUtc());
 

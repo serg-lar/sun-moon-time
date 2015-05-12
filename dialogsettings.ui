@@ -477,6 +477,9 @@
    </widget>
   </widget>
   <widget class="QCheckBox" name="checkBoxAutoStartUp">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>280</x>

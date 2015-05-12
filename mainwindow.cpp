@@ -445,8 +445,8 @@ void MainWindow::showMoonTime()
 //            qWarning() << "MainWindow::showMoonTime" << "invalid nextNewMoon";
 
         // лунные дни
-//        QList<QPair<QDateTime,QDateTime> > moonDays(TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset, TComputings::moonTimeFindPreviousNewMoon(),
-//                                                                                  QDateTime::currentDateTimeUtc().addDays(1)));
+        QList<TComputings::TMoonDay2> moonDays(TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
+                                                                             QDateTime::currentDateTimeUtc().addDays(1)));
 
         // ближайший лунный день
 //        QPair<quint8, QPair<QDateTime,QDateTime> > nearestMoonDay (TComputings::moonTimeNearestMoonDay(longitude,latitude,timeZoneOffset));
@@ -472,9 +472,9 @@ void MainWindow::showMoonTime()
 //        ui->textEditMoonDate->append("Конец: "+nearestMoonDay.second.second.toString("dd.MM.yyyy hh:mm"));
 //        ui->textEditMoonDate->append("");
 
-//        ui->textEditMoonDate->append("Лунные дни:");
-//        for (qint32 i = 0; i < moonDays.size(); ++i)
-//            ui->textEditMoonDate->append(moonDays.at(i).first.toString("dd.MM.yyyy hh:mm")+" - "+moonDays.at(i).second.toString("dd.MM.yyyy hh:mm"));
+        ui->textEditMoonDate->append("Лунные дни:");
+        for (qint32 i = 0; i < moonDays.size(); ++i)
+            ui->textEditMoonDate->append(moonDays.at(i).rise.toString("dd.MM.yyyy hh:mm")+" - "+moonDays.at(i).set.toString("dd.MM.yyyy hh:mm"));
 //        ui->textEditMoonDate->append("Новолуния на год");
 //        ui->textEditMoonDate->append("");
 //        foreach (const QDateTime& newMoon, newMoonForYear)
