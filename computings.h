@@ -287,7 +287,7 @@ public:
         QDateTime rise;
         QDateTime set;
         QDateTime transit;
-        bool transitAboveHorisont;
+        QDateTime newMoon;
         QString num;
     };
     //---------------------------

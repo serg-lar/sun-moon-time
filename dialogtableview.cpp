@@ -106,7 +106,7 @@ void DialogTableView::on_pushButtonCalculate_clicked()
     double longitude, latitude, height, timeZoneOffset;
     bool ok;    
 
-    // прочитать долготу, широту, часовой пояс из настроек программы
+    // загрузить настройки
     longitude = -1*(settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
     latitude = settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok);
     height = settings.value(DialogSettings::heightSettingName()).toDouble(&ok);
@@ -163,8 +163,7 @@ void DialogTableView::on_pushButtonCalculate_clicked()
         QCursor mouseCursor (cursor());
         setCursor(QCursor(Qt::WaitCursor));
         setDisabled(true);
-//        ui->pushButtonCalculate->setDisabled(true);
-//        ui->pushButtonSaveAs->setDisabled(true);
+
         ui->tableWidget->clear();
         ui->tableWidget->setRowCount(0);
         ui->tableWidget->setColumnCount(0);
@@ -292,7 +291,6 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     eveningSandhya2 = TComputings::roundToMinTime(eveningSandhya2);
 
                     //добавление в таблицу
-//                    ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
                     ui->tableWidget->setItem(c,0,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
                     ui->tableWidget->setItem(c,1,new QTableWidgetItem(sunRise.toString("hh:mm")));
                     ui->tableWidget->setItem(c,2,new QTableWidgetItem(sunSet.toString("hh:mm")));
@@ -318,7 +316,6 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                 else
                 {
                     // --без сумерек--
-//                    ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
                     ui->tableWidget->setItem(c,0,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
                     ui->tableWidget->setItem(c,1,new QTableWidgetItem(sunRise.toString("hh:mm")));
                     ui->tableWidget->setItem(c,2,new QTableWidgetItem(sunSet.toString("hh:mm")));
@@ -338,78 +335,36 @@ void DialogTableView::on_pushButtonCalculate_clicked()
         {
             //--------- рассчёт для Луны ---------
             // ----таблица----
-            // столбцы
-            ui->tableWidget->setColumnCount(7);
+            // количество столбцов
+            ui->tableWidget->setColumnCount(6);
             // заголовки столбцов
-            ui->tableWidget->setHorizontalHeaderLabels(QString("Дата,Восход,Заход*,Зенит,День №,Фаза,Новолуние").split(","));
-            ui->tableWidget->horizontalHeaderItem(2)->setToolTip("Получаемое время не всегда соответствует дате");
+            ui->tableWidget->setHorizontalHeaderLabels(QString("День №,Восход,Заход,Зенит,Фаза,Новолуние").split(","));
 
-            // строки
-            ui->tableWidget->setRowCount(d1.daysTo(d2)+1);
+            // основные рассчёты
+            QList<TComputings::TMoonDay2> moonDays (TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,
+                                                                                  QDateTime(d1,QTime(0,0)),QDateTime(d2,QTime(23,59,59,999)),height));
 
-            // ----рассчёт для периода времени----
-            quint32 c (0);
-            while (d1 <= d2)
+            // количество строк таблицы
+            ui->tableWidget->setRowCount(moonDays.size());
+
+            for (qint32 i = 0; i < moonDays.size(); ++i)
             {
-                // время восхода Луны
-                QTime moonRise (TComputings::moonTimeRise(longitude,latitude,timeZoneOffset,d1));
-                moonRise = TComputings::roundToMinTime(moonRise);
-
-                // время захода Луны
-                QTime moonSet (TComputings::moonTimeSet(longitude,latitude,timeZoneOffset,d1));
-                moonSet = TComputings::roundToMinTime(moonSet);
-
-                // время зенита Луны
-                bool aboveHorizont;
-                QTime moonTransit (TComputings::moonTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset,d1));
-                moonTransit = TComputings::roundToMinTime(moonTransit);
-
-                // лунный день номер
-                quint32 moonDayNum (TComputings::moonTimeMoonDayNum(longitude,latitude,timeZoneOffset,d1));
-                QString moonDayNumStr (QString::number(moonDayNum));
-                if (0 == moonDayNum)
-                    moonDayNumStr = "-";
-                else if ((2 == moonDayNum) && (TComputings::prevMoonDayNum() > 1))
-                    moonDayNumStr = "1-2";
-                else if ((1 == moonDayNum) && (29 == TComputings::prevMoonDayNum()))
-                    moonDayNumStr = "30-1";
-                else if ((1 == moonDayNum) && (30 == TComputings::prevMoonDayNum()) && (moonRise < TComputings::nextNewMoon().time()))
-                    moonDayNumStr = "31-1";
-
-                // фаза %
-                qint32 moonPhase (TComputings::moonTimePhase(d1));
-                QString moonPhaseStr (QString::number(moonPhase));
-                if (-1 == moonPhase)
-                    moonPhaseStr = "-";
-                else
-                    moonPhaseStr += "%";
-
-                // Новолуние
-                QTime newMoon;
+                // довычисления
+                qint32 moonPhase (TComputings::moonTimePhase(moonDays.at(i).rise.date()));
+                QString moonPhaseStr ("-");
                 QString newMoonStr ("-");
-                if (d1 == TComputings::prevNewMoon().date())
-                    newMoon = TComputings::prevNewMoon().time();
-                else if (d1 == TComputings::nextNewMoon().date())
-                    newMoon = TComputings::nextNewMoon().time();
-                if (true == newMoon.isValid())
-                    newMoonStr = newMoon.toString("hh:mm");
+                if (moonPhase >= 0)
+                    moonPhaseStr = QString::number(moonPhase)+"%";
 
                 //добавление в таблицу
-//                ui->tableWidget->setItem(c,0,new QTableWidgetItem(QString::number(c+1)));
-                ui->tableWidget->setItem(c,0,new QTableWidgetItem(d1.toString("dd.MM.yyyy")));
-                ui->tableWidget->setItem(c,1,new QTableWidgetItem(moonRise.toString("hh:mm")));
-                ui->tableWidget->setItem(c,2,new QTableWidgetItem(moonSet.toString("hh:mm")));
-                if (true == aboveHorizont)
-                    ui->tableWidget->setItem(c,3,new QTableWidgetItem(moonTransit.toString("hh:mm")));
-                else
-                    ui->tableWidget->setItem(c,3,new QTableWidgetItem("под горизонтом"));
-                ui->tableWidget->setItem(c,4,new QTableWidgetItem(moonDayNumStr));
-                ui->tableWidget->setItem(c,5,new QTableWidgetItem(moonPhaseStr));
-                ui->tableWidget->setItem(c,6,new QTableWidgetItem(newMoonStr));
-
-                // следующая дата
-                d1 = d1.addDays(1);
-                ++c;
+                ui->tableWidget->setItem(i,0,new QTableWidgetItem(moonDays.at(i).num));
+                ui->tableWidget->setItem(i,1,new QTableWidgetItem(moonDays.at(i).rise.toString("dd.MM.yyyy hh:mm")));
+                ui->tableWidget->setItem(i,2,new QTableWidgetItem(moonDays.at(i).set.toString("dd.MM.yyyy hh:mm")));
+                ui->tableWidget->setItem(i,3,new QTableWidgetItem(moonDays.at(i).transit.toString("dd.MM.yyyy hh:mm")));
+                ui->tableWidget->setItem(i,4,new QTableWidgetItem(moonPhaseStr));
+                if (true == moonDays.at(i).newMoon.isValid())
+                    newMoonStr = moonDays.at(i).newMoon.toString("dd.MM.yyyy hh:mm");
+                    ui->tableWidget->setItem(i,5,new QTableWidgetItem(newMoonStr));
             }
         }
 
@@ -423,10 +378,9 @@ void DialogTableView::on_pushButtonCalculate_clicked()
 
         // расширение столбцов под содержимое
         ui->tableWidget->resizeColumnsToContents();
+
         // разблокирование интерфейса
         setCursor(mouseCursor);
-//        ui->pushButtonCalculate->setDisabled(false);
-//        ui->pushButtonSaveAs->setDisabled(false);
         setEnabled(true);
     }
     else

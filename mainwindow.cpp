@@ -424,115 +424,31 @@ void MainWindow::showMoonTime()
     double latitude (settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok));
     double longitude (-1*settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
     double timeZoneOffset (settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok));
+    double height (settings.value(DialogSettings::heightSettingName()).toDouble(&ok));
 
     // рассчёты и вывод информации
     if (true == ok)
     {
-        // простые лунные дни вокруг текущей даты
-        QList<TComputings::TMoonDay> currentMoonDays (TComputings::moonTimeRiseTransitSet(longitude,latitude,timeZoneOffset));
-
-        // время захода Луны
-//        QTime moonSet (TComputings::moonTimeSet(longitude,latitude,timeZoneOffset));
-
-        // время восхода Луны
-//        QTime moonRise (TComputings::moonTimeRise(longitude,latitude,timeZoneOffset));
-
-        // время высшей точки Луны (зенит)
-//        bool aboveHorizont;
-//        QTime moonTransit (TComputings::moonTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset));
-
-        // предыдущее новолуние
-//        QDateTime previousNewMoon (TComputings::moonTimeFindPreviousNewMoon(timeZoneOffset));
-//        if (false == previousNewMoon.isValid())
-//            qWarning() << "MainWindow::showMoonTime" << "invalid previousNewMoon";
-
-//        // следующее новолуние
-//        QDateTime nextNewMoon (TComputings::moonTimeFindNextNewMoon(timeZoneOffset));
-//        if (false == nextNewMoon.isValid())
-//            qWarning() << "MainWindow::showMoonTime" << "invalid nextNewMoon";
-
         // лунные дни
-//        QList<TComputings::TMoonDay2> moonDays(TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
-//                                                                             QDateTime::currentDateTimeUtc().addDays(1)));
+        QList<TComputings::TMoonDay2> moonDays(TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
+                                                                             QDateTime::currentDateTimeUtc().addDays(1),height));
+        for (qint32 i = 0; i < moonDays.size(); ++i)
+        {
+            // округление до минуты
+            moonDays[i].rise.setTime(TComputings::roundToMinTime(moonDays.at(i).rise.time()));
+            moonDays[i].set.setTime(TComputings::roundToMinTime(moonDays.at(i).set.time()));
+            moonDays[i].transit.setTime(TComputings::roundToMinTime(moonDays.at(i).transit.time()));
 
-        // ближайший лунный день
-//        QPair<quint8, QPair<QDateTime,QDateTime> > nearestMoonDay (TComputings::moonTimeNearestMoonDay(longitude,latitude,timeZoneOffset));
-//        if (false == nearestMoonDay.second.second.isValid())
-//            qWarning() << "MainWindow::showMoonTime" << "invalid nearestMoonDay";
-
-        // новолуния на год вперёд
-//        QList<QDateTime> newMoonForYear (TComputings::moonTimeFindNewMoonForYear(timeZoneOffset));
-
-        // простые лунные дни
-//        QList<TComputings::TMoonDay> moonDaysSimple (TComputings::moonTimeMoonDaysFast(longitude,latitude,timeZoneOffset));
-
-        // вывести информацию о Луне
-        ui->textEditMoonDate->clear();
-//        ui->textEditMoonDate->append(QDate::currentDate().toString("dd.MM.yyyy"));
-//        ui->textEditMoonDate->append("");
-//        ui->textEditMoonDate->append(TComputings::toStringMoonTimeInfo(moonSet,moonRise,moonTransit));
-
-//        ui->textEditMoonDate->append("Предыдущее новолуние: " + previousNewMoon.toString("dd.MM.yyyy hh:mm"));
-//        ui->textEditMoonDate->append("Следующее новолуние: " + nextNewMoon.toString("dd.MM.yyyy hh:mm"));
-//        ui->textEditMoonDate->append("Ближайший лунный день: "+QString::number(nearestMoonDay.first));
-//        ui->textEditMoonDate->append("Начало: "+nearestMoonDay.second.first.toString("dd.MM.yyyy hh:mm"));
-//        ui->textEditMoonDate->append("Конец: "+nearestMoonDay.second.second.toString("dd.MM.yyyy hh:mm"));
-//        ui->textEditMoonDate->append("");
-
-//        ui->textEditMoonDate->append("Лунные дни:");
-//        for (qint32 i = 0; i < moonDays.size(); ++i)
-//            ui->textEditMoonDate->append(moonDays.at(i).rise.toString("dd.MM.yyyy hh:mm")+" - "+moonDays.at(i).set.toString("dd.MM.yyyy hh:mm"));
-//        ui->textEditMoonDate->append("Новолуния на год");
-//        ui->textEditMoonDate->append("");
-//        foreach (const QDateTime& newMoon, newMoonForYear)
-//            ui->textEditMoonDate->append(newMoon.toString("dd.MM.yyyy hh:mm"));
-//        ui->textEditMoonDate->append("Лунные дни (простые)");
-//        ui->textEditMoonDate->append("");
-//        foreach (const TComputings::TMoonDay& moonDay, moonDaysSimple)
-//        {
-//            ui->textEditMoonDate->append(moonDay.date.toString("dd.MM.yyyy"));
-//            ui->textEditMoonDate->append("Восход: "+moonDay.rise.toString("hh:mm"));
-//            ui->textEditMoonDate->append("Заход: "+moonDay.set.toString("hh:mm"));
-//            ui->textEditMoonDate->append("Зенит: "+moonDay.transit.toString("hh:mm"));
-//            if (false == moonDay.transitAboveHorizont)
-//                ui->textEditMoonDate->append("Зенит под горизонтом");
-//            ui->textEditMoonDate->append("");
-//        }
-        ui->textEditMoonDate->append(currentMoonDays.first().date.toString("dd.MM.yyyy")+","+currentMoonDays.at(1).date.toString("dd.MM.yyyy")+\
-                                     ",\n"+currentMoonDays.last().date.toString("dd.MM.yyyy")+"*");
-        ui->textEditMoonDate->append("");
-        ui->textEditMoonDate->append("Восход: "+currentMoonDays.first().rise.toString("hh:mm"));
-        ui->textEditMoonDate->append("Заход: "+currentMoonDays.first().set.toString("hh:mm"));
-        ui->textEditMoonDate->append("Зенит: "+currentMoonDays.first().transit.toString("hh:mm"));
-        if (false == currentMoonDays.first().transitAboveHorizont)
-            ui->textEditMoonDate->append("зенит под горизонтом");
-        ui->textEditMoonDate->append("");
-        ui->textEditMoonDate->append("Восход: "+currentMoonDays.at(1).rise.toString("hh:mm"));
-        ui->textEditMoonDate->append("Заход: "+currentMoonDays.at(1).set.toString("hh:mm"));
-        ui->textEditMoonDate->append("Зенит: "+currentMoonDays.at(1).transit.toString("hh:mm"));
-        if (false == currentMoonDays.at(1).transitAboveHorizont)
-            ui->textEditMoonDate->append("зенит под горизонтом");
-        // номер лунного дня
-        TComputings::moonTimeMoonDayNum(longitude,latitude,timeZoneOffset,QDate::currentDate().addDays(-1));
-        quint32 moonDayNum (TComputings::moonTimeMoonDayNum(longitude,latitude,timeZoneOffset));
-        QString moonDayNumStr (QString::number(moonDayNum));
-        if (0 == moonDayNum)
-            moonDayNumStr = "-";
-        else if ((2 == moonDayNum) && (TComputings::prevMoonDayNum() > 1))
-            moonDayNumStr = "1-2";
-        else if ((1 == moonDayNum) && (29 == TComputings::prevMoonDayNum()))
-            moonDayNumStr = "30-1";
-        else if ((1 == moonDayNum) && (30 == TComputings::prevMoonDayNum()) && (currentMoonDays.at(1).rise < TComputings::nextNewMoon().time()))
-            moonDayNumStr = "31-1";
-        ui->textEditMoonDate->append("Лунный день номер: "+moonDayNumStr);
-        ui->textEditMoonDate->append("Фаза: "+QString::number(TComputings::moonTimePhase())+"%");
-        ui->textEditMoonDate->append("");
-        ui->textEditMoonDate->append("Восход: "+currentMoonDays.last().rise.toString("hh:mm"));
-        ui->textEditMoonDate->append("Заход: "+currentMoonDays.last().set.toString("hh:mm"));
-        ui->textEditMoonDate->append("Зенит: "+currentMoonDays.last().transit.toString("hh:mm"));
-        if (false == currentMoonDays.at(1).transitAboveHorizont)
-            ui->textEditMoonDate->append("зенит под горизонтом");
-        ui->textEditMoonDate->append("");
+            ui->textEditMoonDate->append("Номер: "+moonDays.at(i).num+"\nВосход: "+moonDays.at(i).rise.toString("dd.MM.yyyy  hh:mm")+\
+                                         "\nЗаход:  "+moonDays.at(i).set.toString("dd.MM.yyyy  hh:mm")+"\nЗенит:  "+moonDays.at(i).transit.toString("dd.MM.yyyy  hh:mm"));
+            ui->textEditMoonDate->append("Фаза: "+QString::number(TComputings::moonTimePhase(moonDays.at(i).rise.date()))+"%");
+            if (true == moonDays.at(i).newMoon.isValid())
+            {
+                moonDays[i].newMoon.setTime(TComputings::roundToMinTime(moonDays.at(i).newMoon.time()));
+                ui->textEditMoonDate->append("Новолуние: "+moonDays.at(i).newMoon.toString("dd.MM.yyyy  hh:mm"));
+            }
+            ui->textEditMoonDate->append("");
+        }
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());
@@ -637,6 +553,7 @@ void MainWindow::showSvara()
             ui->tableWidgetSvaras->item(svaras.at(i).num-1,1)->setTextColor(itemTextColor);
             if ((QTime::currentTime() >= svaras.at(i).begin) && (QTime::currentTime() < svaras.at(i).end))
             {
+                // текущая свара
                 ui->tableWidgetSvaras->item(svaras.at(i).num-1,0)->setBackgroundColor("gray");
                 ui->tableWidgetSvaras->item(svaras.at(i).num-1,1)->setBackgroundColor("gray");
 
@@ -735,22 +652,6 @@ MainWindow::MainWindow(QWidget *parent) :
         // настройки пусты, нужно запустить диалог настроек
         showSettingsDialog();
     }
-//    bool ok;
-//    double latitude (settings.value("latitude").toDouble(&ok));
-//    double longitude (-1*settings.value("longitude").toDouble(&ok));
-//    double height (settings.value("height").toDouble(&ok));
-//    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
-
-//    if (true != ok)
-//    {
-//        // не получилось загрузить данные из настроек программы, использовать значения по умолчанию
-//        showSettingsDialog();
-
-//        latitude = 55.7541;
-//        longitude = -1*37.6204;
-//        timeZoneOffset = 3.;
-//        height = 0;
-//    }
 
     // отобразить сегодня в календаре-виджете
     ui->calendarWidgetGregorian->showToday();
@@ -777,134 +678,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // запустить таймер для обновления времени
     m_Timer.start(timerInterval);
 
-    // текущие титхи
-//    qDebug() << "Текущая титха";
-//    qDebug() << TTitha::findCurrentTitha(3).asCurTithiStr();
-//    qDebug() << TTitha::searchForCurrentTitha(3).asCurTithiStr();
-
-//    qDebug() << "offsetFromUtc" << QDateTime::currentDateTime().timeZone().offsetFromUtc(QDateTime::currentDateTime());
-
-    // ведический год
-//    qDebug() << "год от начала Кали-юги" << TVedicCalendar::gregorianToVedicKaliYuga(QDate::currentDate().year());
-//    qDebug() << "год от начала Маха-юги" << TVedicCalendar::formatLongYearWithDots(TVedicCalendar::gregorianToVedicMahaYuga(QDate::currentDate().year()));
-//    qDebug() << "год от начала Манвантары" << TVedicCalendar::formatLongYearWithDots(TVedicCalendar::gregorianToVedicManvantara(QDate::currentDate().year()));
-//    qDebug() << "год от начала Кальпы" << TVedicCalendar::formatLongYearWithDots(TVedicCalendar::gregorianToVedicKalpa(QDate::currentDate().year()));
-//    qDebug() << "год от начала МахаКальпы" << TVedicCalendar::formatLongYearWithDots(TVedicCalendar::gregorianToVedicMahaKalpa(QDate::currentDate().year()));
-
-    // список титх
-//    QDateTime dt (QDateTime::currentDateTimeUtc());
-//    QList<TTitha> tithi = TTitha::findTithi(dt, dt.addYears(1),3);
-//    qint64 len (0);
-//    qint64 shukla (0);
-//    qint64 krshna (0);
-
-//    qDebug() << "Список титх";
-//    for (QList<TTitha>::const_iterator i = tithi.begin(); i < tithi.end(); ++i)
-//    {
-//        qDebug() << (*i).asTithiStrExt();
-//        len = (*i).beginDateTime().secsTo((*i).endDateTime());
-//        qDebug() << "продолжительность" << len / 3600.;
-//        if (true == (*i).paksha())
-//            shukla += len;
-//        else
-//            krshna += len;
-//    }
-//    qDebug() << "продолжительность шукла-пакши" << shukla / 3600.;
-//    qDebug() << "продолжительность кришна-пакши" << krshna / 3600.;
-//    if (shukla > krshna)
-//        qDebug() << "шукла - кршна" << (shukla - krshna) / 3600.;
-//    else
-//        qDebug() << "кршна - шукла" << (krshna - shukla) / 3600.;
-
-//    // экадаши
-//    QList<TTitha> ekadashi = TTitha::findEkadashi(dt,dt.addMonths(1),3);
-
-//    qDebug() << "Список экадашей";
-//    for (QList<TTitha>::const_iterator i = ekadashi.begin(); i < ekadashi.end(); ++i)
-//    {
-//        qDebug() << (*i).asEkadashStr();
-//    }
-
-    // геогр. широта и долгота значения по умолчанию для Москвы на лето 2014 года
-//    double latitude = 56.323388;
-//    double longitude = -38.134657;
-
-//    // время восхода Солнца
-//    QTime sunRise;
-//    sunRise = TComputings::sunTimeRise(longitude,latitude,3);
-//    qDebug() << "sunRise" << sunRise;
-
-//    // время захода Солнца
-//    QTime sunSet;
-//    sunSet = TComputings::sunTimeSet(longitude,latitude,3);
-//    qDebug() << "sunSet" << sunSet;
-
-//    // высшая точка Солнца (зенит)
-//    QTime sunTransit;
-//    bool aboveHorizont;
-//    sunTransit = TComputings::sunTimeTransit(longitude,latitude,aboveHorizont,3);
-//    qDebug() << "sunTransit" << sunTransit << ((true == aboveHorizont) ? "above horizont" : "under horizont");
-
-//    // время восхода Луны
-//    QTime moonRise (TComputings::moonTimeRise(longitude,latitude,3));
-//    qDebug() << "moonRise" << moonRise;
-
-//    // время захода Луны
-//    QTime moonSet (TComputings::moonTimeSet(longitude,latitude,3));
-//    qDebug() << "moonSet" << moonSet;
-
-//    // время высшей точки Луны (зенит)
-//    QTime moonTransit (TComputings::moonTimeTransit(longitude,latitude,aboveHorizont,3));
-//    qDebug() << "moonTransit" << moonTransit << ((true == aboveHorizont) ? "above horizont" : "under horizont");
-
-//    // горизонтальные координаты Солнца сейчас
-//    QPair <double,double> horizontalCoords (TComputings::sunHorizontalCoords(longitude,latitude));
-//    qDebug() << "horizontalCoords" << horizontalCoords;
-
-//    // утренние гражданские сумерки сегодня
-//    QPair<QTime,QTime> morningCivilTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,250,3));
-//    qDebug() << "morningСivilTwilight" << morningCivilTwilight.first << "-" << morningCivilTwilight.second;
-
-//    // утренние навигационные сумерки
-//    QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,250,3,static_cast<double>(TComputings::navigation)));
-//    qDebug() << "morningNavigationTwilight" << morningNavigationTwilight.first << "-" << morningNavigationTwilight.second;
-
-//    // утренние астрономические сумерки
-//    QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,250,3,static_cast<double>(TComputings::astronomical)));
-//    qDebug() << "morningAstronomicalTwilight" << morningAstronomicalTwilight.first << "-" << morningAstronomicalTwilight.second;
-
-//    // утренние сумерки (сандхья), как 1/10 часть от половины суток
-//    QPair<QTime,QTime> morningSandhya(TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,3));
-//    qDebug() << "morningSandhya" << morningSandhya.first << "-" << morningSandhya.second;
-
-//    // утренние сумерки (сандхья), как 1/10 часть от светового дня
-//    QPair<QTime,QTime> morningSandhya2(TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,3));
-//    qDebug() << "morningSandhya2" << morningSandhya2.first << "-" << morningSandhya2.second;
-
-//    // вечерние гражданские сумерки сегодня
-//    QPair<QTime,QTime> eveningCivilTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,250,3));
-//    qDebug() << "eveningCivilTwilight" << eveningCivilTwilight.first << "-" << eveningCivilTwilight.second;
-
-//    // вечерние навигационные сумерки
-//    QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,250,3,static_cast<double>(TComputings::navigation)));
-//    qDebug() << "eveningNavigationTwilight" << eveningNavigationTwilight.first << "-" << eveningNavigationTwilight.second;
-
-//    // вечерние астрономические сумерки
-//    QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,250,3,static_cast<double>(TComputings::astronomical)));
-//    qDebug() << "eveningAstronomicalTwilight" << eveningAstronomicalTwilight.first << "-" << eveningAstronomicalTwilight.second;
-
-//    // спец. сумерки
-//    QPair<QTime,QTime> specTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,250,3,-55.D));
-//    qDebug() << "specTwilight" << specTwilight.first << "-" << specTwilight.second;
-
-//    // вывести вычисленную информацию по Солнцу
-//    ui->textEditSunTime->append(TComputings::toStringSunTimeInfo(sunRise,sunSet,sunTransit));
-//    ui->textEditSunTime->append(TComputings::toStringSunTimeInfo2(morningCivilTwilight,morningNavigationTwilight,morningAstronomicalTwilight));
-//    ui->textEditSunTime->append(TComputings::toStringSunTimeInfo2(eveningCivilTwilight,eveningNavigationTwilight,eveningAstronomicalTwilight,false));
-
-//    QTextCursor textCursorToBegin (ui->textEditSunTime->textCursor());
-//    textCursorToBegin.movePosition(QTextCursor::Start);
-//    ui->textEditSunTime->setTextCursor(textCursorToBegin);
 
     // ---отладочная---
     bool ok;
@@ -932,36 +705,32 @@ MainWindow::MainWindow(QWidget *parent) :
 //        }
 
         // список лунных дней
-        QList<TComputings::TMoonDay2> moonDays (TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
-                                                                              QDateTime::currentDateTimeUtc().addDays(1), height));
+//        QList<TComputings::TMoonDay2> moonDays (TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
+//                                                                              QDateTime::currentDateTimeUtc().addDays(1), height));
 
-        for (qint32 i = 0; i < moonDays.size(); ++i)
-        {
-            moonDays[i].rise.setTime(TComputings::roundToMinTime(moonDays[i].rise.time()));
-            moonDays[i].set.setTime(TComputings::roundToMinTime(moonDays[i].set.time()));
-            moonDays[i].transit.setTime(TComputings::roundToMinTime(moonDays[i].transit.time()));
-        }
+//        for (qint32 i = 0; i < moonDays.size(); ++i)
+//        {
+//            moonDays[i].rise.setTime(TComputings::roundToMinTime(moonDays[i].rise.time()));
+//            moonDays[i].set.setTime(TComputings::roundToMinTime(moonDays[i].set.time()));
+//            moonDays[i].transit.setTime(TComputings::roundToMinTime(moonDays[i].transit.time()));
+//        }
 
-        qDebug() << "moonDays";
-        debug << "moonDays";
-        for (qint32 i = 0; i < moonDays.size(); ++i)
-        {
+//        qDebug() << "moonDays";
+//        debug << "moonDays";
+//        for (qint32 i = 0; i < moonDays.size(); ++i)
+//        {
+//            qDebug() << "num" << moonDays.at(i).num;
+//            qDebug() << "rise" << moonDays.at(i).rise.toString("dd MMMM yyyy hh:mm");
+//            qDebug() << "set" << moonDays.at(i).set.toString("dd MMMM yyyy hh:mm");
+//            qDebug() << "transit" << moonDays.at(i).transit.toString("dd MMMM yyyy hh:mm");
+//            qDebug() << "";
 
-
-            qDebug() << "num" << moonDays.at(i).num;
-            qDebug() << "rise" << moonDays.at(i).rise.toString("dd MMMM yyyy hh:mm");
-            qDebug() << "set" << moonDays.at(i).set.toString("dd MMMM yyyy hh:mm");
-            qDebug() << "transit" << moonDays.at(i).transit.toString("dd MMMM yyyy hh:mm");
-//            qDebug() << "transitAboveHorizont" << moonDays.at(i).transitAboveHorisont;
-            qDebug() << "";
-
-            debug << "num" << moonDays.at(i).num << endl;
-            debug << "rise" << moonDays.at(i).rise.toString("dd MMMM yyyy hh:mm") << endl;
-            debug << "set" << moonDays.at(i).set.toString("dd MMMM yyyy hh:mm") << endl;
-            debug << "transit" << moonDays.at(i).transit.toString("dd MMMM yyyy hh:mm") << endl;
-            debug << "transitAboveHorizont" << QString::number(static_cast<qint32>(moonDays.at(i).transitAboveHorisont)) << endl;
-            debug << endl;
-        }
+//            debug << "num" << moonDays.at(i).num << endl;
+//            debug << "rise" << moonDays.at(i).rise.toString("dd MMMM yyyy hh:mm") << endl;
+//            debug << "set" << moonDays.at(i).set.toString("dd MMMM yyyy hh:mm") << endl;
+//            debug << "transit" << moonDays.at(i).transit.toString("dd MMMM yyyy hh:mm") << endl;
+//            debug << endl;
+//        }
 
         debugFile.close();
     }

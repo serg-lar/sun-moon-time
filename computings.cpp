@@ -997,8 +997,7 @@ QList<TComputings::TMoonDay2> TComputings::moonTimeMoonDays(const double longitu
             else if ((false == moonDay.transit.isValid()) && (prevYCoord > 0) /*&& (hCoords.second > 0)*/ && (hCoords.second < prevYCoord))
             {
                 // Зенит Луны на предыдущем шаге                
-                moonDay.transit = dt1;
-                moonDay.transitAboveHorisont = true;
+                moonDay.transit = dt1;                
             }
             else if ((prevYCoord >= 0) && (hCoords.second < 0))
             {
@@ -1010,6 +1009,7 @@ QList<TComputings::TMoonDay2> TComputings::moonTimeMoonDays(const double longitu
                 {
                     // дата новолуния
                     QDateTime newMoon (fromListByDate(newMoonList,moonDay.rise.date()));
+                    moonDay.newMoon = newMoon.addSecs(secsInMin*minsInHour*timeZoneOffset);
                     if (newMoon < moonDay.rise)
                     {
                         // новолуние до восхода Луны
@@ -1021,11 +1021,14 @@ QList<TComputings::TMoonDay2> TComputings::moonTimeMoonDays(const double longitu
                         // новолуние между восходом и заходом Луны
                         switch (moonDayNum)
                         {
+                        case 29:
+                            moonDay.num = "29-1";
+                            break;
                         case 30:
                             moonDay.num = "30-1";
                             break;
                         case 31:
-                            moonDay.num = "31-1";
+                            moonDay.num = "31-1";   // скорее всего не реально
                             break;
                         case 1:
                             moonDay.num = "1";
@@ -1061,7 +1064,7 @@ QList<TComputings::TMoonDay2> TComputings::moonTimeMoonDays(const double longitu
                 moonDay.rise = QDateTime();
                 moonDay.set = QDateTime();
                 moonDay.transit = QDateTime();
-                moonDay.transitAboveHorisont = false;
+                moonDay.newMoon = QDateTime();
             }            
 
             // подготовка к следующему шагу
@@ -1070,11 +1073,6 @@ QList<TComputings::TMoonDay2> TComputings::moonTimeMoonDays(const double longitu
             // шаг
             dt1 = dt1.addMSecs(+step);
         }
-    }
-
-    if ((0 == result.size()) && (true == moonDay.rise.isValid()) && (false == moonDay.set.isValid()))
-    {
-        // вариант когда Луна всё время под горизонтом...
     }
 
     // удаление лишних элементов, не входящих в заданные временные рамки
@@ -1308,7 +1306,7 @@ QPair<double, double> TComputings::moonHorizontalCoords(const double longitude, 
         double LongtitudeAsHourAngle = CAACoordinateTransformation::DegreesToHours(longitude);
         double LocalHourAngle = AST - LongtitudeAsHourAngle - MoonTopo.X;
         CAA2DCoordinate MoonHorizontal = CAACoordinateTransformation::Equatorial2Horizontal(LocalHourAngle, MoonTopo.Y, latitude);
-    //    MoonHorizontal.Y += CAARefraction::RefractionFromTrue(MoonHorizontal.Y, 1013, 10);
+//        MoonHorizontal.Y += CAARefraction::RefractionFromTrue(MoonHorizontal.Y);
 
         result.first = MoonHorizontal.X;
         result.second = MoonHorizontal.Y;
