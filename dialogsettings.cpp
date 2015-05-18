@@ -128,6 +128,16 @@ bool DialogSettings::loadSettings()
     quint32 ekadashWarnTimeBefore (settings.value(ekadashWarnTimeBeforeSettingName()).toUInt(&ok));
     bool ekadashWarnRequireConfirmation (settings.value(ekadashWarnRequireConfirmationSettingName()).toBool());
 
+    // состояние автозапуска при загрузке ОС
+#ifdef Q_OS_WIN32
+        QSettings autoStartSetting ("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+                                    QSettings::NativeFormat);
+        if (true == autoStartSetting.contains(QApplication::applicationName()))
+            ui->checkBoxAutoStartUp->setChecked(true);
+        else
+            ui->checkBoxAutoStartUp->setChecked(false);
+#endif
+
     if (true == ok)
     {
         // отобразить настройки в интерфейсе
