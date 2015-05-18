@@ -88,8 +88,9 @@ void DialogSettings::processNetworkReply(QNetworkReply* reply)
                     // ошибка выполнения запроса обращения в службу высот гугл карт
                     qWarning() << "DialogSettings::processNetworkReply" << "google maps elevation API" << status;
             }
-            // ответ на неизвестный запрос
-            qWarning() << "DialogSettings::processNetworkReply" << "reply for unknown request";
+            else
+                // ответ на неизвестный запрос
+                qWarning() << "DialogSettings::processNetworkReply" << "reply for unknown request";
         }
         else
         {

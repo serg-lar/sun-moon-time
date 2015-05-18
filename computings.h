@@ -225,9 +225,16 @@ public:
 
     /// \brief найти даты-время новолуний на год вперёд
     /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// @param dt - UTC дата-время, относительно которой начать поиск
+    /// @param dateTime - UTC дата-время, относительно которой начать поиск
     /// @retval список дат-время следующего новолуния (с учётом часового пояса), в случае неудачи пустой список
     static QList<QDateTime> moonTimeFindNewMoonForYear(const double timeZoneOffset = 0, const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
+
+    /// \brief найти новолуния за заданный период времени
+    /// @param dateTime1 - UTC дата-время начала поисков
+    /// @param dateTime2 - UTC дата-время завершения поисков
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @retval список дат-времени новолуний
+    static QList<QDateTime> moonTimeFindNewMoonForPeriod(const QDateTime& dateTime1, const QDateTime& dateTime2, const double timeZoneOffset = 0);
 
 
     // лунный день - восход, заход, зенит
@@ -291,10 +298,11 @@ public:
     /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
     /// @param dt1 - UTC дата-время для начала отсчёта
     /// @param dt2 - UTC дата-время для завершения отсчёта
+    /// @param height - высота над уровнем моря
     /// @retval список лунных дней, пустой список в случае неудачи
     static QList<TMoonDay2> moonTimeMoonDays(const double longitude, const double latitude, const double timeZoneOffset = 0,
                                                                const QDateTime& dateTime1 = moonTimeFindPreviousNewMoon(),
-                                                               const QDateTime& dateTime2 = QDateTime::currentDateTimeUtc());
+                                                               const QDateTime& dateTime2 = QDateTime::currentDateTimeUtc(), const double height = 0);
 
     /// \brief вычислить ближайший лунный день
     /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)

@@ -745,6 +745,8 @@ QList<TTitha> TTitha::findEkadashi(const QDateTime& dateTime1, const QDateTime& 
             if (11 == titha.num())
                 ekadashi.append(titha);
 
+            dt1 = titha.endDateTime(); // начать поиск от конца уже определённой титхи!
+
             while (dt1 <= dt2)
             {
                 tithaN = tithaNum(dt1);

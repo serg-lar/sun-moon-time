@@ -724,14 +724,42 @@ QList<QDateTime> TComputings::moonTimeFindNewMoonForYear(const double timeZoneOf
         while (dt <= dateTime.addYears(1))
         {
             // поиск следующего новолуния и занесение в список результата, если подходит во временные рамки
-            QDateTime subResult (moonTimeFindNextNewMoon(timeZoneOffset,dt));
+            QDateTime subResult (moonTimeFindNextNewMoon(UtcOffset,dt));
             if ((true == subResult.isValid()) && (subResult <= dateTime.addYears(1)))
-                result << subResult;
-            dt = dt.addDays(29);    // чуть меньше продолжительности лунного месяца
+                result << subResult.addSecs(static_cast<qint64>(secsInMin*minsInHour*timeZoneOffset));
+            dt = dt.addDays(29);    // шаг чуть меньше продолжительности лунного месяца
         }
     }
 
-    // удаление повторяющихся элементов и сортировка
+    // удаление повторяющихся элементов и сортировка по возрастанию
+    QSet<QDateTime> unique (result.toSet());
+    result = QList<QDateTime>::fromSet(unique);
+    std::sort(result.begin(),result.end());
+
+    return result;
+}
+//---------------------------
+
+QList<QDateTime> TComputings::moonTimeFindNewMoonForPeriod(const QDateTime& dateTime1, const QDateTime& dateTime2, const double timeZoneOffset)
+{
+    QList<QDateTime> result;
+
+    // проверка входных данных
+    if ((true == isTimeZoneOffsetValid(timeZoneOffset)) && (true == dateTime1.isValid()) && (true == dateTime2.isValid()) && (dateTime2 > dateTime1))
+    {
+        QDateTime dt (dateTime1);
+
+        while (dt <= dateTime2)
+        {
+            // поиск новолуния и занесение его в список результатов
+            QDateTime nextNewMoon (moonTimeFindNextNewMoon(UtcOffset,dt));
+            if ((true == nextNewMoon.isValid()) && (nextNewMoon < dateTime2))
+                result << nextNewMoon.addSecs(static_cast<qint64>(secsInMin*minsInHour*timeZoneOffset));
+            dt = dt.addDays(29);        // шаг чуть меньше продолжительности лунного месяца
+        }
+    }
+
+    // удаление повторяющихся элементов и сортировка по возрастанию
     QSet<QDateTime> unique (result.toSet());
     result = QList<QDateTime>::fromSet(unique);
     std::sort(result.begin(),result.end());
@@ -846,8 +874,16 @@ quint32 TComputings::moonTimeMoonDayNum(const double longitude, const double lat
                 // --сегодня "следующее" новолуние--
                 if (m_nextNewMoon.time() < moonDayToday.rise)
                     result = 2;   // второй лунный день
-                else if (m_nextNewMoon.time() >= moonDayToday.rise)
+                else if ((m_nextNewMoon.time() >= moonDayToday.rise) && (m_nextNewMoon.time() <= moonDayToday.set))
                     result = 1;   // первый лунный день
+                else if (m_nextNewMoon.time() > moonDayToday.set)
+                {
+                    // новолуние после захода луны
+                    result = moonDayPNewMoon.date.daysTo(date) + 1;
+                    // если новолуние случилось раньше восхода, то добавить ещё один день, образовавшийся в этот временной промежуток
+                    if (m_previousNewMoon.time() < moonDayPNewMoon.rise)
+                        result++;
+                }
             }
             else
             {
@@ -859,9 +895,6 @@ quint32 TComputings::moonTimeMoonDayNum(const double longitude, const double lat
             }
         }
     }
-
-    if ((1 == result) || (2 == result))
-        int y = 85;
 
     // кэширование
     m_PrevMoonDayNum = m_MoonDayNum;
@@ -903,8 +936,36 @@ qint32 TComputings::moonTimePhase(const QDate& date)
 }
 //---------------------------
 
+// ф-ия утилита для метода moonTimeMoonDays
+// определяет содержит ли список дат-времени заданную дату
+bool containsDate(const QList<QDateTime>& list, const QDate& date)
+{
+    bool result (false);
+
+    for (qint32 i = 0; i < list.size(); ++i)
+        if (list.at(i).date() == date)
+            result = true;
+
+    return result;
+}
+//---------------------------
+
+// ф-ия утилита для метода moonTimeMoonDays
+// возвращает первую найденную дату-время из списка по заданной дате
+QDateTime fromListByDate(const QList<QDateTime>& list, const QDate& date)
+{
+    QDateTime result;
+
+    for (qint32 i = 0; i < list.size(); ++i)
+        if (list.at(i).date() == date)
+            result = list.at(i);
+
+    return result;
+}
+//---------------------------
+
 QList<TComputings::TMoonDay2> TComputings::moonTimeMoonDays(const double longitude, const double latitude, const double timeZoneOffset,
-                                                            const QDateTime& dateTime1, const QDateTime& dateTime2)
+                                                            const QDateTime& dateTime1, const QDateTime& dateTime2, const double height)
 {
     QList<TMoonDay2> result;
     TMoonDay2 moonDay;
@@ -915,37 +976,86 @@ QList<TComputings::TMoonDay2> TComputings::moonTimeMoonDays(const double longitu
     {
         QDateTime dt1 (moonTimeFindPreviousNewMoon(UtcOffset,dateTime1));
         QDateTime dt2 (moonTimeFindNextNewMoon(UtcOffset,dateTime2));
-        quint32 step (msecsInSec*secsInMin);
-        double prevYCoord (moonHorizontalCoords(longitude,latitude,0,dt1).second);
+        QList<QDateTime> newMoonList (moonTimeFindNewMoonForPeriod(dt1,dt2,UtcOffset));
+        qint32 step (msecsInSec*secsInMin);
+        double prevYCoord (moonHorizontalCoords(longitude,latitude,height,dt1).second);
         quint32 moonDayNum (1);
 
-        moonDay.rise = dt1.addMSecs(+msecsInSec*secsInMin*minsInHour*timeZoneOffset); // начало первого лунного дня в новолуние
-        dt1 = dt1.addMSecs(+step); // шаг
+        moonDay.rise = dt1;             // начало первого лунного дня примем в новолуние
+        dt1 = dt1.addMSecs(+step);      // шаг
 
         while (dt1 <= dt2)
         {
-            QPair<double,double> hCoords (moonHorizontalCoords(longitude,latitude,UtcOffset,dt1));
+            QPair<double,double> hCoords (moonHorizontalCoords(longitude,latitude,0,dt1));
 
             if ((prevYCoord < 0) && (hCoords.second >= 0))
             {
                 // Восход Луны
-                moonDay.rise = dt1.addMSecs(+msecsInSec*secsInMin*minsInHour*timeZoneOffset);
+                moonDay.rise = dt1;
                 ++moonDayNum;
             }
-            else if ((prevYCoord > 0) && (hCoords.second > 0) && (hCoords.second < prevYCoord))
+            else if ((false == moonDay.transit.isValid()) && (prevYCoord > 0) /*&& (hCoords.second > 0)*/ && (hCoords.second < prevYCoord))
             {
-                // Зенит Луны на предыдущем шаге
-                moonDay.transit = dt1.addMSecs(-step+msecsInSec*secsInMin*minsInHour*timeZoneOffset);
+                // Зенит Луны на предыдущем шаге                
+                moonDay.transit = dt1;
                 moonDay.transitAboveHorisont = true;
             }
             else if ((prevYCoord >= 0) && (hCoords.second < 0))
             {
                 // Заход Луны
-                moonDay.set = dt1.addMSecs(+msecsInSec*secsInMin*minsInHour*timeZoneOffset);
+                moonDay.set = dt1;
+
+                // определить номер лунного дня
+                if (true == containsDate(newMoonList,moonDay.rise.date()))
+                {
+                    // дата новолуния
+                    QDateTime newMoon (fromListByDate(newMoonList,moonDay.rise.date()));
+                    if (newMoon < moonDay.rise)
+                    {
+                        // новолуние до восхода Луны
+                        moonDay.num = "1-2";
+                        moonDayNum = 2;
+                    }
+                    else if ((newMoon >= moonDay.rise) && (newMoon <= moonDay.set))
+                    {
+                        // новолуние между восходом и заходом Луны
+                        switch (moonDayNum)
+                        {
+                        case 30:
+                            moonDay.num = "30-1";
+                            break;
+                        case 31:
+                            moonDay.num = "31-1";
+                            break;
+                        case 1:
+                            moonDay.num = "1";
+                            break;
+                        }
+                        moonDayNum = 1;
+                    }
+                    else if (newMoon > moonDay.set)
+                    {
+                        // новолуние после захода Луны
+                        moonDay.num = QString::number(moonDayNum);
+                        moonDayNum = 1;
+                    }
+                }
+                else
+                {
+                    // дата не новолуние
+                    moonDay.num = QString::number(moonDayNum);
+                }
 
                 // добавить в список
                 if ((true == moonDay.rise.isValid()) && (true == moonDay.set.isValid()) && (true == moonDay.transit.isValid()))
-                    result << moonDay;
+                {
+                    // смещение часового пояса
+                    moonDay.rise = moonDay.rise.addSecs(static_cast<qint64>(secsInMin*minsInHour*timeZoneOffset));
+                    moonDay.set = moonDay.set.addSecs(static_cast<qint64>(secsInMin*minsInHour*timeZoneOffset));
+                    moonDay.transit = moonDay.transit.addSecs(static_cast<qint64>(secsInMin*minsInHour*timeZoneOffset));
+
+                    result << moonDay;          // нормальный лунный день
+                }
 
                 // сбросить значения
                 moonDay.rise = QDateTime();
@@ -1182,7 +1292,7 @@ QPair<double, double> TComputings::moonHorizontalCoords(const double longitude, 
     if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) && (true == dateTime.isValid()))
     {
         CAADate d (dateTime.date().year(),dateTime.date().month(),dateTime.date().day(),
-                   dateTime.time().hour(),dateTime.time().minute(),dateTime.time().second() + dateTime.time().msec()/msecsInSec,true);
+                   dateTime.time().hour(),dateTime.time().minute(),dateTime.time().second() + dateTime.time().msec()/static_cast<double>(msecsInSec),true);
 
         double JD = d.Julian();
         double JDMoon = CAADynamicalTime::UTC2TT(JD);
@@ -1192,9 +1302,9 @@ QPair<double, double> TComputings::moonHorizontalCoords(const double longitude, 
         CAA2DCoordinate moonCoord = CAACoordinateTransformation::Ecliptic2Equatorial(lambda, beta, epsilon);
 
         double MoonRad = CAAMoon::RadiusVector(JDMoon);
-        MoonRad /= 149597870.691; //Convert KM to AU
+//        MoonRad /= 149597870.691; //Convert KM to AU
         CAA2DCoordinate MoonTopo = CAAParallax::Equatorial2Topocentric(moonCoord.X, moonCoord.Y, MoonRad, longitude, latitude, height, JDMoon);
-        double AST = CAASidereal::ApparentGreenwichSiderealTime(d.Julian());
+        double AST = CAASidereal::ApparentGreenwichSiderealTime(JD);
         double LongtitudeAsHourAngle = CAACoordinateTransformation::DegreesToHours(longitude);
         double LocalHourAngle = AST - LongtitudeAsHourAngle - MoonTopo.X;
         CAA2DCoordinate MoonHorizontal = CAACoordinateTransformation::Equatorial2Horizontal(LocalHourAngle, MoonTopo.Y, latitude);
