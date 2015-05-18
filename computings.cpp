@@ -977,7 +977,7 @@ QList<TComputings::TMoonDay2> TComputings::moonTimeMoonDays(const double longitu
         QDateTime dt1 (moonTimeFindPreviousNewMoon(UtcOffset,dateTime1));
         QDateTime dt2 (moonTimeFindNextNewMoon(UtcOffset,dateTime2));
         QList<QDateTime> newMoonList (moonTimeFindNewMoonForPeriod(dt1,dt2,UtcOffset));
-        qint32 step (msecsInSec*secsInMin);
+        qint32 step (msecsInSec*secsInMin/2);
         double prevYCoord (moonHorizontalCoords(longitude,latitude,height,dt1).second);
         quint32 moonDayNum (1);
 

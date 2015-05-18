@@ -62,6 +62,9 @@ void MainWindow::updateTime()
         }
     }
 
+    QDateTime dt (QDateTime::currentDateTimeUtc()); // необходимая уловка, чтобы не происходило внутренних конвертаций времени в соответствии с установленным часовым поясом
+    dt.setDate(QDateTime::currentDateTime().date());
+    dt.setTime(QDateTime::currentDateTime().time());
     if (QDate::currentDate() != m_Date)
     {
         // обновить информацию о Солнце и Луне привязанную к дате
@@ -70,7 +73,7 @@ void MainWindow::updateTime()
         showSvara();
         needUpdateSvaras = false;
     }
-    if (QDateTime::currentDateTime() >= m_currentTitha.endDateTime())
+    if (dt >= m_currentTitha.endDateTime())
     {
         // обновить информацию по титхам
         showTithi();
@@ -105,9 +108,13 @@ void MainWindow::updateTime()
             if (true == ok)
             {
                 if ((true == ekadashWarn) && (false == mf_ekadashWarned))
-                {
-                    if ((10 == m_currentTitha.num()) &&
-                            (QDateTime::currentDateTime().secsTo(m_currentTitha.endDateTime()) <= static_cast<qint64>(ekadashWarnTimeBefore*60*60)))
+                {                    
+                    QDateTime dt (QDateTime::currentDateTimeUtc()); // необходимая уловка, чтобы не происходило внутренних конвертаций времени в соответствии с установленным часовым поясом
+                    dt.setDate(QDateTime::currentDateTime().date());
+                    dt.setTime(QDateTime::currentDateTime().time());
+                    if (((10 == m_currentTitha.num()) &&
+                            (dt.secsTo(m_currentTitha.endDateTime()) <= static_cast<qint64>(ekadashWarnTimeBefore*60*60))) ||
+                            (11 == m_currentTitha.num()))
                     {
                         // необходимо оповестить о начале экадаша
                         m_TrayIcon.showMessage("Экадаш","Начало: "+m_currentTitha.endDateTime().toString("dd MMMM yyyy hh:mm"));
@@ -123,7 +130,7 @@ void MainWindow::updateTime()
                         mf_ekadashWarned = true;
                     }
                     else if ((true == ekadashWarnAfter) && (12 == m_currentTitha.num()) &&
-                             (m_currentTitha.beginDateTime().secsTo(QDateTime::currentDateTime()) >= static_cast<qint64>(ekadashWarnTimeBefore*60*60)))
+                             (m_currentTitha.beginDateTime().secsTo(dt) >= static_cast<qint64>(ekadashWarnTimeBefore*60*60)))
                     {
                         // необходимо оповестить о завершении экадаша
                         m_TrayIcon.showMessage("Экадаш","Конец: "+m_currentTitha.beginDateTime().toString("dd MMMM yyyy hh:mm"));
@@ -131,8 +138,8 @@ void MainWindow::updateTime()
                         QSound::play(":/sounds/OM_NAMO_NARAYANA.wav");
                         if (true == ekadashWarnRequireConfirmation)
                         {
-                            QMessageBox msgBox;
-                            msgBox.setText("Экадаш завершается");
+                            QMessageBox msgBox;                            
+                            msgBox.setText("Экадаш завершился");
                             msgBox.exec();
                         }
 
@@ -560,7 +567,8 @@ void MainWindow::showTithi()
         m_currentTitha = curTitha;
 
         // сбросить флаг предупрежедния о экадаше
-        mf_ekadashWarned = false;
+        if (11 != m_currentTitha.num())
+            mf_ekadashWarned = false;
 
         ui->textEditTithi->clear();
         if (true == ui->checkBoxTithiPrintUtc->isChecked())
