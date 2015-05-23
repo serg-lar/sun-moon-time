@@ -289,6 +289,8 @@ public:
         QDateTime transit;
         QDateTime newMoon;
         QString num;
+
+        bool operator ==(const TMoonDay2& rv) const;
     };
     //---------------------------
 

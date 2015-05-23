@@ -37,7 +37,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <attribute name="title">
@@ -155,9 +155,7 @@ QGroupBox::title
              <string notr="true">QToolTip
 {
 	padding: 1;
-	background: black;
 	font: bold;
-	color: white;
 }</string>
             </property>
             <property name="text">
@@ -192,8 +190,6 @@ QGroupBox::title
 QToolTip
 {
 	padding: 3;
-	background: gray;
-	color: white;
 	font: bold;
 }</string>
             </property>
@@ -660,7 +656,7 @@ QToolTip
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>211</width>
+        <width>221</width>
         <height>411</height>
        </rect>
       </property>
@@ -715,7 +711,7 @@ QToolTip
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -70,9 +70,12 @@ void MainWindow::updateTime()
     {
         // обновить информацию о Солнце и Сварах привязанную к дате
         showSunTime();
-//        showMoonTime();
         showSvara();
         needUpdateSvaras = false;
+
+        // возможно необходимо попробовать обновить информацию о Лунном дне
+        if (dt > m_currentMoonDays.last().rise)
+            showMoonTime();
     }
     if (dt >= m_currentTitha.endDateTime())
     {
@@ -82,7 +85,8 @@ void MainWindow::updateTime()
     if (false == m_currentMoonDays.isEmpty())
     {
         // если текущая дата-время перевалило за рассвет последнего лунного дня, то пересчитать новые лунные дни
-        if (dt > m_currentMoonDays.last().rise)
+        // второе условие необходимо, чтобы избежать зависания программы в бесконечном перерасчёте одного и того же результата
+        if ((dt > m_currentMoonDays.last().rise) && (m_currentMoonDays != m_PrevMoonDays))
             showMoonTime();
     }
 
@@ -370,61 +374,70 @@ void MainWindow::showSunTime()
     // рассчёты и вывод информации
     if (true == ok)
     {
+
         // время восхода Солнца
         QTime sunRise (TComputings::sunTimeRise(longitude,latitude,timeZoneOffset));
-        m_currentSunRise = TComputings::roundToMinTime(sunRise);
+        if (true == sunRise.isValid())
+            m_currentSunRise = TComputings::roundToMinTime(sunRise);
 
         // время захода Солнца
         QTime sunSet (TComputings::sunTimeSet(longitude,latitude,timeZoneOffset));
-        m_currentSunSet = TComputings::roundToMinTime(sunSet);
+        if (true == sunSet.isValid())
+            m_currentSunSet = TComputings::roundToMinTime(sunSet);
 
-        // высшая точка Солнца (зенит)
-        bool aboveHorizont;
-        QTime sunTransit (TComputings::sunTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset));
+        if ((true == sunRise.isValid()) && (true == sunSet.isValid()) && (sunSet > sunRise))
+        {
+            // высшая точка Солнца (зенит)
+            bool aboveHorizont;
+            QTime sunTransit (TComputings::sunTimeTransit(longitude,latitude,aboveHorizont,timeZoneOffset));
 
-        // утренние гражданские сумерки сегодня
-        QPair<QTime,QTime> morningCivilTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset));
+            // утренние гражданские сумерки сегодня
+            QPair<QTime,QTime> morningCivilTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset));
 
-        // утренние навигационные сумерки (до восхода)
-        QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,static_cast<double>(TComputings::navigationTwilight)));
+            // утренние навигационные сумерки (до восхода)
+            QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,static_cast<double>(TComputings::navigationTwilight)));
 
-        // утренние астрономические сумерки (до восхода)
-        QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,static_cast<double>(TComputings::astronomicalTwilight)));
+            // утренние астрономические сумерки (до восхода)
+            QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,static_cast<double>(TComputings::astronomicalTwilight)));
 
-        // утренние сумерки (сандхья), как 1/10 часть от половины суток
-        QPair<QTime,QTime> morningSandhya(TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunRise,timeZoneOffset));
+            // утренние сумерки (сандхья), как 1/10 часть от половины суток
+            QPair<QTime,QTime> morningSandhya(TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunRise,timeZoneOffset));
 
-        // утренние сумерки (сандхья), как 1/10 часть от светового дня
-        QPair<QTime,QTime> morningSandhya2(TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset));
+            // утренние сумерки (сандхья), как 1/10 часть от светового дня
+            QPair<QTime,QTime> morningSandhya2(TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset));
 
-        // вечерние гражданские сумерки сегодня
-        QPair<QTime,QTime> eveningCivilTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset));
+            // вечерние гражданские сумерки сегодня
+            QPair<QTime,QTime> eveningCivilTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset));
 
-        // вечерние навигационные сумерки (от захода)
-        QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,static_cast<double>(TComputings::navigationTwilight)));
+            // вечерние навигационные сумерки (от захода)
+            QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,static_cast<double>(TComputings::navigationTwilight)));
 
-        // вечерние астрономические сумерки (от захода)
-        QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,static_cast<double>(TComputings::astronomicalTwilight)));
+            // вечерние астрономические сумерки (от захода)
+            QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,static_cast<double>(TComputings::astronomicalTwilight)));
 
-        // вечерние сумерки (сандхья), как 1/10 часть от половины суток
-        QPair<QTime,QTime> eveningSandhya (TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunSet,timeZoneOffset,false));
+            // вечерние сумерки (сандхья), как 1/10 часть от половины суток
+            QPair<QTime,QTime> eveningSandhya (TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunSet,timeZoneOffset,false));
 
-        // вечерние сумерки (сандхья), как 1/10 часть от светового дня
-        QPair<QTime,QTime> eveningSandhya2 (TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset,false));
+            // вечерние сумерки (сандхья), как 1/10 часть от светового дня
+            QPair<QTime,QTime> eveningSandhya2 (TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset,false));
 
-        // вывести вычисленную информацию по Солнцу (восход, зенит, заход)
-        ui->textEditSunTime->clear();
-        ui->textEditSunTime->append(TComputings::toStringSunTimeInfo(sunRise,sunSet,sunTransit));
+            // вывести вычисленную информацию по Солнцу (восход, зенит, заход)
+            ui->textEditSunTime->clear();
+            ui->textEditSunTime->append(TComputings::toStringSunTimeInfo(sunRise,sunSet,sunTransit));
 
-        // вывести информацию по Солнцу 2 (утренние сумерки), во избежание расхождения в несколько секунд время восхода/захода берётся ранее вычисленное
-        ui->textEditSunTime->append(TComputings::toStringSunTimeInfo2(morningCivilTwilight,morningNavigationTwilight,morningAstronomicalTwilight));
+            // вывести информацию по Солнцу 2 (утренние сумерки), во избежание расхождения в несколько секунд время восхода/захода берётся ранее вычисленное
+            ui->textEditSunTime->append(TComputings::toStringSunTimeInfo2(morningCivilTwilight,morningNavigationTwilight,morningAstronomicalTwilight));
 
-        // вывести информацию по Солнцу 2 (вечерние сумерки), во избежание расхождения в несколько секунд время восхода/захода берётся ранее вычисленное
-        ui->textEditSunTime->append(TComputings::toStringSunTimeInfo2(eveningCivilTwilight,eveningNavigationTwilight,eveningAstronomicalTwilight,false));
+            // вывести информацию по Солнцу 2 (вечерние сумерки), во избежание расхождения в несколько секунд время восхода/захода берётся ранее вычисленное
+            ui->textEditSunTime->append(TComputings::toStringSunTimeInfo2(eveningCivilTwilight,eveningNavigationTwilight,eveningAstronomicalTwilight,false));
 
-        // вывести информацию по Солнцу 3 (Сандхьи)
-        ui->textEditSunTime->append(TComputings::toStringSunTimeInfo3(morningSandhya,morningSandhya2));
-        ui->textEditSunTime->append(TComputings::toStringSunTimeInfo3(eveningSandhya,eveningSandhya2,false));
+            // вывести информацию по Солнцу 3 (Сандхьи)
+            ui->textEditSunTime->append(TComputings::toStringSunTimeInfo3(morningSandhya,morningSandhya2));
+            ui->textEditSunTime->append(TComputings::toStringSunTimeInfo3(eveningSandhya,eveningSandhya2,false));
+        }
+        else
+            ui->textEditSunTime->append("Полярный(ая) день(ночь)");
+
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditSunTime->textCursor());
@@ -455,6 +468,7 @@ void MainWindow::showMoonTime()
     // рассчёты и вывод информации
     if (true == ok)
     {
+
         // заблокировать интерфейс
         setDisabled(true);
         repaint();
@@ -463,7 +477,9 @@ void MainWindow::showMoonTime()
         // лунные дни
         QList<TComputings::TMoonDay2> moonDays(TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
                                                                              QDateTime::currentDateTimeUtc().addDays(2),height));
-        m_currentMoonDays = moonDays;   // сохранение текущих лунных дней
+        // сохранение текущих лунных дней
+        m_PrevMoonDays = m_currentMoonDays;
+        m_currentMoonDays = moonDays;
 
         ui->textEditMoonDate->clear();
         for (qint32 i = 0; i < moonDays.size(); ++i)
@@ -483,6 +499,10 @@ void MainWindow::showMoonTime()
             }
             ui->textEditMoonDate->append("");
         }
+        if (0 == moonDays.size())
+        {
+            ui->textEditMoonDate->append("Отсутствует");
+        }
 
         // разблокировать интерфейс
         setEnabled(true);
@@ -492,6 +512,7 @@ void MainWindow::showMoonTime()
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());
         textCursorToBegin.movePosition(QTextCursor::Start);
         ui->textEditMoonDate->setTextCursor(textCursorToBegin);
+
     }
     else
     {
@@ -572,9 +593,16 @@ void MainWindow::showSvara()
             svaras = TComputings::sunMoonTimeSvaraList(longitude,latitude,timeZoneOffset);
 
         // вывод в таблицу
-        ui->tableWidgetSvaras->setColumnCount(2);
-        ui->tableWidgetSvaras->setRowCount(svaras.size());
-        ui->tableWidgetSvaras->setHorizontalHeaderLabels(QString("Тип,Время").split(","));
+        ui->tableWidgetSvaras->clear();
+        ui->tableWidgetSvaras->setColumnCount(0);
+        ui->tableWidgetSvaras->setRowCount(0);
+
+        if (svaras.size() > 0)
+        {
+            ui->tableWidgetSvaras->setColumnCount(2);
+            ui->tableWidgetSvaras->setHorizontalHeaderLabels(QString("Тип,Время").split(","));
+            ui->tableWidgetSvaras->setRowCount(svaras.size());
+        }
 
         for (qint32 i = 0; i < svaras.size(); ++i)
         {
@@ -606,20 +634,21 @@ void MainWindow::showSvara()
                     ui->tabWidget->setTabText(2,"Солнечная свара до "+svaras.at(i).end.toString("hh:mm"));
                     ui->tabWidget->tabBar()->setTabTextColor(2,"purple");
                 }
-            }
+            }            
         }
 
         // Время от захода и до рассвета свара не определена
         if ((true == m_currentSunRise.isValid()) && (true == m_currentSunSet.isValid()) && ((QTime::currentTime() < m_currentSunRise) || (QTime::currentTime() > m_currentSunSet)))
         {
             ui->tabWidget->setTabText(2,"Свара не определена");
+            ui->tabWidget->tabBar()->setTabTextColor(2,ui->tabWidget->tabBar()->tabTextColor(0));
         }
         else if ((QTime::currentTime() < TComputings::sunTimeRise(longitude,latitude,timeZoneOffset)) ||
                  (QTime::currentTime() > TComputings::sunTimeSet(longitude,latitude,timeZoneOffset)))
         {
             ui->tabWidget->setTabText(2,"Свара не определена");
+            ui->tabWidget->tabBar()->setTabTextColor(2,ui->tabWidget->tabBar()->tabTextColor(0));
         }
-
 
         // вся таблица только для чтения, выравнивание текста по центру
         for (qint32 i = 0; i < ui->tableWidgetSvaras->rowCount(); ++i)

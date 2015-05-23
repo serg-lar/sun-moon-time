@@ -170,10 +170,13 @@ QPair<QTime,QTime> TComputings::sunTimeMorningTwilight(const double longitude, c
 QPair<QTime,QTime> TComputings::sunTimeMorningTwilight(const double longitude, const double latitude, const QTime& sunRise, const double height,
                                                        const double timeZoneOffset, const double degree, const QDate& date)
 {
-    QPair<QTime, QTime> result;
-    QDateTime dt (date,sunRise.addMSecs(-1*msecsInSec*secsInMin*minsInHour*timeZoneOffset));         // UTC время восхода для начала поиска
+    QPair<QTime, QTime> result;    
+    QDateTime dt (QDateTime::currentDateTimeUtc());                         // уловка, необходимая для правильной инициализации
+    dt.setDate(date);
+    dt.setTime(sunRise);
+    dt = dt.addMSecs(-1*msecsInSec*secsInMin*minsInHour*timeZoneOffset);    // UTC время заката для начала поиска
     QPair<double, double> horizontalCoords, prevHorizontalCoords;
-    qint64 step = -1*msecsInSec*secsInMin;                                                           // начальный шаг поиска примем в минуту времени
+    qint64 step = -1*msecsInSec*secsInMin;                                  // начальный шаг поиска примем в минуту времени
 
     // проверка входных данных
     if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) && (true == isTimeZoneOffsetValid(timeZoneOffset)) &&
@@ -336,9 +339,12 @@ QPair<QTime,QTime> TComputings::sunTimeEveningTwilight(const double longitude, c
                                                        const double timeZoneOffset, const double degree, const QDate& date)
 {
     QPair<QTime, QTime> result;
-    QDateTime dt (date,sunSet.addMSecs(-1*msecsInSec*secsInMin*minsInHour*timeZoneOffset));      // UTC время заката для начала поиска
+    QDateTime dt (QDateTime::currentDateTimeUtc());                         // уловка, необходимая для правильной инициализации
+    dt.setDate(date);
+    dt.setTime(sunSet);
+    dt = dt.addMSecs(-1*msecsInSec*secsInMin*minsInHour*timeZoneOffset);    // UTC время заката для начала поиска
     QPair<double, double> horizontalCoords, prevHorizontalCoords;
-    qint64 step = msecsInSec*secsInMin;                                                          // начальный шаг поиска примем в минуту времени
+    qint64 step = msecsInSec*secsInMin;                                     // начальный шаг поиска примем в минуту времени
 
     // проверка входных данных
     if ((longitude >= -180) && (longitude <= 180) && (latitude >= -90) && (latitude <= 90) && (true == isTimeZoneOffsetValid(timeZoneOffset)) &&
@@ -936,6 +942,17 @@ qint32 TComputings::moonTimePhase(const QDate& date)
 }
 //---------------------------
 
+bool TComputings::TMoonDay2::operator == (const TComputings::TMoonDay2& rv) const
+{
+    bool result (true);
+
+    if ((this->num != rv.num) || (this->rise != rv.rise) || (this->set != rv.set) || (this->transit != rv.transit))
+        result = false;
+
+    return result;
+}
+//---------------------------
+
 // ф-ия утилита для метода moonTimeMoonDays
 // определяет содержит ли список дат-времени заданную дату
 bool containsDate(const QList<QDateTime>& list, const QDate& date)
@@ -1174,7 +1191,7 @@ QList<TComputings::TSvara> TComputings::sunMoonTimeSvaraList(const QTime& sunRis
     // проверка входных данных
     if ((true == sunRise.isValid()) && (true == sunSet.isValid()))
     {
-        QTime t (sunRise);
+        QTime t (sunRise);        
         quint32 c (0);
 
         // расчёт свар продолжительностью по полтара часа
@@ -1192,8 +1209,10 @@ QList<TComputings::TSvara> TComputings::sunMoonTimeSvaraList(const QTime& sunRis
                 svara.end = sunSet;
 
             svaras << svara;
-
-            t = t.addSecs(secsInMin*minsInHour*1.5);
+            if (t.secsTo(sunSet) > secsInMin*minsInHour*1.5)
+                t = t.addSecs(secsInMin*minsInHour*1.5);
+            else
+                t = sunSet;
             ++c;
         }
     }
@@ -1370,6 +1389,10 @@ QString TComputings::toStringSunTimeInfo(const QTime& rise, const QTime& set, co
         result += "Зенит: " + sunTransit.toString(QString("hh:mm")) + "\n";
         result += "Долгота дня: " + (QTime::fromMSecsSinceStartOfDay(sunRise.secsTo(sunSet)*msecsInSec)).toString(QString("hh:mm"));
     }
+    else if ((false == rise.isValid()) && (false == set.isValid()))
+    {
+        result += "Полярный(ая) день(ночь)";
+    }
 
     return result;
 }
@@ -1443,10 +1466,10 @@ QString TComputings::toStringSunTimeInfo3(const QPair<QTime,QTime>& sandhyaAsDay
 
         // Сандхья как 1/10 часть от суток
         QPair<QTime,QTime> sandhyaDay2;
-        int offset = ((sandhyaDay.second.msecsSinceStartOfDay() - sandhyaDay.first.msecsSinceStartOfDay()) * 2);
+        int offset = (sandhyaDay.first.msecsTo(sandhyaDay.second) * 2);
         if (true == morningTwilight)
         {
-            sandhyaDay2.first = QTime::fromMSecsSinceStartOfDay(sandhyaDay.second.msecsSinceStartOfDay() - offset);
+            sandhyaDay2.first = sandhyaDay.second.addMSecs(-offset);
             sandhyaDay2.second = sandhyaDay.second;
         }
         else
@@ -1465,14 +1488,41 @@ QString TComputings::toStringSunTimeInfo3(const QPair<QTime,QTime>& sandhyaAsDay
         if (true == morningTwilight)
         {
             result += "\nУтренняя сандхья\n";
+            result += "Сандхья как 1/10 от половины суток: ";
+            if ((sandhyaDay.second < QTime(12,00)) && (sandhyaDay.first > QTime(12,00)))
+                result += "---\n";
+            else
+                result += sandhyaDay.first.toString(QString("hh:mm")) + " - " + sandhyaDay.second.toString(QString("hh:mm")) + "\n";
+            result += "Сандхья как 1/10 от суток: ";
+            if ((sandhyaDay2.second < QTime(12,00)) && (sandhyaDay2.first > QTime(12,00)))
+                result += "---\n";
+            else
+                result += sandhyaDay2.first.toString(QString("hh:mm")) + " - " + sandhyaDay2.second.toString(QString("hh:mm")) + "\n";
+            result += "Сандхья как 1/10 от светового дня: ";
+            if ((sandhyaAsLightDayPart.second < QTime(12,00)) && (sandhyaAsLightDayPart.first > QTime(12,00)))
+                result += "---\n";
+            else
+                result += sandhyaLightDay.first.toString(QString("hh:mm")) + " - " + sandhyaLightDay.second.toString(QString("hh:mm"));
         }
         else
         {
             result += "\nВечерняя сандхья\n";
+            result += "Сандхья как 1/10 от половины суток: ";
+            if ((sandhyaDay.first > QTime(12,00)) && (sandhyaDay.second < QTime(12,00)))
+                result += "---\n";
+            else
+                result += sandhyaDay.first.toString(QString("hh:mm")) + " - " + sandhyaDay.second.toString(QString("hh:mm")) + "\n";
+            result += "Сандхья как 1/10 от суток: ";
+            if ((sandhyaDay2.first > QTime(12,00)) && (sandhyaDay2.second < QTime(12,00)))
+                result += "---\n";
+            else
+                result += sandhyaDay2.first.toString(QString("hh:mm")) + " - " + sandhyaDay2.second.toString(QString("hh:mm")) + "\n";
+            result += "Сандхья как 1/10 от светового дня: ";
+            if ((sandhyaAsLightDayPart.first > QTime(12,00)) && (sandhyaAsLightDayPart.second < QTime(12,00)))
+                result += "---\n";
+            else
+             result += sandhyaLightDay.first.toString(QString("hh:mm")) + " - " + sandhyaLightDay.second.toString(QString("hh:mm"));
         }
-        result += "Сандхья как 1/10 от половины суток: " + sandhyaDay.first.toString(QString("hh:mm")) + " - " + sandhyaDay.second.toString(QString("hh:mm")) + "\n";
-        result += "Сандхья как 1/10 от суток: " + sandhyaDay2.first.toString(QString("hh:mm")) + " - " + sandhyaDay2.second.toString(QString("hh:mm")) + "\n";
-        result += "Сандхья как 1/10 от светового дня: " + sandhyaLightDay.first.toString(QString("hh:mm")) + " - " + sandhyaLightDay.second.toString(QString("hh:mm"));
     }
 
     return result;

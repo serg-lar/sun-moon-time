@@ -88,11 +88,12 @@ private:
     Ui::MainWindow*               ui;                          ///< интерфейс
     QTimer                        m_Timer;                     ///< таймер для обновления времени
     quint32                       m_cTimer;                    ///< счётчик срабатываний таймера
-    QDate                         m_currentDate;                      ///< дата на момент срабатывания таймера
+    QDate                         m_currentDate;               ///< дата на момент срабатывания таймера
     QTime                         m_currentSunRise;            ///< время текущего восхода Солнца
     QTime                         m_currentSunSet;             ///< время текущего захода Солнца
     TTitha                        m_currentTitha;              ///< текущая титха
     QList<TComputings::TMoonDay2> m_currentMoonDays;           ///< список текущих лунных дней
+    QList<TComputings::TMoonDay2> m_PrevMoonDays;              ///< предыдущий список лунных дней
     bool                          mf_ekadashWarned;            ///< оповещение о экадаше произведено
     QSystemTrayIcon               m_TrayIcon;                  ///< значок приложения на панели (в трее)
     QMenu                         m_TrayIconMenu;              ///< контекстное меню для значка в трее

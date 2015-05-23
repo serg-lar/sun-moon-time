@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     // подгрузка русских переводов для элементов Qt
     QTranslator translator(&a);
     bool result (false);
-    result = translator.load("qtbase_ru");
+    result = translator.load(QApplication::applicationDirPath()+"/"+"qtbase_ru");
     result = a.installTranslator(&translator);
     if (false == result)
         qWarning() << "main" << "load translator error";
