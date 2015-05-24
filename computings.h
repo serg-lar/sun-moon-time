@@ -306,6 +306,18 @@ public:
                                                                const QDateTime& dateTime1 = moonTimeFindPreviousNewMoon(),
                                                                const QDateTime& dateTime2 = QDateTime::currentDateTimeUtc(), const double height = 0);
 
+    /// \brief вычислить список "лунных дней", (дата-время начала и завершения дня) расширенный вариант с учётом поведения Луны в приполярье
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param dt1 - UTC дата-время для начала отсчёта
+    /// @param dt2 - UTC дата-время для завершения отсчёта
+    /// @param height - высота над уровнем моря
+    /// @retval список лунных дней, пустой список в случае неудачи
+    static QList<TMoonDay2> moonTimeMoonDaysExt(const double longitude, const double latitude, const double timeZoneOffset = 0,
+                                                const QDateTime& dateTime1 = moonTimeFindPreviousNewMoon(),
+                                                const QDateTime& dateTime2 = QDateTime::currentDateTimeUtc(), const double height = 0);
+
     /// \brief вычислить ближайший лунный день
     /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
     /// @param latitude - геогр. широта

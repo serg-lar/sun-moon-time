@@ -333,6 +333,14 @@ DialogSettings::DialogSettings(QWidget *parent) :
     // загрузить интерфейс
     ui->setupUi(this);
 
+    // сброс кнопок с "авто-умолчания", чтобы окно диалога не захлопывалось при нажатии ENTER
+    QList<QAbstractButton* > buttons (ui->buttonBox->buttons());
+    for (qint32 i = 0; i < buttons.size(); ++i)
+    {
+        static_cast<QPushButton*>(buttons[i])->setAutoDefault(false);
+        static_cast<QPushButton*>(buttons[i])->setDefault(false);
+    }
+
     // автозапуск при загрузке ОС доступен пока только в windows
 #ifdef Q_OS_WIN
     ui->checkBoxAutoStartUp->setEnabled(true);

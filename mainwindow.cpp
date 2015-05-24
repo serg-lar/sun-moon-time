@@ -436,7 +436,10 @@ void MainWindow::showSunTime()
             ui->textEditSunTime->append(TComputings::toStringSunTimeInfo3(eveningSandhya,eveningSandhya2,false));
         }
         else
+        {
+            ui->textEditSunTime->clear();
             ui->textEditSunTime->append("Полярный(ая) день(ночь)");
+        }
 
 
         // позицию текстового курсора в начало
@@ -468,6 +471,7 @@ void MainWindow::showMoonTime()
     // рассчёты и вывод информации
     if (true == ok)
     {
+        /*
 
         // заблокировать интерфейс
         setDisabled(true);
@@ -477,6 +481,8 @@ void MainWindow::showMoonTime()
         // лунные дни
         QList<TComputings::TMoonDay2> moonDays(TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
                                                                              QDateTime::currentDateTimeUtc().addDays(2),height));
+        QList<TComputings::TMoonDay2> moonDaysExt (TComputings::moonTimeMoonDaysExt(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
+                                                                                    QDateTime::currentDateTimeUtc().addDays(2),height));
         // сохранение текущих лунных дней
         m_PrevMoonDays = m_currentMoonDays;
         m_currentMoonDays = moonDays;
@@ -489,6 +495,7 @@ void MainWindow::showMoonTime()
             moonDays[i].set.setTime(TComputings::roundToMinTime(moonDays.at(i).set.time()));
             moonDays[i].transit.setTime(TComputings::roundToMinTime(moonDays.at(i).transit.time()));
 
+
             ui->textEditMoonDate->append("Номер: "+moonDays.at(i).num+"\nВосход: "+moonDays.at(i).rise.toString("dd.MM.yyyy  hh:mm")+\
                                          "\nЗаход:  "+moonDays.at(i).set.toString("dd.MM.yyyy  hh:mm")+"\nЗенит:  "+moonDays.at(i).transit.toString("dd.MM.yyyy  hh:mm"));
             ui->textEditMoonDate->append("Фаза: "+QString::number(TComputings::moonTimePhase(moonDays.at(i).rise.date()))+"%");
@@ -497,9 +504,33 @@ void MainWindow::showMoonTime()
                 moonDays[i].newMoon.setTime(TComputings::roundToMinTime(moonDays.at(i).newMoon.time()));
                 ui->textEditMoonDate->append("Новолуние: "+moonDays.at(i).newMoon.toString("dd.MM.yyyy  hh:mm"));
             }
-            ui->textEditMoonDate->append("");
+            ui->textEditMoonDate->append("");            
         }
         if (0 == moonDays.size())
+        {
+            ui->textEditMoonDate->append("Отсутствует");
+            ui->textEditMoonDate->append("");
+        }
+
+
+        ui->textEditMoonDate->append("Расширенные");
+        for (qint32 i = 0; i < moonDaysExt.size(); ++i)
+        {
+            // округление до минуты
+            moonDaysExt[i].rise.setTime(TComputings::roundToMinTime(moonDaysExt.at(i).rise.time()));
+            moonDaysExt[i].set.setTime(TComputings::roundToMinTime(moonDaysExt.at(i).set.time()));
+            moonDaysExt[i].transit.setTime(TComputings::roundToMinTime(moonDaysExt.at(i).transit.time()));
+
+            ui->textEditMoonDate->append("Номер: "+moonDaysExt.at(i).num+"\nВосход: "+moonDaysExt.at(i).rise.toString("dd.MM.yyyy  hh:mm")+\
+                                         "\nЗаход:  "+moonDaysExt.at(i).set.toString("dd.MM.yyyy  hh:mm")+"\nЗенит:  "+moonDaysExt.at(i).transit.toString("dd.MM.yyyy  hh:mm"));
+            ui->textEditMoonDate->append("Фаза: "+QString::number(TComputings::moonTimePhase(moonDaysExt.at(i).rise.date()))+"%");
+            if (true == moonDaysExt.at(i).newMoon.isValid())
+            {
+                moonDaysExt[i].newMoon.setTime(TComputings::roundToMinTime(moonDaysExt.at(i).newMoon.time()));
+                ui->textEditMoonDate->append("Новолуние: "+moonDaysExt.at(i).newMoon.toString("dd.MM.yyyy  hh:mm"));
+            }
+        }
+        if (0 == moonDaysExt.size())
         {
             ui->textEditMoonDate->append("Отсутствует");
         }
@@ -513,6 +544,7 @@ void MainWindow::showMoonTime()
         textCursorToBegin.movePosition(QTextCursor::Start);
         ui->textEditMoonDate->setTextCursor(textCursorToBegin);
 
+        */
     }
     else
     {
