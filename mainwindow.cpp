@@ -471,7 +471,6 @@ void MainWindow::showMoonTime()
     // рассчёты и вывод информации
     if (true == ok)
     {
-        /*
 
         // заблокировать интерфейс
         setDisabled(true);
@@ -479,41 +478,13 @@ void MainWindow::showMoonTime()
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
         // лунные дни
-        QList<TComputings::TMoonDay2> moonDays(TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
-                                                                             QDateTime::currentDateTimeUtc().addDays(2),height));
         QList<TComputings::TMoonDay2> moonDaysExt (TComputings::moonTimeMoonDaysExt(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
                                                                                     QDateTime::currentDateTimeUtc().addDays(2),height));
         // сохранение текущих лунных дней
         m_PrevMoonDays = m_currentMoonDays;
-        m_currentMoonDays = moonDays;
+        m_currentMoonDays = moonDaysExt;
 
         ui->textEditMoonDate->clear();
-        for (qint32 i = 0; i < moonDays.size(); ++i)
-        {
-            // округление до минуты
-            moonDays[i].rise.setTime(TComputings::roundToMinTime(moonDays.at(i).rise.time()));
-            moonDays[i].set.setTime(TComputings::roundToMinTime(moonDays.at(i).set.time()));
-            moonDays[i].transit.setTime(TComputings::roundToMinTime(moonDays.at(i).transit.time()));
-
-
-            ui->textEditMoonDate->append("Номер: "+moonDays.at(i).num+"\nВосход: "+moonDays.at(i).rise.toString("dd.MM.yyyy  hh:mm")+\
-                                         "\nЗаход:  "+moonDays.at(i).set.toString("dd.MM.yyyy  hh:mm")+"\nЗенит:  "+moonDays.at(i).transit.toString("dd.MM.yyyy  hh:mm"));
-            ui->textEditMoonDate->append("Фаза: "+QString::number(TComputings::moonTimePhase(moonDays.at(i).rise.date()))+"%");
-            if (true == moonDays.at(i).newMoon.isValid())
-            {
-                moonDays[i].newMoon.setTime(TComputings::roundToMinTime(moonDays.at(i).newMoon.time()));
-                ui->textEditMoonDate->append("Новолуние: "+moonDays.at(i).newMoon.toString("dd.MM.yyyy  hh:mm"));
-            }
-            ui->textEditMoonDate->append("");            
-        }
-        if (0 == moonDays.size())
-        {
-            ui->textEditMoonDate->append("Отсутствует");
-            ui->textEditMoonDate->append("");
-        }
-
-
-        ui->textEditMoonDate->append("Расширенные");
         for (qint32 i = 0; i < moonDaysExt.size(); ++i)
         {
             // округление до минуты
@@ -542,9 +513,7 @@ void MainWindow::showMoonTime()
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());
         textCursorToBegin.movePosition(QTextCursor::Start);
-        ui->textEditMoonDate->setTextCursor(textCursorToBegin);
-
-        */
+        ui->textEditMoonDate->setTextCursor(textCursorToBegin);        
     }
     else
     {

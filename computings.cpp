@@ -1203,7 +1203,11 @@ QList<TComputings::TMoonDay2> TComputings::moonTimeMoonDaysExt(const double long
                     if (newMoon < moonDay.rise)
                     {
                         // новолуние до восхода Луны
-                        moonDay.num = "1-2";
+                        // второе условие покрывает ситуацию, когда новолуние уже было учтено в преыдущем лунном дне
+                        if ((result.size() > 0) && (true == result.last().newMoon.isValid()))
+                            moonDay.num = "2";
+                        else if (result.size() >= 0)
+                            moonDay.num = "1-2";
                     }
                     else
                     {

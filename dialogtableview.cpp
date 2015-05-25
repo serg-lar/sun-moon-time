@@ -401,8 +401,8 @@ void DialogTableView::on_pushButtonCalculate_clicked()
             ui->tableWidget->setHorizontalHeaderLabels(QString("День №,Восход,Заход,Зенит,Фаза,Новолуние").split(","));
 
             // основные рассчёты
-            QList<TComputings::TMoonDay2> moonDays (TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,
-                                                                                  QDateTime(d1,QTime(0,0)),QDateTime(d2,QTime(23,59,59,999)),height));
+//            QList<TComputings::TMoonDay2> moonDays (TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,
+//                                                                                  QDateTime(d1,QTime(0,0)),QDateTime(d2,QTime(23,59,59,999)),height));
             QList<TComputings::TMoonDay2> moonDaysExt (TComputings::moonTimeMoonDaysExt(longitude,latitude,timeZoneOffset,
                                                                                         QDateTime(d1,QTime(0,0)),QDateTime(d2,QTime(23,59,59,999)),height));
 

@@ -19,25 +19,6 @@
   <property name="windowTitle">
    <string>Настройки</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>600</y>
-     <width>176</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-   <property name="centerButtons">
-    <bool>false</bool>
-   </property>
-  </widget>
   <widget class="QWebView" name="webView">
    <property name="geometry">
     <rect>
@@ -469,6 +450,9 @@
          <property name="text">
           <string>Авто</string>
          </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -492,6 +476,38 @@
     <string>Авто запуск при загрузке ОС</string>
    </property>
   </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>600</y>
+     <width>178</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <widget class="QPushButton" name="pushButtonOk">
+      <property name="text">
+       <string>ОК</string>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonCancel">
+      <property name="text">
+       <string>Отмена</string>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
@@ -500,37 +516,55 @@
    <header>QtWebKitWidgets/QWebView</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>pushButtonCancel</tabstop>
+  <tabstop>pushButtonOk</tabstop>
+  <tabstop>doubleSpinBoxLatitude</tabstop>
+  <tabstop>doubleSpinBoxLongitude</tabstop>
+  <tabstop>doubleSpinBoxTimeZoneOffset</tabstop>
+  <tabstop>doubleSpinBoxHeight</tabstop>
+  <tabstop>checkBoxRequestHeight</tabstop>
+  <tabstop>pushButtonAutoTimeZoneOffset</tabstop>
+  <tabstop>lineEditHeightResolution</tabstop>
+  <tabstop>checkBoxEkadashWarn</tabstop>
+  <tabstop>checkBoxEkadashWarnBefore</tabstop>
+  <tabstop>checkBoxEkadashWarnAfter</tabstop>
+  <tabstop>comboBoxEkadashWarnHours</tabstop>
+  <tabstop>checkBoxEkadashWarnRequireConfirmation</tabstop>
+  <tabstop>checkBoxAutoStartUp</tabstop>
+  <tabstop>webView</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
+   <sender>pushButtonOk</sender>
+   <signal>clicked()</signal>
    <receiver>DialogSettings</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>493</x>
+     <y>614</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>319</x>
+     <y>319</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
+   <sender>pushButtonCancel</sender>
+   <signal>clicked()</signal>
    <receiver>DialogSettings</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>584</x>
+     <y>614</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>319</x>
+     <y>319</y>
     </hint>
    </hints>
   </connection>

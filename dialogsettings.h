@@ -40,7 +40,9 @@ private slots:
     /// \retval true - успех, false - неудача
     bool saveSettings() const;
 
-    void on_buttonBox_accepted();
+    /// \brief обновить карту в соответствии с новыми значениями геогр. координат
+    void updateMap(const QString& value);
+
     void on_webView_loadFinished(bool arg1);
     void on_pushButtonAutoTimeZoneOffset_clicked();
 

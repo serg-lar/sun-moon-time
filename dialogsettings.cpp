@@ -233,10 +233,13 @@ bool DialogSettings::saveSettings() const
 }
 //---------------------------
 
-void DialogSettings::on_buttonBox_accepted()
+void DialogSettings::updateMap(const QString& value)
 {
-    if (false == saveSettings())
-        qWarning() << "DialogSettings::on_buttonBox_accepted" << "error saveSettings";
+    // обновить карту в соответствии с новыми значениями геогр. координат
+    QString str;
+    str = "map.panTo({lat: " + QString::number(ui->doubleSpinBoxLatitude->value()) +
+            ", lng: " + QString::number(ui->doubleSpinBoxLongitude->value()) + "});";
+    ui->webView->page()->mainFrame()->evaluateJavaScript(str);
 }
 //---------------------------
 
@@ -333,14 +336,6 @@ DialogSettings::DialogSettings(QWidget *parent) :
     // загрузить интерфейс
     ui->setupUi(this);
 
-    // сброс кнопок с "авто-умолчания", чтобы окно диалога не захлопывалось при нажатии ENTER
-    QList<QAbstractButton* > buttons (ui->buttonBox->buttons());
-    for (qint32 i = 0; i < buttons.size(); ++i)
-    {
-        static_cast<QPushButton*>(buttons[i])->setAutoDefault(false);
-        static_cast<QPushButton*>(buttons[i])->setDefault(false);
-    }
-
     // автозапуск при загрузке ОС доступен пока только в windows
 #ifdef Q_OS_WIN
     ui->checkBoxAutoStartUp->setEnabled(true);
@@ -348,6 +343,9 @@ DialogSettings::DialogSettings(QWidget *parent) :
 
     // соединения
     connect(ui->webView->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(updateJavaScriptWindow()));
+    connect(ui->doubleSpinBoxLatitude, SIGNAL(valueChanged(QString)), this, SLOT(updateMap(QString)));
+    connect(ui->doubleSpinBoxLongitude, SIGNAL(valueChanged(QString)), this, SLOT(updateMap(QString)));
+    connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(&m_Nas, SIGNAL(finished(QNetworkReply*)), this, SLOT(processNetworkReply(QNetworkReply*)));
 
     // загрузить настройки программы

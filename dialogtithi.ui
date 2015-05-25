@@ -327,6 +327,17 @@ QGroupBox::title
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>pushButtonCalculate</tabstop>
+  <tabstop>radioButtonCalendar</tabstop>
+  <tabstop>dateEditBegin</tabstop>
+  <tabstop>dateEditEnd</tabstop>
+  <tabstop>radioButtonPeriod</tabstop>
+  <tabstop>comboBoxPeriod</tabstop>
+  <tabstop>checkBoxTithiPrintUtc</tabstop>
+  <tabstop>textEdit</tabstop>
+  <tabstop>pushButtonSaveAs</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
