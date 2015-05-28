@@ -379,11 +379,15 @@ void MainWindow::showSunTime()
         QTime sunRise (TComputings::sunTimeRise(longitude,latitude,timeZoneOffset));
         if (true == sunRise.isValid())
             m_currentSunRise = TComputings::roundToMinTime(sunRise);
+        else
+            m_currentSunRise = QTime();
 
         // время захода Солнца
         QTime sunSet (TComputings::sunTimeSet(longitude,latitude,timeZoneOffset));
         if (true == sunSet.isValid())
             m_currentSunSet = TComputings::roundToMinTime(sunSet);
+        else
+            m_currentSunSet = QTime();
 
         if ((true == sunRise.isValid()) && (true == sunSet.isValid()) && (sunSet > sunRise))
         {
@@ -596,7 +600,7 @@ void MainWindow::showSvara()
         // вывод в таблицу
         ui->tableWidgetSvaras->clear();
         ui->tableWidgetSvaras->setColumnCount(0);
-        ui->tableWidgetSvaras->setRowCount(0);
+        ui->tableWidgetSvaras->setRowCount(0);        
 
         if (svaras.size() > 0)
         {
