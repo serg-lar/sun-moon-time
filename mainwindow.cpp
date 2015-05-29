@@ -128,7 +128,14 @@ void MainWindow::updateTime()
                             (11 == m_currentTitha.num()))
                     {
                         // необходимо оповестить о начале экадаша
-                        m_TrayIcon.showMessage("Экадаш","Начало: "+m_currentTitha.endDateTime().toString("dd MMMM yyyy hh:mm"));
+                        QDateTime ekadashBeginTime (m_currentTitha.endDateTime());
+                        QString ekadashWarnText ("Экадаш начинается");
+                        if (11 == m_currentTitha.num())
+                        {
+                            ekadashBeginTime = m_currentTitha.beginDateTime();
+                            ekadashWarnText = "Экадаш";
+                        }
+                        m_TrayIcon.showMessage("Экадаш","Начало: "+ekadashBeginTime.toString("dd MMMM yyyy hh:mm"));
                         QApplication::alert(this);
                         QSound::play(":/sounds/OM_NAMO_NARAYANA.wav");
 
@@ -136,10 +143,10 @@ void MainWindow::updateTime()
                         {
                             if (nullptr == mp_ekadashWarnMsgBox)
                             {
-                                mp_ekadashWarnMsgBox = new QMessageBox;
+                                mp_ekadashWarnMsgBox = new QMessageBox(this);
                                 mp_ekadashWarnMsgBox->setWindowTitle("Солнечно-Лунное время");
                             }
-                            mp_ekadashWarnMsgBox->setText("Экадаш начинается");                            
+                            mp_ekadashWarnMsgBox->setText(ekadashWarnText);
                             mp_ekadashWarnMsgBox->show();
                         }
 
@@ -209,9 +216,10 @@ void MainWindow::showSettingsDialog()
 
 void MainWindow::realClose()
 {
-    // закрыть окно по-настоящему насовсем
+    // закрыть окно по-настоящему насовсем и выйти из программы
     mf_realClose = true;
     close();
+    QApplication::quit();
 }
 //---------------------------
 
@@ -818,10 +826,10 @@ MainWindow::~MainWindow()
     m_Timer.stop();
 
     // освобождение ресурсов
-    if (mp_TrayIconMenuActionQuit)
+    if (nullptr != mp_TrayIconMenuActionQuit)
         delete mp_TrayIconMenuActionQuit;
 
-    if (mp_ekadashWarnMsgBox)
+    if (nullptr != mp_ekadashWarnMsgBox)
         delete mp_ekadashWarnMsgBox;
 
     delete ui;
@@ -836,13 +844,13 @@ void MainWindow::closeEvent(QCloseEvent* e)
 {
     // при нажатии на крестик вместо закрытия прятать окно
     // закрывать на совсем только в случае нажатия "выход" в меню в трее    
-    if (false == mf_realClose)
-    {
-        e->ignore();
-        hide();
-    }
-    else
-        e->accept();
+//    if (false == mf_realClose)
+//    {
+//        e->ignore();
+//        hide();
+//    }
+//    else
+//        e->accept();
 }
 //---------------------------
 // КОНЕЦ: MainWindow - protected

@@ -21,6 +21,9 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("DharmaSoft");
     QCoreApplication::setApplicationName("SunMoonTime");
 
+    // не выходить из программы при закрытии окон
+    a.setQuitOnLastWindowClosed(false);
+
     // подгрузка русских переводов для элементов Qt
 //    QTranslator translator(&a);
 //    bool result (false);
@@ -39,7 +42,8 @@ int main(int argc, char *argv[])
     qint32 screenHeight (desktopWidget->screen()->height());
     w.setGeometry((screenWidth/2)-(width/2),(screenHeight/2)-(height/2),width,height);
 
-    // отображать окно только если  параметрах запуска не было указано обратное
+
+    // отображать главное окно только если  параметрах запуска не было указано обратное
     QStringList arguments;
     for (qint32 i = 0; i < argc; ++i)
         arguments << argv[i];
