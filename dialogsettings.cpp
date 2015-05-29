@@ -303,7 +303,7 @@ void DialogSettings::on_checkBoxAutoStartUp_toggled(bool checked)
     if (true == checked)
     {
         // установить авто запуск при загрузке ОС (для windows)
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
         QSettings autoStartSetting ("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
                                     QSettings::NativeFormat);
         autoStartSetting.setValue(QApplication::applicationName(),
@@ -313,7 +313,7 @@ void DialogSettings::on_checkBoxAutoStartUp_toggled(bool checked)
     else
     {
         // отключить авто запуск при загрузке (windows)
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
         QSettings autoStartSetting ("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
                                     QSettings::NativeFormat);
         autoStartSetting.remove(QApplication::applicationName());
@@ -334,7 +334,7 @@ DialogSettings::DialogSettings(QWidget *parent) :
     ui->setupUi(this);
 
     // автозапуск при загрузке ОС доступен пока только в windows
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
     ui->checkBoxAutoStartUp->setEnabled(true);
 #endif
 

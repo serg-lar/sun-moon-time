@@ -127,13 +127,15 @@ void MainWindow::updateTime()
                         m_TrayIcon.showMessage("Экадаш","Начало: "+m_currentTitha.endDateTime().toString("dd MMMM yyyy hh:mm"));
                         QApplication::alert(this);
                         QSound::play(":/sounds/OM_NAMO_NARAYANA.wav");
+
                         if (true == ekadashWarnRequireConfirmation)
                         {
                             if (nullptr == mp_ekadashWarnMsgBox)
                             {
                                 mp_ekadashWarnMsgBox = new QMessageBox;
+                                mp_ekadashWarnMsgBox->setWindowTitle("Солнечно-Лунное время");
                             }
-                            mp_ekadashWarnMsgBox->setText("Экадаш начинается");
+                            mp_ekadashWarnMsgBox->setText("Экадаш начинается");                            
                             mp_ekadashWarnMsgBox->show();
                         }
 
@@ -146,11 +148,13 @@ void MainWindow::updateTime()
                         m_TrayIcon.showMessage("Экадаш","Конец: "+m_currentTitha.beginDateTime().toString("dd MMMM yyyy hh:mm"));
                         QApplication::alert(this);
                         QSound::play(":/sounds/OM_NAMO_NARAYANA.wav");
+
                         if (true == ekadashWarnRequireConfirmation)
                         {
                             if (nullptr == mp_ekadashWarnMsgBox)
                             {
                                 mp_ekadashWarnMsgBox = new QMessageBox;
+                                mp_ekadashWarnMsgBox->setWindowTitle("Солнечно-Лунное время");
                             }
                             mp_ekadashWarnMsgBox->setText("Экадаш завершился");
                             mp_ekadashWarnMsgBox->show();
@@ -714,6 +718,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_Timer.start(timerInterval);
 
 
+#ifndef QT_NO_DEBUG
     // ---отладочная---
     bool ok;
     double longitude (-1*settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
@@ -769,6 +774,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         debugFile.close();
     }
+#endif
 }
 //---------------------------
 
