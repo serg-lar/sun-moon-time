@@ -79,7 +79,7 @@ void MainWindow::updateTime()
     }
     if (dt >= m_currentTitha.endDateTime())
     {
-        // обновить информацию по титхам
+        // обновить информацию по титхам        
         showTithi();
     }
     if (false == m_currentMoonDays.isEmpty())
@@ -152,7 +152,7 @@ void MainWindow::updateTime()
 
                         mf_ekadashWarned = true;
                     }
-                    else if ((true == ekadashWarnAfter) && (12 == m_currentTitha.num()) &&
+                    else if ((true == ekadashWarnAfter) && (11 == m_prevTitha.num()) && (12 == m_currentTitha.num()) &&
                              (m_currentTitha.beginDateTime().secsTo(dt) >= static_cast<qint64>(ekadashWarnTimeBefore*60*60)))
                     {
                         // необходимо оповестить о завершении экадаша
@@ -552,6 +552,7 @@ void MainWindow::showTithi()
         TTitha nearestEkadash (TTitha::findNearestEkadash(timeZoneOffset));
 
         // сохранить данные текущей титхи
+        m_prevTitha = m_currentTitha;
         m_currentTitha = curTitha;
 
         // сбросить флаг предупрежедния о экадаше
