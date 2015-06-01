@@ -403,7 +403,7 @@ void DialogTableView::on_pushButtonCalculate_clicked()
             // основные рассчёты
 //            QList<TComputings::TMoonDay2> moonDays (TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,
 //                                                                                  QDateTime(d1,QTime(0,0)),QDateTime(d2,QTime(23,59,59,999)),height));
-            QList<TComputings::TMoonDay2> moonDaysExt (TComputings::moonTimeMoonDaysExt(longitude,latitude,timeZoneOffset,
+            QList<TComputings::TMoonDay> moonDaysExt (TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,
                                                                                         QDateTime(d1,QTime(0,0)),QDateTime(d2,QTime(23,59,59,999)),height));
 
             // количество строк таблицы

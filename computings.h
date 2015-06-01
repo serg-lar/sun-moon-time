@@ -4,20 +4,19 @@
 // НАЧАЛО: директивы, глобальные переменные и константы
 #include <QtGlobal>
 #include <QtCore>
-#include <QDateTime>
+//#include <QDateTime>
 #include "aaplus/AA+.h"
-
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
 
 
-/// \class Различные вычисления, не подходящие под описание в других классах
+/// \class различные вычисления, не подходящие под описание в других классах
 class TComputings
 {
 public:
 
-    // соответствие типа сумерек и положения Солнца под горизонтом
+    /// \enum соответствие типа сумерек и положения Солнца под горизонтом в градусах
     enum TwilightType
     {
         // гражданские
@@ -27,52 +26,53 @@ public:
         // астрономические
         astronomicalTwilight = -18
     };
+    //---------------------------
 
-    /// \brief вычислить текущее среднее солнечное время относительно универсального
-    /// \param longitude - географическая долгота места для расчёта
-    /// \retval текущее среднее солнечное время
+    /// \brief вычислить текущее среднее солнечное время в заданном месте относительно текущего универсального времени (UTC)
+    /// @param longitude - географическая долгота места для расчёта (со знаком '+' для восточной долготы!)
+    /// @retval текущее среднее солнечное время
     static QTime sunTimeAverage(const double longitude);
 
-    /// \brief вычислить текущее истинное солнечное время относительно универсального
-    /// \param longitude - географическая долгота места для расчёта
-    /// \param N - номер дня в году: 1 для первого января и т.д.
-    /// \retval текущее истинное солнечное время
+    /// \brief вычислить текущее истинное солнечное время в заданном месте относительно текущего универсального времени (UTC)
+    /// @param longitude - географическая долгота места для расчёта (со знаком '+' для восточной долготы!)
+    /// @param N - номер дня в году: 1 для первого января и т.д.
+    /// @retval текущее истинное солнечное время
     static QTime sunTimeTrue(const double longitude, const quint32 N = QDateTime::currentDateTimeUtc().date().dayOfYear());
 
     /// \brief вычислить время восхода Солнца в заданную дату и в заданном месте
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param date -  дата
-    /// \retval время в заданном часовом поясе, в случае неудачи невалидное время
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param date -  дата
+    /// @retval время в заданном часовом поясе, в случае неудачи невалидное время
     static QTime sunTimeRise(const double longitude, const double latitude, const double timeZoneOffset = 0, const QDate& date = QDate::currentDate());
 
     /// \brief вычислить время захода Солнца в заданную дату и в заданном месте
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param date -  дата
-    /// \retval время в заданном часовом поясе, в случае неудачи невалидное время
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param date -  дата
+    /// @retval время в заданном часовом поясе, в случае неудачи невалидное время
     static QTime sunTimeSet(const double longitude, const double latitude, const double timeZoneOffset = 0, const QDate& date = QDate::currentDate());
 
     /// \brief вычислить время самой высокой точки нахождения Солнца (Зенит) в заданную дату и в заданном месте
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param aboveHorizont - точка (зенит) над горизонтом или под горизонтом
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param date -  дата
-    /// \retval время в заданном часовом поясе, в случае неудачи невалидное время
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param aboveHorizont - точка (зенит) над горизонтом или под горизонтом
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param date -  дата
+    /// @retval время в заданном часовом поясе, в случае неудачи невалидное время
     static QTime sunTimeTransit(const double longitude, const double latitude, bool& aboveHorizont,
                                 const double timeZoneOffset = 0, const QDate& date = QDate::currentDate());
 
     /// \brief найти время начала и завершения утренних солнечных сумерек в заданном месте в заданную дату
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param height - высота над уровнем моря
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param degree - значение вертикальной координаты солнца в градусах (-90 - +90) при котором фиксируется начало сумерек
-    /// \param date -  дата
-    /// \retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param height - высота над уровнем моря
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param degree - значение вертикальной координаты солнца в градусах (-90 - +90) при котором фиксируется начало сумерек
+    /// @param date -  дата
+    /// @retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
     static QPair<QTime,QTime> sunTimeMorningTwilight(const double longitude, const double latitude, const double height = 0, const double timeZoneOffset = 0,
                                                      const double degree = static_cast<double>(civilTwilight), const QDate& date = QDate::currentDate());
 
@@ -90,27 +90,27 @@ public:
                                                      const QDate& date = QDate::currentDate());
 
     /// \brief найти время начала и завершения утренних солнечных сумерек в заданном месте в заданную дату с учётом рефракции
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param height - высота над уровнем моря
-    /// \param pressure - атмосферное давление в гПа (гекта Паскалях (10^2))
-    /// \param temperature - температура, градусов Цельсия
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param degree - значение вертикальной координаты солнца в градусах (-90 - +90) при котором фиксируется начало сумерек
-    /// \param date -  дата
-    /// \retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param height - высота над уровнем моря
+    /// @param pressure - атмосферное давление в гПа (гекта Паскалях (10^2))
+    /// @param temperature - температура, градусов Цельсия
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param degree - значение вертикальной координаты солнца в градусах (-90 - +90) при котором фиксируется начало сумерек
+    /// @param date -  дата
+    /// @retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
     static QPair<QTime,QTime> sunTimeMorningTwilightWithRefraction(const double longitude, const double latitude, const double height = 0, const double pressure = 1013.25,
                                                                    const double temperature = 20, const double timeZoneOffset = 0,
                                                                    const double degree = static_cast<double>(civilTwilight), const QDate& date = QDate::currentDate());
 
     /// \brief найти время начала и завершения вечерних солнечных сумерек в заданном месте в заданную дату
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param height - высота над уровнем моря
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param degree - значение вертикальной координаты солнца в градусах (-90 - +90) при котором фиксируется начало сумерек
-    /// \param date -  дата
-    /// \retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param height - высота над уровнем моря
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param degree - значение вертикальной координаты солнца в градусах (-90 - +90) при котором фиксируется начало сумерек
+    /// @param date -  дата
+    /// @retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
     static QPair<QTime,QTime> sunTimeEveningTwilight(const double longitude, const double latitude, const double height = 0, const double timeZoneOffset = 0,
                                                      const double degree = static_cast<double>(civilTwilight), const QDate& date = QDate::currentDate());
 
@@ -128,86 +128,86 @@ public:
                                                      const QDate& date = QDate::currentDate());
 
     /// \brief найти время начала и завершения вечерних солнечных сумерек в заданном месте в заданную дату с учётом рефракции
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param height - высота над уровнем моря
-    /// \param pressure - атмосферное давление в гПа (гекта Паскалях (10^2))
-    /// \param temperature - температура, градусов Цельсия
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param degree - значение вертикальной координаты солнца в градусах (-90 - +90) при котором фиксируется начало сумерек
-    /// \param date -  дата
-    /// \retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param height - высота над уровнем моря
+    /// @param pressure - атмосферное давление в гПа (гекта Паскалях (10^2))
+    /// @param temperature - температура, градусов Цельсия
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param degree - значение вертикальной координаты солнца в градусах (-90 - +90) при котором фиксируется начало сумерек
+    /// @param date -  дата
+    /// @retval пару время начала и время завершения сумерек в заданном часовом поясе, в случае неудачи пару невалидных времен
     static QPair<QTime,QTime> sunTimeEveningTwilightWithRefraction(const double longitude, const double latitude, const double height = 0, const double pressure = 1013.25,
                                                                    const double temperature = 20, const double timeZoneOffset = 0,
                                                                    const double degree = static_cast<double>(civilTwilight), const QDate& date = QDate::currentDate());
 
     /// \brief вычислить утреннюю/вечернюю сандхью как 1/10 часть от половины суток до восхода/после захода Солнца в заданном месте в заданную дату
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param morningSandhya - true для утренней сандхьи, false - для вечерней
-    /// \param date -  дата
-    /// \retval пара время начала и время завершения сандхьи, в случае неудачи пара невалидных времен
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param morningSandhya - true для утренней сандхьи, false - для вечерней
+    /// @param date -  дата
+    /// @retval пара время начала и время завершения сандхьи, в случае неудачи пара невалидных времен
     static QPair<QTime,QTime> sunTimeSandhyaAsDayPart(const double longitude, const double latitude, const double timeZoneOffset = 0,
                                                       const bool morningSandhya = true, const QDate& date = QDate::currentDate());
 
-    /// \brief вычислить утреннюю/вечернюю сандхью как 1/10 часть от половины суток до восхода/после захода Солнца в заданном месте в заданную дату
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param sunRiseSet - время восхода или захода Солнца, вычисленное ранее (не UTC)
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param morningSandhya - true для утренней сандхьи, false - для вечерней
-    /// \param date - дата
-    /// \retval пара время начала и время завершения сандхьи, в случае неудачи пара невалидных времен
+    /// \brief вычислить утреннюю/вечернюю сандхью как 1/10 часть от половины суток до восхода/после захода Солнца в заданном месте в заданную дату (с использованием уже вычисленного времени восхода/захода)
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param sunRiseSet - время восхода или захода Солнца, вычисленное ранее (не UTC)
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param morningSandhya - true для утренней сандхьи, false - для вечерней
+    /// @param date - дата
+    /// @retval пара время начала и время завершения сандхьи, в случае неудачи пара невалидных времен
     static QPair<QTime,QTime> sunTimeSandhyaAsDayPart(const double longitude, const double latitude, const QTime& sunRiseSet, const double timeZoneOffset = 0,
                                                       const bool morningSandhya = true, const QDate& date = QDate::currentDate());
 
     /// \brief вычислить утреннюю/вечернюю сандхью как 1/10 часть от светового дня в заданном месте в заданную дату
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param morningSandhya - true для утренней сандхьи, false - для вечерней
-    /// \param date -  дата
-    /// \retval пара время начала и время завершения сандхьи, в случае неудачи пара невалидных времен
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param morningSandhya - true для утренней сандхьи, false - для вечерней
+    /// @param date -  дата
+    /// @retval пара время начала и время завершения сандхьи, в случае неудачи пара невалидных времен
     static QPair<QTime,QTime> sunTimeSandhyaAsLightDayPart(const double longitude, const double latitude, const double timeZoneOffset = 0,
                                                            const bool morningSandhya = true, const QDate& date = QDate::currentDate());
 
-    /// \brief вычислить утреннюю/вечернюю сандхью как 1/10 часть от светового дня в заданном месте в заданную дату
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param sunRise - время восхода Солнца, вычисленное ранее (не UTC)
-    /// \param sunSet - время захода Солнца, вычисленное ранее (не UTC)
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param morningSandhya - true для утренней сандхьи, false - для вечерней
-    /// \param date -  дата
-    /// \retval пара время начала и время завершения сандхьи, в случае неудачи пара невалидных времен
+    /// \brief вычислить утреннюю/вечернюю сандхью как 1/10 часть от светового дня в заданном месте в заданную дату (с использованием уже вычисленного времени восхода/захода)
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param sunRise - время восхода Солнца, вычисленное ранее (не UTC)
+    /// @param sunSet - время захода Солнца, вычисленное ранее (не UTC)
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param morningSandhya - true для утренней сандхьи, false - для вечерней
+    /// @param date -  дата
+    /// @retval пара время начала и время завершения сандхьи, в случае неудачи пара невалидных времен
     static QPair<QTime,QTime> sunTimeSandhyaAsLightDayPart(const double longitude, const double latitude, const QTime& sunRise, const QTime& sunSet,
                                                            const double timeZoneOffset = 0, const bool morningSandhya = true,
                                                            const QDate& date = QDate::currentDate());
 
     /// \brief вычислить время восхода Луны в заданную дату и в заданном месте
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param date -  дата
-    /// \retval время в заданном часовом поясе, в случае неудачи невалидное время
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param date -  дата
+    /// @retval время в заданном часовом поясе, в случае неудачи невалидное время
     static QTime moonTimeRise(const double longitude, const double latitude, const double timeZoneOffset = 0, const QDate& date = QDate::currentDate());
 
     /// \brief вычислить время захода Луны в заданную дату и в заданном месте
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param date -  дата
-    /// \retval время в заданном часовом поясе, в случае неудачи невалидное время
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param date -  дата
+    /// @retval время в заданном часовом поясе, в случае неудачи невалидное время
     static QTime moonTimeSet(const double longitude, const double latitude, const double timeZoneOffset = 0, const QDate& date = QDate::currentDate());
 
     /// \brief вычислить время самой высокой точки нахождения Луны (Зенит) в заданную дату и в заданном месте
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param aboveHorizont - точка (зенит) над горизонтом или под горизонтом
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \param date -  дата
-    /// \retval время в заданном часовом поясе, в случае неудачи невалидное время
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param aboveHorizont - точка (зенит) над горизонтом или под горизонтом
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @param date -  дата
+    /// @retval время в заданном часовом поясе, в случае неудачи невалидное время
     static QTime moonTimeTransit(const double longitude, const double latitude, bool& aboveHorizont,
                                  const double timeZoneOffset = 0, const QDate& date = QDate::currentDate());
 
@@ -223,12 +223,6 @@ public:
     /// @retval дата-время следующего новолуния (с учётом часового пояса), в случае неудачи не валидная дата-время
     static QDateTime moonTimeFindNextNewMoon(const double timeZoneOffset = 0, const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
 
-    /// \brief найти даты-время новолуний на год вперёд
-    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// @param dateTime - UTC дата-время, относительно которой начать поиск
-    /// @retval список дат-время следующего новолуния (с учётом часового пояса), в случае неудачи пустой список
-    static QList<QDateTime> moonTimeFindNewMoonForYear(const double timeZoneOffset = 0, const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
-
     /// \brief найти новолуния за заданный период времени
     /// @param dateTime1 - UTC дата-время начала поисков
     /// @param dateTime2 - UTC дата-время завершения поисков
@@ -236,53 +230,14 @@ public:
     /// @retval список дат-времени новолуний
     static QList<QDateTime> moonTimeFindNewMoonForPeriod(const QDateTime& dateTime1, const QDateTime& dateTime2, const double timeZoneOffset = 0);
 
-
-    // лунный день - восход, заход, зенит
-    struct TMoonDay
-    {
-        QDate date;
-        QTime rise;
-        QTime set;
-        QTime transit;
-        bool transitAboveHorizont;
-    };
-    //---------------------------
-
-    /// \brief найти восход зенит заход Луны "вокруг" заданной даты
-    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// @param latitude - геогр. широта
-    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// @param date -  дата
-    /// @retval Список из трёх лунных дней до/в/после указанной даты, в случае неудачи пустой список
-    static QList<TMoonDay> moonTimeRiseTransitSet(const double longitude, const double latitude, const double timeZoneOffset = 0,
-                                                  const QDate& date = QDate::currentDate());
-
-    /// \brief вычислить список "лунных дней" (дата, время начала и завершения дня) простой (быстрый) вариант, основанный на привязке к дате
-    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// @param latitude - геогр. широта
-    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// @param date1 - дата для начала отсчёта
-    /// @param date2 - дата для завершения отсчёта
-    /// @retval список лунных дней, в случае не удачи пустой список
-    static QList<TMoonDay> moonTimeMoonDaysFast(const double longitude, const double latitude, const double timeZoneOffset = 0,
-                                                const QDate& date1 = QDate::currentDate(),
-                                                const QDate& date2 = QDate::currentDate().addMonths(1));
-
-    /// \brief вычислить номер лунного дня в заданный день (по умолчанию сегодня), основываясь на быстром варианте вычисления лунных дней
-    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// @param latitude - геогр. широта
-    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// @param date -  дата
-    /// @retval номер лунного дня, в случае не удачи 0
-    static quint32 moonTimeMoonDayNum(const double longitude, const double latitude, const double timeZoneOffset = 0, const QDate& date = QDate::currentDate());
-
-    /// \brief вычислить фазу Луны в заданную дату    
+    /// \brief вычислить фазу Луны в заданную дату
     /// @param date -  дата
     /// @retval % фазы Луны, в случае не удачи -1
     static qint32 moonTimePhase(const QDate& date = QDate::currentDate());
 
-    // лунный день - восход, заход, зенит, вариант для рассчётов, основанных на горизонтальных координатах и переменных дата-время
-    struct TMoonDay2
+    // лунный день - восход, заход, зенит, новолуние (валидно, когда новолуние), номер.
+    // вариант для рассчётов, основанных на горизонтальных координатах и переменных дата-время
+    struct TMoonDay
     {
         QDateTime rise;
         QDateTime set;
@@ -290,21 +245,9 @@ public:
         QDateTime newMoon;
         QString num;
 
-        bool operator ==(const TMoonDay2& rv) const;
+        bool operator ==(const TMoonDay& rv) const;
     };
     //---------------------------
-
-    /// \brief вычислить список "лунных дней" (дата-время начала и завершения дня)
-    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// @param latitude - геогр. широта
-    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// @param dt1 - UTC дата-время для начала отсчёта
-    /// @param dt2 - UTC дата-время для завершения отсчёта
-    /// @param height - высота над уровнем моря
-    /// @retval список лунных дней, пустой список в случае неудачи
-    static QList<TMoonDay2> moonTimeMoonDays(const double longitude, const double latitude, const double timeZoneOffset = 0,
-                                                               const QDateTime& dateTime1 = moonTimeFindPreviousNewMoon(),
-                                                               const QDateTime& dateTime2 = QDateTime::currentDateTimeUtc(), const double height = 0);
 
     /// \brief вычислить список "лунных дней", (дата-время начала и завершения дня) расширенный вариант с учётом поведения Луны в приполярье
     /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
@@ -314,18 +257,9 @@ public:
     /// @param dt2 - UTC дата-время для завершения отсчёта
     /// @param height - высота над уровнем моря
     /// @retval список лунных дней, пустой список в случае неудачи
-    static QList<TMoonDay2> moonTimeMoonDaysExt(const double longitude, const double latitude, const double timeZoneOffset = 0,
+    static QList<TMoonDay> moonTimeMoonDays(const double longitude, const double latitude, const double timeZoneOffset = 0,
                                                 const QDateTime& dateTime1 = moonTimeFindPreviousNewMoon(),
                                                 const QDateTime& dateTime2 = QDateTime::currentDateTimeUtc(), const double height = 0);
-
-    /// \brief вычислить ближайший лунный день
-    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// @param latitude - геогр. широта
-    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// @param dateTime - UTC дата-время для вычислений
-    /// @retval номер дня плюс пара дата-время начала и завершения ближайшего лунного дня, в случае не удачи пара не валидных дата-время
-    static QPair<quint8, QPair<QDateTime,QDateTime> > moonTimeNearestMoonDay(const double longitude, const double latitude, const double timeZoneOffset = 0,
-                                                              const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
 
     // свара лунная или солнечная, начало, конец, порядковый номер
     struct TSvara
@@ -359,18 +293,18 @@ public:
     /// @retval свара, в случае неудачи свара с невалидным временем начала и конца
     static TSvara sunMoonTimeCurrentSvara(const double longitude, const double latitude, const double timeZoneOffset = 0);
 
-    /// \brief вычислить свару в данный момент
+    /// \brief вычислить свару в данный момент (с заранее вычисленным временем восхода и захода Солнца)
     /// @param sunRise - время восхода Солнца (не UTC)
     /// @param sunSet - время захода Солнца (не UTC)
     /// @retval свара, в случае неудачи свара с невалидным временем начала и конца
     static TSvara sunMoonTimeCurrentSvara(const QTime& sunRise, const QTime& sunSet);
 
     /// \brief определить горизонтальные координаты Солнца в заданный момент времени (UTC), в заданном месте
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param height - высота над уровнем моря
-    /// \param dateTime -  дата-время (UTC)
-    /// \retval пара координат (X,Y)
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param height - высота над уровнем моря
+    /// @param dateTime -  дата-время (UTC)
+    /// @retval пара координат (X,Y)
     static QPair<double, double> sunHorizontalCoords(const double longitude, const double latitude, const double height = 0,
                                                      const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
 
@@ -384,62 +318,62 @@ public:
                                                      const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
 
     /// \brief определить горизонтальные координаты Солнца в заданный момент времени (UTC), в заданном месте с учётом рефракции
-    /// \param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
-    /// \param latitude - геогр. широта
-    /// \param height - высота над уровнем моря
-    /// \param pressure - атмосферное давление в гПа (гекта Паскалях (10^2))
-    /// \param temperature - температура, градусов Цельсия
-    /// \param dateTime -  дата-время (UTC)
-    /// \retval пара координат (X,Y)
+    /// @param longitude - геогр. долгота (со знаком '-' для восточной долготы!)
+    /// @param latitude - геогр. широта
+    /// @param height - высота над уровнем моря
+    /// @param pressure - атмосферное давление в гПа (гекта Паскалях (10^2))
+    /// @param temperature - температура, градусов Цельсия
+    /// @param dateTime -  дата-время (UTC)
+    /// @retval пара координат (X,Y)
     static QPair<double, double> sunHorizontalCoordsWithRefraction(const double longitude, const double latitude, const double height = 0,  const double pressure = 1013.25,
                                                                    const double temperature = 20, const QDateTime& dateTime = QDateTime::currentDateTimeUtc());
 
     /// \brief преобразовать некоторую информацию о Солнце в текст
-    /// \param rise - восход
-    /// \param set - заход
-    /// \param transit - зенит
-    /// \param roundToMin - округлять время до минуты
-    /// \retval строка с информацией о Солнце (восход, закат, зенит, долгота дня); в случае неудачи пустая строка
+    /// @param rise - восход
+    /// @param set - заход
+    /// @param transit - зенит
+    /// @param roundToMin - округлять время до минуты
+    /// @retval строка с информацией о Солнце (восход, закат, зенит, долгота дня); в случае неудачи пустая строка
     static QString toStringSunTimeInfo(const QTime& rise, const QTime& set, const QTime& transit, const bool roundToMin = true);
 
     /// \brief преобразовать некоторую информацию о Солнце в текст
-    /// \param civil - гражданские сумерки (до восхода/от захода)
-    /// \param navigation - навигационные сумерки (до восхода/от захода)
-    /// \param astronomical - астрономические сумерки (до восхода/от захода)
-    /// \param morningTwilight - true для утренних сумерек, false для вечерних
-    /// \param roundToMin - округлять время до минуты
-    /// \retval строка с информацией о Солнце (утренние сумерки: гражданские, навигационные, астрономические); в случае неудачи пустая строка
+    /// @param civil - гражданские сумерки (до восхода/от захода)
+    /// @param navigation - навигационные сумерки (до восхода/от захода)
+    /// @param astronomical - астрономические сумерки (до восхода/от захода)
+    /// @param morningTwilight - true для утренних сумерек, false для вечерних
+    /// @param roundToMin - округлять время до минуты
+    /// @retval строка с информацией о Солнце (утренние сумерки: гражданские, навигационные, астрономические); в случае неудачи пустая строка
     static QString toStringSunTimeInfo2(const QPair<QTime,QTime>& civilTwilight, const QPair<QTime,QTime>& navigationTwilight, const QPair<QTime,QTime>& astronomicalTwilight,
                                         const bool morningTwilight = true, const bool roundToMin = true);
 
     /// \brief преобразовать некоторую информацию о Солнце в текст
-    /// \param sandhyaAsDayPart - сумерки как 1/10 часть от половины суток
-    /// \param sandhyaAsLightDayPart - сумерки как 1/10 часть от светового дня
-    /// \param morningTwilight - true для утренних сумерек, false для вечерних
-    /// \param roundToMin - округлять время до минуты
-    /// \retval строка с информацией о Солнце (утренняя сандхья, вечерняя сандхья в нескольких вариациях); в случае неудачи пустая строка
+    /// @param sandhyaAsDayPart - сумерки как 1/10 часть от половины суток
+    /// @param sandhyaAsLightDayPart - сумерки как 1/10 часть от светового дня
+    /// @param morningTwilight - true для утренних сумерек, false для вечерних
+    /// @param roundToMin - округлять время до минуты
+    /// @retval строка с информацией о Солнце (утренняя сандхья, вечерняя сандхья в нескольких вариациях); в случае неудачи пустая строка
     static QString toStringSunTimeInfo3(const QPair<QTime,QTime>& sandhyaAsDayPart, const QPair<QTime,QTime>& sandhyaAsLightDayPart,
                                         const bool morningTwilight = true, const bool roundToMin = true);
 
     /// \brief преобразовать некоторую информацию о Луне в текст
-    /// \param set - заход
-    /// \param rise - восход
-    /// \param transit - зенит
-    /// \param roundToMin - округлять время до минуты
-    /// \retval строка с информацией о Луне (восход, закат, зенит, долгота дня); в случае неудачи пустая строка
+    /// @param set - заход
+    /// @param rise - восход
+    /// @param transit - зенит
+    /// @param roundToMin - округлять время до минуты
+    /// @retval строка с информацией о Луне (восход, закат, зенит, долгота дня); в случае неудачи пустая строка
     static QString toStringMoonTimeInfo(const QTime& set, const QTime& rise, const QTime& transit, const bool roundToMin = true);
 
     /// \brief округлить время до ближайшей минуты (>= 0.5)
-    /// \param time - время
-    /// \retval округлённое время, в случае неудачи исходное время
+    /// @param time - время
+    /// @retval округлённое время, в случае неудачи исходное время
     static QTime roundToMinTime(const QTime& time);
 
     /// \brief округлить пару времен до ближайшей минуты (>= 0.5)
-    /// \param time - пара времен
-    /// \retval округлённая пара времен, в случае неудачи исходная пара времен
+    /// @param time - пара времен
+    /// @retval округлённая пара времен, в случае неудачи исходная пара времен
     static QPair<QTime,QTime> roundToMinTime(const QPair<QTime,QTime>& time);
 
-    /// \brief вернуть закэшированное в процессе рассчётов предыдущее новолуниt
+    /// \brief вернуть закэшированное в процессе рассчётов предыдущее новолуние
     /// @retval дата-время предыдущего новолуния, в случае неудачи не валидное дата-время
     static QDateTime prevNewMoon();
 
@@ -483,19 +417,19 @@ protected:
     static inline double newMoonFindLongitudeThreshold();
 
     /// \brief уравнение времени (используется в рассчётах истинного солнечного времени)
-    /// \param N - номер дня в году: 1 для первого января и т.д.
-    /// \retval смещение солнечного времени от среднего в минутах
+    /// @param N - номер дня в году: 1 для первого января и т.д.
+    /// @retval смещение солнечного времени от среднего в минутах
     static double timeEquation(const quint32 N);
 
     /// \brief вычислить смещение в секундах среднего солнечного времени относительно универсального
-    /// \param longitude - географическая долгота места для расчёта
-    /// \retval смещение в секундах
+    /// @param longitude - географическая долгота места для расчёта
+    /// @retval смещение в секундах
     static qint32 sunTimeAverageOffset(const double longitude);
 
     /// \brief вычислить смещение в секундах истинного солнечного времени относительно универсального
-    /// \param longitude - географическая долгота места для расчёта
-    /// \param N - номер дня в году: 1 для первого января и т.д.
-    /// \retval смещение в секундах
+    /// @param longitude - географическая долгота места для расчёта
+    /// @param N - номер дня в году: 1 для первого января и т.д.
+    /// @retval смещение в секундах
     static qint32 sunTimeTrueOffset(const double longitude, const quint32 N);
 
     /// \brief вспомогательная функция из астрономической библиотеки AA+
@@ -519,21 +453,12 @@ protected:
     static bool moonTimeIsNewMoon(const QDateTime& dt, const double threshold);
 
     /// \brief узнать является ли смещение часового пояса верным значением
-    /// \param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
-    /// \retval true в случае подтверждения, иначе false
+    /// @param timeZoneOffset - смещение в часах от "универсального мирового времени" UTC
+    /// @retval true в случае подтверждения, иначе false
     static bool isTimeZoneOffsetValid(const double timeZoneOffset);
-
-    // кэшируемые переменные с датой-временем предыдущего и последующего новолуния для убыстрения рассчётов
-    static QDateTime m_previousNewMoon;
-    static QDateTime m_nextNewMoon;
-
-    // кэшируемые переменные с номером предыдущего вычисленного лунного дня (0 в случае не вычисленного)
-    static quint32 m_MoonDayNum;
-    static quint32 m_PrevMoonDayNum;
 };
 // КОНЕЦ: TComputings
 //---------------------------------------------------------------------------------
-
 
 
 #endif // COMPUTINGS_H

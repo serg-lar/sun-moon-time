@@ -490,7 +490,7 @@ void MainWindow::showMoonTime()
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
         // лунные дни
-        QList<TComputings::TMoonDay2> moonDaysExt (TComputings::moonTimeMoonDaysExt(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
+        QList<TComputings::TMoonDay> moonDaysExt (TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
                                                                                     QDateTime::currentDateTimeUtc().addDays(2),height));
         // сохранение текущих лунных дней
         m_PrevMoonDays = m_currentMoonDays;

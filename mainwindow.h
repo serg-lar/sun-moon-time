@@ -93,8 +93,8 @@ private:
     QTime                         m_currentSunSet;             ///< время текущего захода Солнца
     TTitha                        m_currentTitha;              ///< текущая титха
     TTitha                        m_prevTitha;                 ///< предыдущая титха
-    QList<TComputings::TMoonDay2> m_currentMoonDays;           ///< список текущих лунных дней
-    QList<TComputings::TMoonDay2> m_PrevMoonDays;              ///< предыдущий список лунных дней
+    QList<TComputings::TMoonDay> m_currentMoonDays;           ///< список текущих лунных дней
+    QList<TComputings::TMoonDay> m_PrevMoonDays;              ///< предыдущий список лунных дней
     bool                          mf_ekadashWarned;            ///< оповещение о экадаше произведено
     QSystemTrayIcon               m_TrayIcon;                  ///< значок приложения на панели (в трее)
     QMenu                         m_TrayIconMenu;              ///< контекстное меню для значка в трее
