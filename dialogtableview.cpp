@@ -160,9 +160,9 @@ void DialogTableView::on_pushButtonCalculate_clicked()
         }
 
         // блокирование интерфейса
-        QCursor mouseCursor (cursor());
-        setCursor(QCursor(Qt::WaitCursor));
         setDisabled(true);
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        repaint();
 
         ui->tableWidget->clear();
         ui->tableWidget->setRowCount(0);
@@ -379,9 +379,9 @@ void DialogTableView::on_pushButtonCalculate_clicked()
         // расширение столбцов под содержимое
         ui->tableWidget->resizeColumnsToContents();
 
-        // разблокирование интерфейса
-        setCursor(mouseCursor);
+        // разблокирование интерфейса        
         setEnabled(true);
+        QApplication::restoreOverrideCursor();
     }
     else
         qWarning() << "DialogTableView::on_pushButtonCalculate_clicked" << "load settings error";

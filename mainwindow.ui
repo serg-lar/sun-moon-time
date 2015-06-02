@@ -573,7 +573,7 @@ color: navy;</string>
          <item>
           <widget class="QTextEdit" name="textEditMoonDate">
            <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Получаемое время не всегда соответствует дате&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string/>
            </property>
            <property name="styleSheet">
             <string notr="true">QTextEdit
@@ -715,7 +715,7 @@ QToolTip
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

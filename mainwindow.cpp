@@ -24,6 +24,7 @@
 // НАЧАЛО: MainWindow - private slots
 void MainWindow::updateTime()
 {
+    // флаги частых вычислений
     bool needUpdateSvaras (false);  // нужно обновить информацию о сварах
     bool needCheckWarns (false);    // нужно проверить наличие событий
     if (0 == m_cTimer)
@@ -62,14 +63,14 @@ void MainWindow::updateTime()
         }
     }
 
-    QDateTime dt (QDateTime::currentDateTimeUtc()); // необходимая уловка, чтобы не происходило внутренних конвертаций времени в соответствии с установленным часовым поясом
-    dt.setDate(QDateTime::currentDateTime().date());
+    QDateTime dt (QDateTime::currentDateTimeUtc());  // необходимая уловка, чтобы не происходило внутренних конвертаций времени
+    dt.setDate(QDateTime::currentDateTime().date()); // в соответствии с установленным часовым поясом
     dt.setTime(QDateTime::currentDateTime().time());
-    if (QDate::currentDate() != m_Date)
+    if (QDate::currentDate() != m_currentDate)
     {
-        // обновить информацию о Солнце и Луне привязанную к дате
+        // обновить информацию о Солнце и Сварах привязанную к дате
         showSunTime();
-        showMoonTime();
+//        showMoonTime();
         showSvara();
         needUpdateSvaras = false;
     }
@@ -78,9 +79,15 @@ void MainWindow::updateTime()
         // обновить информацию по титхам
         showTithi();
     }
+    if (false == m_currentMoonDays.isEmpty())
+    {
+        // если текущая дата-время перевалило за рассвет последнего лунного дня, то пересчитать новые лунные дни
+        if (dt > m_currentMoonDays.last().rise)
+            showMoonTime();
+    }
 
     // текущая дата
-    m_Date = QDate::currentDate();
+    m_currentDate = QDate::currentDate();
 
     // загрузить настройки
     QSettings settings;
@@ -122,9 +129,12 @@ void MainWindow::updateTime()
                         QSound::play(":/sounds/OM_NAMO_NARAYANA.wav");
                         if (true == ekadashWarnRequireConfirmation)
                         {
-                            QMessageBox msgBox;
-                            msgBox.setText("Экадаш начинается");
-                            msgBox.exec();
+                            if (nullptr == mp_ekadashWarnMsgBox)
+                            {
+                                mp_ekadashWarnMsgBox = new QMessageBox;
+                            }
+                            mp_ekadashWarnMsgBox->setText("Экадаш начинается");
+                            mp_ekadashWarnMsgBox->show();
                         }
 
                         mf_ekadashWarned = true;
@@ -138,9 +148,12 @@ void MainWindow::updateTime()
                         QSound::play(":/sounds/OM_NAMO_NARAYANA.wav");
                         if (true == ekadashWarnRequireConfirmation)
                         {
-                            QMessageBox msgBox;                            
-                            msgBox.setText("Экадаш завершился");
-                            msgBox.exec();
+                            if (nullptr == mp_ekadashWarnMsgBox)
+                            {
+                                mp_ekadashWarnMsgBox = new QMessageBox;
+                            }
+                            mp_ekadashWarnMsgBox->setText("Экадаш завершился");
+                            mp_ekadashWarnMsgBox->show();
                         }
 
                         mf_ekadashWarned = true;
@@ -165,11 +178,20 @@ void MainWindow::showSettingsDialog()
 
     if (QDialog::Accepted == result)
     {
+        // заблокировать интерфейс
+        setDisabled(true);
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        repaint();
+
         // пересчитать все данные согласно новым настройкам
         showSunTime();
         showMoonTime();
         showTithi();
         showSvara();
+
+        // разблокировать интерфейс
+        setEnabled(true);
+        QApplication::restoreOverrideCursor();
 
         // открыть вкладку с информацией о Солнце
         ui->tabWidget->setCurrentWidget(ui->tabSun);
@@ -189,10 +211,10 @@ void MainWindow::computeAndShowAll()
 {
     // пересчитать все данные и отобразить в соответствующих вкладках
 
-    // блокировка работы пользователя с интерфейсом
-    QCursor currentCursor (cursor());
+    // блокировка работы пользователя с интерфейсом    
     setDisabled(true);
-    setCursor(QCursor(Qt::WaitCursor));
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    repaint();
 
     // пересчёт и отображение
     showSunTime();
@@ -202,7 +224,7 @@ void MainWindow::computeAndShowAll()
 
     // разблокировка работы пользователя с интерфейсом
     setEnabled(true);
-    setCursor(currentCursor);    
+    QApplication::restoreOverrideCursor();
 }
 //---------------------------
 
@@ -429,9 +451,17 @@ void MainWindow::showMoonTime()
     // рассчёты и вывод информации
     if (true == ok)
     {
+        // заблокировать интерфейс
+        setDisabled(true);
+        repaint();
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
         // лунные дни
         QList<TComputings::TMoonDay2> moonDays(TComputings::moonTimeMoonDays(longitude,latitude,timeZoneOffset,QDateTime::currentDateTimeUtc().addDays(-1),
-                                                                             QDateTime::currentDateTimeUtc().addDays(1),height));
+                                                                             QDateTime::currentDateTimeUtc().addDays(2),height));
+        m_currentMoonDays = moonDays;   // сохранение текущих лунных дней
+
+        ui->textEditMoonDate->clear();
         for (qint32 i = 0; i < moonDays.size(); ++i)
         {
             // округление до минуты
@@ -449,6 +479,10 @@ void MainWindow::showMoonTime()
             }
             ui->textEditMoonDate->append("");
         }
+
+        // разблокировать интерфейс
+        setEnabled(true);
+        QApplication::restoreOverrideCursor();
 
         // позицию текстового курсора в начало
         QTextCursor textCursorToBegin (ui->textEditMoonDate->textCursor());
@@ -619,9 +653,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // инициализация переменных
     m_cTimer = 0;
-    m_Date = QDate::currentDate();
+    m_currentDate = QDate::currentDate();
     mf_realClose = false;
     mf_ekadashWarned = false;
+    mp_ekadashWarnMsgBox = nullptr;
 
     // значок в трее и меню к нему
     m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
@@ -745,6 +780,9 @@ MainWindow::~MainWindow()
     // освобождение ресурсов
     if (mp_TrayIconMenuActionQuit)
         delete mp_TrayIconMenuActionQuit;
+
+    if (mp_ekadashWarnMsgBox)
+        delete mp_ekadashWarnMsgBox;
 
     delete ui;
 }
