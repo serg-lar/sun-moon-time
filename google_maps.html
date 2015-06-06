@@ -10,27 +10,8 @@
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANEdn4o9lPjbopBcBxYtWMgJc5oPrRBx4&sensor=false">
     </script>
-    <script type="text/javascript">
-      var map;
-      var markers = [];
-
-      function initialize()
-      {
-        var myOptions =
-        {
-          center: new google.maps.LatLng(55.7541, 37.6204),
-          zoom: 8,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          panControl: true
-        };
-
-        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-        google.maps.event.addListener(map,"click",function(event){qDialogSettings.setCoord(event.latLng.lat(),event.latLng.lng());});
-<!--        alert(map.getCenter().lat());-->
-      }
-    </script>
   </head>
-  <body onload="initialize()">
+  <body>
     <div id="map_canvas" style="width:100%; height:100%"></div>
   </body>
 </html>

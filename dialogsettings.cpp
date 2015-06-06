@@ -248,11 +248,13 @@ void DialogSettings::on_webView_loadFinished(bool arg1)
     // центрировать карту на заданных геогр. координатах при завершении её загрузки
     if (true == arg1)
     {
+        QString latStr (QString::number(ui->doubleSpinBoxLatitude->value()));
+        QString lngStr (QString::number(ui->doubleSpinBoxLongitude->value()));
+        QString cmd;
+
         // выполнить соответствующий java script
-        QString str;
-        str = "map.panTo({lat: " + QString::number(ui->doubleSpinBoxLatitude->value()) +
-                ", lng: " + QString::number(ui->doubleSpinBoxLongitude->value()) + "});";
-        ui->webView->page()->mainFrame()->evaluateJavaScript(str);
+        cmd = "var map; var markers = []; var myOptions = { center: new google.maps.LatLng(" + latStr + ", " + lngStr + "), zoom: 8, mapTypeId: google.maps.MapTypeId.ROADMAP, panControl: true }; map = new google.maps.Map(document.getElementById('map_canvas'), myOptions); google.maps.event.addListener(map,'click',function(event){qDialogSettings.setCoord(event.latLng.lat(),event.latLng.lng());});";
+        ui->webView->page()->mainFrame()->evaluateJavaScript(cmd);
     }
 }
 //---------------------------
