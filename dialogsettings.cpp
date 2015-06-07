@@ -355,7 +355,7 @@ DialogSettings::DialogSettings(QWidget *parent) :
         qWarning() << "DialogSettings::DialogSettings" << "error loadSettings";
 
     // загрузить карты гугл
-    ui->webView->load(QUrl("qrc:/google_maps.html"));
+    ui->webView->load(QUrl("qrc:/html/google_maps.html"));
 }
 //---------------------------
 

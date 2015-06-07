@@ -3,6 +3,12 @@
     #define QT_NO_DEBUG_OUTPUT
 #endif
 
+#include <QtMath>
+#include <QtDebug>
+#include <QSettings>
+#include <QCloseEvent>
+#include <QMessageBox>
+#include <QSound>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dialogsettings.h"
@@ -11,12 +17,7 @@
 #include "tithi.h"
 #include "calendar.h"
 #include "computings.h"
-#include <QtMath>
-#include <QtDebug>
-#include <QSettings>
-#include <QCloseEvent>
-#include <QMessageBox>
-#include <QSound>
+#include "dialogabout.h"
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -242,6 +243,14 @@ void MainWindow::computeAndShowAll()
     // разблокировка работы пользователя с интерфейсом
     setEnabled(true);
     QApplication::restoreOverrideCursor();
+}
+//---------------------------
+
+void MainWindow::showAboutDialog()
+{
+    // показать диалог о программе
+    DialogAbout aboutDialog(this);
+    int result (aboutDialog.exec());
 }
 //---------------------------
 
@@ -722,8 +731,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionExitApp, SIGNAL(triggered()), this, SLOT(realClose()));
     connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(showSettingsDialog()));
     connect(ui->actionReCompAll, SIGNAL(triggered()), this, SLOT(computeAndShowAll()));
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
     connect(&m_TrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this,
             SLOT(on_systemTrayIconActivated(QSystemTrayIcon::ActivationReason)));
+
 
     // объекты
     m_TrayIcon.show();

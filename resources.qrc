@@ -1,16 +1,15 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>sun___moon_by_crazi_wolf.jpg</file>
-        <file>Солнце и луна-1.jpg</file>
-        <file>Солнце и луна-2.jpg</file>
-        <file>Солнце и луна-2_1.jpg</file>
         <file>sun_moon.jpg</file>
         <file>sun_moon.ico</file>
     </qresource>
-    <qresource prefix="/">
+    <qresource prefix="/html">
         <file>google_maps.html</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>OM_NAMO_NARAYANA.wav</file>
+    </qresource>
+    <qresource prefix="/txt">
+        <file>readme.txt</file>
     </qresource>
 </RCC>

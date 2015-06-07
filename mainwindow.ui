@@ -749,8 +749,15 @@ QToolTip
     </property>
     <addaction name="actionSettings"/>
    </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Помощь</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuOptions"/>
+   <addaction name="menu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -777,6 +784,14 @@ QToolTip
   <action name="actionReCompAll">
    <property name="text">
     <string>Пересчитать всё</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>О Программе</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
  </widget>

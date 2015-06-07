@@ -38,6 +38,9 @@ private slots:
     /// \brief Пересчитать и отобразить всю информацию во всех вкладках
     void computeAndShowAll();
 
+    /// \brief Показать диалог о программе
+    void showAboutDialog();
+
     void on_radioButtonKaliYuga_clicked();
     void on_radioButtonMahaYuga_clicked();
     void on_radioButtonManvantara_clicked();
@@ -45,9 +48,7 @@ private slots:
     void on_radioButtonMahaKalpa_clicked();
     void on_pushButtonTithiPeriod_clicked();
     void on_pushButtonEkadashi_clicked();
-
     void on_pushButtonSunTimePeriod_clicked();
-
     void on_pushButtonMoonDatePeriod_clicked();
     void on_systemTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 

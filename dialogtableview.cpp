@@ -480,6 +480,13 @@ void DialogTableView::on_pushButtonSaveAs_clicked()
     QString fileName (QFileDialog::getSaveFileName(this, "Сохранить как...",QString(),"HyperText (*.html)"));
     if (false == fileName.isEmpty())
     {
+        // загрузить некоторые настройки программы
+        QSettings settings;
+        bool ok (false);
+        double latitude (settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok));
+        double longitude (settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
+        double height (settings.value(DialogSettings::heightSettingName()).toDouble(&ok));
+
         QFile outFile (fileName);
         if (true == outFile.open(QIODevice::WriteOnly | QIODevice::Text))
         {
@@ -489,6 +496,7 @@ void DialogTableView::on_pushButtonSaveAs_clicked()
             // формат файла - простой html
             out << "<html>" << endl;
             out << "<head>" << endl;
+            out << "<meta charset='utf-8'/>";
 
             // заголовок html файла для солнечного времени
             out << "<h1 align='center'>" << endl;
@@ -503,6 +511,16 @@ void DialogTableView::on_pushButtonSaveAs_clicked()
             else if (true == ui->radioButtonPeriod->isChecked())
                 out << QString("с ") << QDate::currentDate().toString("dd.MM.yyyy") << QString(" на ") << ui->comboBoxPeriod->currentText() << endl << endl;
             out << "</h1>";
+            if (true == ok)
+            {
+                // доп. сведения о геогр. координатах
+                out << "<br/>";
+                out << "<h4 align='center'>";
+                out << "широта="+QString::number(latitude)+" ";
+                out << "долгота="+QString::number(longitude)+" ";
+                out << "высота="+QString::number(height) << endl;
+                out << "</h4>";
+            }
             out << "</head>" << endl;
 
             // содержимое html файла - таблица

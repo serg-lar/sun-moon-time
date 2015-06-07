@@ -1,6 +1,15 @@
 Солнечно-Лунное время.
 
-Солнечный день по грегорианскому и ведическому летоисчислению; солнечное время среднее и истинное; лунный день и титхи, экадаши.
+Солнечный день по грегорианскому и ведическому летоисчислению; солнечное время среднее и истинное; лунный день и титхи, экадаши; свары; ведические праздники.
+
+Использованные материалы:
+
+Сайт
+        kaula-dharma.ru
+
+Каналы на ютуб
+        "Бойкот праздников" http://www.youtube.com/channel/UCNzOLfgJti70nAogVRtocsQ
+        "Дхарма Женщины"  http://www.youtube.com/channel/UC2zSIwqL-g0QQMT6M1fVQuA
 
 Для расчёта геоцентрических эклиптических и топоцентрических горизонтальных координат планет используется AA+ v1.57 A class framework for Computational Astronomy. (AA+ is a C++ implementation for the algorithms as presented in the book "Astronomical Algorithms" by Jean Meeus)
 http://www.naughter.com/aa.html
@@ -26,3 +35,4 @@ http://www.agni-yoga.net/vbulletin/archive/index.php/t-76.html
 https://youtu.be/Cg4fF_j0r40
 
 Из заметки "Для тех, кто путает каула-дхарма с либералами." https://vk.com/club38568604?w=wall-38568604_3879
+
