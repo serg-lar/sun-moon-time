@@ -496,7 +496,11 @@ void DialogTableView::on_pushButtonSaveAs_clicked()
             // формат файла - простой html
             out << "<html>" << endl;
             out << "<head>" << endl;
+#ifdef Q_OS_WIN
+            out << "<meta charset='windows-1251'/>";
+#else
             out << "<meta charset='utf-8'/>";
+#endif
 
             // заголовок html файла для солнечного времени
             out << "<h1 align='center'>" << endl;

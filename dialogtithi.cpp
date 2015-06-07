@@ -242,14 +242,28 @@ void DialogTithi::on_pushButtonSaveAs_clicked()
                 if (true == selectedFilter.contains("*.txt"))
                     out << QString("Титхи") << endl;
                 else
+                {
+#ifdef Q_OS_WIN
+                    out << "<meta charset='windows-1251'/>";
+#else
+                    out << "<meta charset='utf-8'/>";
+#endif
                     out << QString("<h1>Титхи</h1>") << endl;
+                }
             }
             else if (ekadashiType == m_Type)
             {
                 if (true == selectedFilter.contains("*.txt"))
                     out << QString("Экадаши") << endl;
                 else
+                {
+#ifdef Q_OS_WIN
+                    out << "<meta charset='windows-1251'/>";
+#else
+                    out << "<meta charset='utf-8'/>";
+#endif
                     out << QString("<h1>Экадаши</h1>") << endl;
+                }
             }
             if (true == ui->radioButtonCalendar->isChecked())
             {
