@@ -132,7 +132,8 @@ bool DialogSettings::loadSettings()
 #ifdef Q_OS_WIN32
         QSettings autoStartSetting ("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
                                     QSettings::NativeFormat);
-        if (true == autoStartSetting.contains(QApplication::applicationName()))
+        if (true == autoStartSetting.contains(QApplication::applicationName()) &&
+                (false == autoStartSetting.value(QApplication::applicationName()).toString().isEmpty()))
             ui->checkBoxAutoStartUp->setChecked(true);
         else
             ui->checkBoxAutoStartUp->setChecked(false);
