@@ -77,9 +77,10 @@ void MainWindow::updateTime()
         if (dt > m_currentMoonDays.last().rise)
             showMoonTime();
     }
-    if (dt >= m_currentTitha.endDateTime())
+    if (dt >= m_currentTitha.endDateTime().addSecs(100))
     {
         // обновить информацию по титхам        
+        // добавленные 100 секунд для того, чтобы не посчитать снова ту же титху
         showTithi();
     }
     if (false == m_currentMoonDays.isEmpty())
