@@ -78,10 +78,10 @@ void MainWindow::updateTime()
         if (dt > m_currentMoonDays.last().rise)
             showMoonTime();
     }
-    if (dt >= m_currentTitha.endDateTime().addSecs(100))
+    if (dt >= m_currentTitha.endDateTime().addSecs(120))
     {
         // обновить информацию по титхам        
-        // добавленные 100 секунд для того, чтобы не посчитать снова ту же титху
+        // добавленные 120 секунд для того, чтобы не посчитать снова ту же титху
         showTithi();
     }
     if (false == m_currentMoonDays.isEmpty())
@@ -154,7 +154,7 @@ void MainWindow::updateTime()
 
                         mf_ekadashWarned = true;
                     }
-                    else if ((true == ekadashWarnAfter) && (11 == m_prevTitha.num()) && (12 == m_currentTitha.num()) &&
+                    else if ((true == ekadashWarnAfter) && /*(11 == m_prevTitha.num()) &&*/ (12 == m_currentTitha.num()) &&
                              (m_currentTitha.beginDateTime().secsTo(dt) >= static_cast<qint64>(ekadashWarnTimeBefore*60*60)))
                     {
                         // необходимо оповестить о завершении экадаша
@@ -684,6 +684,9 @@ void MainWindow::showSvara()
 
         // расширение столбцов под содержимое
         ui->tableWidgetSvaras->resizeColumnsToContents();
+
+        // tool tip иконки
+        m_TrayIcon.setToolTip("Солнечно-Лунное время\n"+ui->tabWidget->tabText(2)+"\n"+m_currentTitha.asTithiStrExt());
     }
     else
     {
