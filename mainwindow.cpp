@@ -712,6 +712,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // основной интерфейс
     ui->setupUi(this);
 
+    ui->mainToolBar->setVisible(false);
+
     // инициализация переменных
     m_cTimer = 0;
     m_currentDate = QDate::currentDate();
