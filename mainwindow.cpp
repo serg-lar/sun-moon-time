@@ -686,7 +686,8 @@ void MainWindow::showSvara()
         ui->tableWidgetSvaras->resizeColumnsToContents();
 
         // tool tip иконки
-        m_TrayIcon.setToolTip("Солнечно-Лунное время\n"+ui->tabWidget->tabText(2)+"\n"+m_currentTitha.asTithiStrExt());
+        m_TrayIcon.setToolTip("Солнечно-Лунное время\n"+ui->tabWidget->tabText(2)+"\n"+
+                              (m_currentTitha.paksha() ? "шукла-пакша" : "кршна-пакша")+" - "+m_currentTitha.nameStr());
     }
     else
     {
