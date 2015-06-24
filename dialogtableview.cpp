@@ -227,14 +227,20 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     // утренние навигационные сумерки (до восхода)
                     QPair<QTime,QTime> morningNavigationTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,
                                                                                                       static_cast<double>(TComputings::navigationTwilight),d1));
-                    morningNavigationTwilight = TComputings::roundToMinTime(morningNavigationTwilight);
-                    morningNavigationTwilight.second = morningCivilTwilight.first;
+                    if ((true == morningNavigationTwilight.first.isValid()) && (true == morningNavigationTwilight.second.isValid()))
+                    {
+                        morningNavigationTwilight = TComputings::roundToMinTime(morningNavigationTwilight);
+                        morningNavigationTwilight.second = morningCivilTwilight.first;
+                    }
 
                     // утренние астрономические сумерки (до восхода)
                     QPair<QTime,QTime> morningAstronomicalTwilight (TComputings::sunTimeMorningTwilight(longitude,latitude,sunRise,height,timeZoneOffset,
                                                                                                         static_cast<double>(TComputings::astronomicalTwilight),d1));
-                    morningAstronomicalTwilight = TComputings::roundToMinTime(morningAstronomicalTwilight);
-                    morningAstronomicalTwilight.second = morningNavigationTwilight.first;
+                    if ((true == morningAstronomicalTwilight.first.isValid()) && (true == morningAstronomicalTwilight.second.isValid()))
+                    {
+                        morningAstronomicalTwilight = TComputings::roundToMinTime(morningAstronomicalTwilight);
+                        morningAstronomicalTwilight.second = morningNavigationTwilight.first;
+                    }
 
                     // утренние сумерки (сандхья), как 1/10 часть от половины суток
                     QPair<QTime,QTime> morningSandhya(TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunRise,timeZoneOffset,true,d1));
@@ -256,14 +262,20 @@ void DialogTableView::on_pushButtonCalculate_clicked()
                     // вечерние навигационные сумерки (от захода)
                     QPair<QTime,QTime> eveningNavigationTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,
                                                                                                       static_cast<double>(TComputings::navigationTwilight),d1));
-                    eveningNavigationTwilight = TComputings::roundToMinTime(eveningNavigationTwilight);
-                    eveningNavigationTwilight.first = eveningCivilTwilight.second;
+                    if ((true == eveningNavigationTwilight.first.isValid()) && (true == eveningNavigationTwilight.second.isValid()))
+                    {
+                        eveningNavigationTwilight = TComputings::roundToMinTime(eveningNavigationTwilight);
+                        eveningNavigationTwilight.first = eveningCivilTwilight.second;
+                    }
 
                     // вечерние астрономические сумерки (от захода)
                     QPair<QTime,QTime> eveningAstronomicalTwilight (TComputings::sunTimeEveningTwilight(longitude,latitude,sunSet,height,timeZoneOffset,
                                                                                                         static_cast<double>(TComputings::astronomicalTwilight),d1));
-                    eveningAstronomicalTwilight = TComputings::roundToMinTime(eveningAstronomicalTwilight);
-                    eveningAstronomicalTwilight.first = eveningNavigationTwilight.second;
+                    if ((true == eveningAstronomicalTwilight.first.isValid() && true == eveningAstronomicalTwilight.second.isValid()))
+                    {
+                        eveningAstronomicalTwilight = TComputings::roundToMinTime(eveningAstronomicalTwilight);
+                        eveningAstronomicalTwilight.first = eveningNavigationTwilight.second;
+                    }
 
                     // вечерние сумерки (сандхья), как 1/10 часть от половины суток
                     QPair<QTime,QTime> eveningSandhya (TComputings::sunTimeSandhyaAsDayPart(longitude,latitude,sunSet,timeZoneOffset,false,d1));

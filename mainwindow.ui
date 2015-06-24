@@ -154,6 +154,8 @@ QGroupBox::title
             <property name="styleSheet">
              <string notr="true">QToolTip
 {
+	padding: 1;
+	background: black;
 	font: bold;
 	color: white;
 }</string>
@@ -183,14 +185,16 @@ QGroupBox::title
             <property name="styleSheet">
              <string notr="true">QTextEdit
 {
-color: purple;
-font: bold;
+	color: purple;
+	font: bold;
 }
 
 QToolTip
 {
-color: white;
-font: bold;
+	padding: 3;
+	background: gray;
+	color: white;
+	font: bold;
 }</string>
             </property>
             <property name="readOnly">
@@ -574,14 +578,16 @@ color: navy;</string>
            <property name="styleSheet">
             <string notr="true">QTextEdit
 {
-font: bold;
-color: navy;
+	font: bold;
+	color: navy;
 }
 
 QToolTip
 {
-font: bold;
-color: white;
+	padding: 2;
+	background: black;
+	font: bold;
+	color: white;
 }</string>
            </property>
            <property name="readOnly">
@@ -650,7 +656,7 @@ color: white;
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

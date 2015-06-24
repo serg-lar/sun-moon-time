@@ -1152,8 +1152,8 @@ QString TComputings::toStringSunTimeInfo2(const QPair<QTime,QTime>& civil, const
     QString result;
 
     // проверка входных данных
-    if ((true == civil.first.isValid()) && (true == civil.second.isValid()) && (true == navigation.first.isValid()) && (true == navigation.second.isValid()) &&
-            (true == astronomical.first.isValid()) && (true == astronomical.second.isValid()) )
+//    if ((true == civil.first.isValid()) && (true == civil.second.isValid()) && (true == navigation.first.isValid()) && (true == navigation.second.isValid()) &&
+//            (true == astronomical.first.isValid()) && (true == astronomical.second.isValid()) )
     {
         QPair<QTime,QTime> civilTwilight (civil), navigationTwilight (navigation), astronomicalTwilight (astronomical);
         if (true == roundToMin)
@@ -1164,18 +1164,36 @@ QString TComputings::toStringSunTimeInfo2(const QPair<QTime,QTime>& civil, const
         }
 
         if (true == morningTwilight)
-        {
+        {            
             result += "\nУтренние сумерки\n";
-            result += "Гражданские: " + civilTwilight.first.toString(QString("hh:mm")) + " - " + civilTwilight.second.toString(QString("hh:mm")) + "\n";
-            result += "Навигационные: " + navigationTwilight.first.toString(QString("hh:mm")) + " - " + civilTwilight.first.toString(QString("hh:mm")) + "\n";
-            result += "Астрономические: " + astronomicalTwilight.first.toString(QString("hh:mm")) + " - " + navigationTwilight.first.toString(QString("hh:mm"));
+            if ((true == civil.first.isValid()) && (true == civil.second.isValid()))
+                result += "Гражданские: " + civilTwilight.first.toString(QString("hh:mm")) + " - " + civilTwilight.second.toString(QString("hh:mm")) + "\n";
+            else
+                result += "Гражданские: ---\n";
+            if ((true == navigation.first.isValid()) && (true == navigation.second.isValid()))
+                result += "Навигационные: " + navigationTwilight.first.toString(QString("hh:mm")) + " - " + civilTwilight.first.toString(QString("hh:mm")) + "\n";
+            else
+                result += "Навигационные: ---\n";
+            if ((true == astronomical.first.isValid()) && (true == astronomical.second.isValid()))
+                result += "Астрономические: " + astronomicalTwilight.first.toString(QString("hh:mm")) + " - " + navigationTwilight.first.toString(QString("hh:mm"));
+            else
+                result += "Астрономические: ---\n";
         }
         else
         {
             result += "\nВечерние сумерки\n";
-            result += "Гражданские: " + civilTwilight.first.toString(QString("hh:mm")) + " - " + civilTwilight.second.toString(QString("hh:mm")) + "\n";
-            result += "Навигационные: " + civilTwilight.second.toString(QString("hh:mm")) + " - " + navigationTwilight.second.toString(QString("hh:mm")) + "\n";
-            result += "Астрономические: " + navigationTwilight.second.toString(QString("hh:mm")) + " - " + astronomicalTwilight.second.toString(QString("hh:mm"));
+            if ((true == civil.first.isValid()) && (true == civil.second.isValid()))
+                result += "Гражданские: " + civilTwilight.first.toString(QString("hh:mm")) + " - " + civilTwilight.second.toString(QString("hh:mm")) + "\n";
+            else
+                result += "Гражданские: ---\n";
+            if ((true == navigation.first.isValid()) && (true == navigation.second.isValid()))
+                result += "Навигационные: " + civilTwilight.second.toString(QString("hh:mm")) + " - " + navigationTwilight.second.toString(QString("hh:mm")) + "\n";
+            else
+                result += "Навигационные: ---\n";
+            if ((true == astronomical.first.isValid()) && (true == astronomical.second.isValid()))
+                result += "Астрономические: " + navigationTwilight.second.toString(QString("hh:mm")) + " - " + astronomicalTwilight.second.toString(QString("hh:mm"));
+            else
+                result += "Астрономические: ---\n";
         }
     }
 
