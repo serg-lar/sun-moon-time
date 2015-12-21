@@ -1430,7 +1430,7 @@ double TComputings::newMoonFindLongitudeThreshold()
 
 double TComputings::timeEquation(const quint32 N)
 {
-    double B = 2*M_PI * (static_cast<qint32>(N) - 81) / 365.;
+    double B = 2*M_PI/*360*/ * (static_cast<qint32>(N) - 81) / 365.;
     return 9.87*sin(2*B) - 7.53*cos(B) - 1.5*sin(B);
 }
 //---------------------------

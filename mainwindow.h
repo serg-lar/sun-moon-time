@@ -39,7 +39,7 @@ private slots:
     void computeAndShowAll();
 
     /// \brief Показать диалог о программе
-    void showAboutDialog();
+    void showAboutDialog();       
 
     void on_radioButtonKaliYuga_clicked();
     void on_radioButtonMahaYuga_clicked();
@@ -94,11 +94,12 @@ private:
     QTime                         m_currentSunSet;             ///< время текущего захода Солнца
     TTitha                        m_currentTitha;              ///< текущая титха
     TTitha                        m_prevTitha;                 ///< предыдущая титха
-    QList<TComputings::TMoonDay> m_currentMoonDays;           ///< список текущих лунных дней
-    QList<TComputings::TMoonDay> m_PrevMoonDays;              ///< предыдущий список лунных дней
+    QList<TComputings::TMoonDay> m_currentMoonDays;            ///< список текущих лунных дней
+    QList<TComputings::TMoonDay> m_PrevMoonDays;               ///< предыдущий список лунных дней
     bool                          mf_ekadashWarned;            ///< оповещение о экадаше произведено
     QSystemTrayIcon               m_TrayIcon;                  ///< значок приложения на панели (в трее)
     QMenu                         m_TrayIconMenu;              ///< контекстное меню для значка в трее
+    QAction*                      mp_TrayIconMenuSctionShow;   ///< пункт "показать" контекстного меню для иконки в трее
     QAction*                      mp_TrayIconMenuActionQuit;   ///< пункт "выход" контекстного меню для иконки в трее
     bool                          mf_realClose;                ///< флаг закрытия окна на совсем
     QMessageBox*                  mp_ekadashWarnMsgBox;        ///< диалог с предупрежеднием о экадаше и кнопкой OK

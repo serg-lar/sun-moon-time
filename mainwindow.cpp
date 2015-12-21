@@ -724,9 +724,13 @@ MainWindow::MainWindow(QWidget *parent) :
     // значок в трее и меню к нему
     m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
     m_TrayIcon.setToolTip("Солнечно-Лунное время");
-    m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
-    m_TrayIcon.setToolTip("Солнечно-Лунное время");
+//    m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
+//    m_TrayIcon.setToolTip("Солнечно-Лунное время");
 
+    mp_TrayIconMenuSctionShow = new QAction("Показать",&m_TrayIconMenu);
+    connect(mp_TrayIconMenuSctionShow, SIGNAL(triggered(bool)), SLOT(showNormal()));
+    m_TrayIconMenu.addAction(mp_TrayIconMenuSctionShow);
+    m_TrayIconMenu.addSeparator();
     mp_TrayIconMenuActionQuit = new QAction("Выход",&m_TrayIconMenu);
     connect(mp_TrayIconMenuActionQuit, SIGNAL(triggered()), this, SLOT(realClose()));
     m_TrayIconMenu.addAction(mp_TrayIconMenuActionQuit);
@@ -845,6 +849,9 @@ MainWindow::~MainWindow()
     m_Timer.stop();
 
     // освобождение ресурсов
+    if (nullptr != mp_TrayIconMenuSctionShow)
+        delete mp_TrayIconMenuSctionShow;
+
     if (nullptr != mp_TrayIconMenuActionQuit)
         delete mp_TrayIconMenuActionQuit;
 
