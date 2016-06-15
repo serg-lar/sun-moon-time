@@ -41,3 +41,5 @@ http://www.agni-yoga.net/vbulletin/archive/index.php/t-76.html
 https://youtu.be/Cg4fF_j0r40
 
 Из заметки "Для тех, кто путает каула-дхарма с либералами." https://vk.com/club38568604?w=wall-38568604_3879
+
+![Солнечно-Лунное время_Солнце.png](https://bitbucket.org/repo/X9jrb6/images/3876444033-%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE-%D0%9B%D1%83%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%B2%D1%80%D0%B5%D0%BC%D1%8F_292.png)
