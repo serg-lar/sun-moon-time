@@ -41,13 +41,18 @@ http://www.agni-yoga.net/vbulletin/archive/index.php/t-76.html
 https://youtu.be/Cg4fF_j0r40
 
 Из заметки "Для тех, кто путает каула-дхарма с либералами." https://vk.com/club38568604?w=wall-38568604_3879
-<br>
+
+
 ![Солнечно-Лунное время_Солнце.png](https://bitbucket.org/repo/X9jrb6/images/3876444033-%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE-%D0%9B%D1%83%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%B2%D1%80%D0%B5%D0%BC%D1%8F_292.png)
-<br>
+
+
 ![Солнечно-Лунное время_Луна.png](https://bitbucket.org/repo/X9jrb6/images/4072291200-%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE-%D0%9B%D1%83%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%B2%D1%80%D0%B5%D0%BC%D1%8F_293.png)
-<br>
+
+
 ![Солнечно-Лунное время_Свара.png](https://bitbucket.org/repo/X9jrb6/images/4269035060-%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE-%D0%9B%D1%83%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%B2%D1%80%D0%B5%D0%BC%D1%8F_294.png)
-<br>
+
+
 ![Солнечно-Лунное время_Праздники.png](https://bitbucket.org/repo/X9jrb6/images/102470657-%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE-%D0%9B%D1%83%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%B2%D1%80%D0%B5%D0%BC%D1%8F_295.png)
-<br>
+
+
 ![Настройки.png](https://bitbucket.org/repo/X9jrb6/images/3358656886-%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8_296.png)
