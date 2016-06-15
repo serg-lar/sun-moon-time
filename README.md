@@ -43,7 +43,7 @@ https://youtu.be/Cg4fF_j0r40
 Из заметки "Для тех, кто путает каула-дхарма с либералами." https://vk.com/club38568604?w=wall-38568604_3879
 
 
-E-mail для связи с автором: [Email для связи с автором](mailto:serg.a.lar@gmail.com)
+[Email для связи с автором](mailto:serg.a.lar@gmail.com)
 
 
 
