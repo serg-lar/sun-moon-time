@@ -37,6 +37,10 @@ http://krishna64.ru/materials/vedic-science/97-astronomicheskaya-siddkhanta
 Продолжительность временных циклов взята из открытых интернет-источников (агни-йога)
 http://www.agni-yoga.net/vbulletin/archive/index.php/t-76.html
 
+Кальпа
+Материал из Википедии — свободной энциклопедии
+https://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D0%BB%D1%8C%D0%BF%D0%B0
+
 "Летоисчисление от Рождества Христова необходимо отменить"
 https://youtu.be/Cg4fF_j0r40
 
