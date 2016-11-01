@@ -10,6 +10,9 @@ https://bitbucket.org/senya1985/sun-moon-time/downloads
 
 Использованные материалы:
 
+Почему в экадаши нельзя принимать зернобобовую пищу?
+https://vk.com/topic-39053542_28027778
+
 Сайт
         kaula-dharma.ru
 
