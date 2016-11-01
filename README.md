@@ -14,7 +14,7 @@ https://bitbucket.org/senya1985/sun-moon-time/downloads
 https://vk.com/topic-39053542_28027778
 
 Сайт
-        kaula-dharma.ru
+        https://kaula-dharma.com
 
 Каналы на ютуб
         "Бойкот праздников" http://www.youtube.com/channel/UCNzOLfgJti70nAogVRtocsQ
