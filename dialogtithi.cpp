@@ -70,7 +70,7 @@ void DialogTithi::on_pushButtonCalculate_clicked()
     QDateTime dt2 (QDateTime::currentDateTimeUtc());
 
     // прочитать часовой пояс из настроек программы
-    timeZoneOffset = settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok);
+    timeZoneOffset = settings.value(SunMoonTimeSettingsMisc::timeZoneOffsetSettingName()).toDouble(&ok);
     if (true == ok)
     {
         // рассчитать титхи или экадаши

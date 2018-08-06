@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Настройки</string>
   </property>
-  <widget class="QWebView" name="webView">
+  <widget class="QWebView" name="webView" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -28,7 +28,13 @@
      <height>331</height>
     </rect>
    </property>
-   <property name="url">
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="url" stdset="0">
     <url>
      <string>about:blank</string>
     </url>
@@ -42,6 +48,12 @@
      <width>251</width>
      <height>161</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">QGroupBox
@@ -61,6 +73,12 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>Предупреждать о экадаше</string>
     </property>
@@ -74,6 +92,12 @@
       <height>112</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <layout class="QVBoxLayout" name="verticalLayout_6">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -81,6 +105,12 @@
         <widget class="QCheckBox" name="checkBoxEkadashWarnBefore">
          <property name="enabled">
           <bool>false</bool>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="text">
           <string>До</string>
@@ -92,6 +122,12 @@
        </item>
        <item>
         <widget class="QCheckBox" name="checkBoxEkadashWarnAfter">
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>После</string>
          </property>
@@ -109,6 +145,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>За</string>
          </property>
@@ -121,6 +163,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <item>
           <property name="text">
@@ -153,6 +201,12 @@
      </item>
      <item>
       <widget class="QCheckBox" name="checkBoxEkadashWarnRequireConfirmation">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Требовать подтверждение</string>
        </property>
@@ -169,6 +223,12 @@
      <width>371</width>
      <height>111</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">QGroupBox
@@ -188,6 +248,12 @@
       <height>54</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -198,6 +264,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="text">
           <string>Широта</string>
@@ -211,6 +283,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Географическая широта&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -244,6 +322,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Долгота</string>
          </property>
@@ -256,6 +340,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Географическая долгота&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -289,6 +379,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Высота</string>
          </property>
@@ -301,6 +397,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Высота над уровнем моря&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -335,6 +437,12 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Расстояние между опорными точками на основании которых вычисляется высота в указанной точке.&lt;/p&gt;&lt;p&gt;Чем меньше это число, тем выше точность.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
@@ -357,6 +465,12 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Запрашивать высоту над уровнем моря в выбранной точке на карте&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
@@ -377,6 +491,12 @@
      <height>111</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="styleSheet">
     <string notr="true">QGroupBox
 {
@@ -395,6 +515,12 @@
       <height>54</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
       <widget class="QLabel" name="label_4">
@@ -403,6 +529,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
        </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Часовой пояс, UTC&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -418,6 +550,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Смещение от универсального мирового времени (UTC) в часах&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -443,6 +581,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Получить часовой пояс из системных параметров&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -472,11 +616,17 @@
      <height>22</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="text">
     <string>Авто запуск при загрузке ОС</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>450</x>
@@ -485,9 +635,21 @@
      <height>29</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
      <widget class="QPushButton" name="pushButtonOk">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>ОК</string>
       </property>
@@ -498,6 +660,12 @@
     </item>
     <item>
      <widget class="QPushButton" name="pushButtonCancel">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Отмена</string>
       </property>

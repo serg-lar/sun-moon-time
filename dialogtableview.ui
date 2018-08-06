@@ -34,6 +34,12 @@
      <height>710</height>
     </size>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="gridStyle">
     <enum>Qt::SolidLine</enum>
    </property>
@@ -55,6 +61,15 @@
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">QGroupBox
@@ -81,6 +96,12 @@ QGroupBox::title
       <height>21</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -94,6 +115,12 @@ QGroupBox::title
       <height>52</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
       <widget class="QLabel" name="label_3">
@@ -106,6 +133,12 @@ QGroupBox::title
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>На</string>
        </property>
@@ -115,6 +148,12 @@ QGroupBox::title
       <widget class="QComboBox" name="comboBoxPeriod">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
        </property>
        <property name="currentIndex">
         <number>0</number>
@@ -184,6 +223,15 @@ QGroupBox::title
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="styleSheet">
     <string notr="true">QGroupBox
 {
@@ -209,6 +257,12 @@ QGroupBox::title
       <height>54</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -219,6 +273,12 @@ QGroupBox::title
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="text">
           <string>С</string>
@@ -232,6 +292,12 @@ QGroupBox::title
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="currentSection">
           <enum>QDateTimeEdit::DaySection</enum>
@@ -256,6 +322,12 @@ QGroupBox::title
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>По</string>
          </property>
@@ -268,6 +340,12 @@ QGroupBox::title
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="currentSection">
           <enum>QDateTimeEdit::DaySection</enum>
@@ -293,6 +371,12 @@ QGroupBox::title
       <height>21</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -310,6 +394,12 @@ QGroupBox::title
      <height>27</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="text">
     <string>Рассчитать</string>
    </property>
@@ -323,6 +413,12 @@ QGroupBox::title
      <height>27</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="text">
     <string>Сохранить как</string>
    </property>
@@ -335,6 +431,12 @@ QGroupBox::title
      <width>147</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>считать сумерки</string>

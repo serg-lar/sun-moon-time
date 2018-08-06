@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     // установка значений, используемых в работе с настройками программы (QSettings)
-    QCoreApplication::setOrganizationName("DharmaSoft");
-    QCoreApplication::setApplicationName("SunMoonTime");
+    QCoreApplication::setOrganizationName("KulaBhaktiSoft");
+    QCoreApplication::setApplicationName("sun-moon-time");
 
     // не выходить из программы при закрытии окон
     a.setQuitOnLastWindowClosed(false);
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 //    if (false == result)
 //        qWarning() << "main" << "load translator error";
 
-    // центрирование главного окна на экране
+    // Центрирование главного окна на экране.
     MainWindow w;
     QDesktopWidget* desktopWidget = QApplication::desktop();
 
@@ -42,8 +42,7 @@ int main(int argc, char *argv[])
     qint32 screenHeight (desktopWidget->screen()->height());
     w.setGeometry((screenWidth/2)-(width/2),(screenHeight/2)-(height/2),width,height);
 
-
-    // отображать главное окно только если  параметрах запуска не было указано обратное
+    // Отображать главное окно только если в параметрах запуска не было указано обратное.
     QStringList arguments;
     for (qint32 i = 0; i < argc; ++i)
         arguments << argv[i];

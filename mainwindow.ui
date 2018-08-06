@@ -16,6 +16,12 @@
     <height>710</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Солнечно-Лунное время</string>
   </property>
@@ -32,6 +38,12 @@
       <width>551</width>
       <height>641</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true"/>
@@ -51,6 +63,15 @@
         <width>521</width>
         <height>341</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <italic>false</italic>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">QGroupBox
@@ -80,6 +101,12 @@ QGroupBox::title
          <height>212</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
@@ -94,8 +121,14 @@ QGroupBox::title
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Грегорианская&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Григорианская&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -112,6 +145,12 @@ QGroupBox::title
               <width>240</width>
               <height>185</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="gridVisible">
              <bool>true</bool>
@@ -148,8 +187,14 @@ QGroupBox::title
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Относительно грегорианского календаря&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Относительно григорианского календаря&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QToolTip
@@ -159,7 +204,7 @@ QGroupBox::title
 }</string>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ведическая*&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ведический год*&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -177,8 +222,17 @@ QGroupBox::title
               <height>185</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;За 1-ый год Кали-юги взят 3102г. до н.э., как известно из общедоступных источников. &lt;/p&gt;&lt;p&gt;То есть этот календарь на данный момент не является точным, но интерпретирует грегорианский стиль с ведической позиции.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;За 1-ый год Кали-юги взят 3102г. до н.э., как известно из общедоступных источников. &lt;/p&gt;&lt;p&gt;То есть этот календарь на данный момент не является точным, но интерпретирует григорианский стиль календаря с ведической позиции.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QTextEdit
@@ -211,6 +265,12 @@ QToolTip
          <height>77</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="QLabel" name="label_3">
@@ -219,6 +279,12 @@ QToolTip
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Times New Roman</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://vk.com/topic-22230263_28223355?post=2493&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Ведический год от начала:&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -232,6 +298,15 @@ QToolTip
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QRadioButton" name="radioButtonKaliYuga">
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="toolTipDuration">
              <number>-1</number>
             </property>
@@ -248,6 +323,12 @@ QToolTip
           </item>
           <item>
            <widget class="QRadioButton" name="radioButtonMahaYuga">
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Маха-юги</string>
             </property>
@@ -255,6 +336,12 @@ QToolTip
           </item>
           <item>
            <widget class="QRadioButton" name="radioButtonManvantara">
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Манвантары</string>
             </property>
@@ -262,6 +349,15 @@ QToolTip
           </item>
           <item>
            <widget class="QRadioButton" name="radioButtonKalpa">
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="styleSheet">
              <string notr="true">font: bold;</string>
             </property>
@@ -274,6 +370,12 @@ QToolTip
         </item>
         <item>
          <widget class="QRadioButton" name="radioButtonMahaKalpa">
+          <property name="font">
+           <font>
+            <family>Times New Roman</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>МахаКальпы</string>
           </property>
@@ -290,6 +392,15 @@ QToolTip
         <width>521</width>
         <height>231</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <italic>false</italic>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">QGroupBox
@@ -316,6 +427,12 @@ QGroupBox::title
          <height>111</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -326,6 +443,12 @@ QGroupBox::title
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Гражданское&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -339,6 +462,12 @@ QGroupBox::title
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <family>Times New Roman</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <property name="readOnly">
              <bool>true</bool>
@@ -365,6 +494,12 @@ QGroupBox::title
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="font">
+               <font>
+                <family>Times New Roman</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BD%D0%BE%D0%B5_%D1%81%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE%D0%B5_%D0%B2%D1%80%D0%B5%D0%BC%D1%8F&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Истинное&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -380,6 +515,12 @@ QGroupBox::title
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Times New Roman</family>
+                <pointsize>12</pointsize>
+               </font>
               </property>
               <property name="toolTip">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;t = UTC + (геогр. долгота как время) + (уравнение времени)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -407,6 +548,15 @@ QGroupBox::title
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="font">
+               <font>
+                <family>Times New Roman</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="toolTip">
+               <string>Время на заданной географической долготе</string>
+              </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Среднее&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -419,6 +569,12 @@ QGroupBox::title
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Times New Roman</family>
+                <pointsize>12</pointsize>
+               </font>
               </property>
               <property name="toolTip">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;t = UTC + (геогр. долгота как время)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -449,9 +605,24 @@ QGroupBox::title
          <height>181</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout_11">
         <item>
          <widget class="QTextEdit" name="textEditSunTime">
+          <property name="font">
+           <font>
+            <family>Times New Roman</family>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: purple;
 font: bold;</string>
@@ -471,6 +642,12 @@ font: bold;</string>
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Times New Roman</family>
+            <pointsize>12</pointsize>
+           </font>
           </property>
           <property name="text">
            <string>Период</string>
@@ -707,22 +884,6 @@ QToolTip
      <attribute name="title">
       <string>Ведические праздники</string>
      </attribute>
-     <widget class="QLabel" name="label_13">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>461</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://youtu.be/-8eorUwujqU&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Ведические праздники. Как не терять энергию?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="openExternalLinks">
-       <bool>true</bool>
-      </property>
-     </widget>
     </widget>
    </widget>
   </widget>
@@ -732,10 +893,16 @@ QToolTip
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>Файл</string>
     </property>
@@ -744,12 +911,25 @@ QToolTip
     <addaction name="actionExitApp"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>Опции</string>
     </property>
     <addaction name="actionSettings"/>
+    <addaction name="actionUseGoogleMaps"/>
    </widget>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="menuHelp">
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>Помощь</string>
     </property>
@@ -757,7 +937,7 @@ QToolTip
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuOptions"/>
-   <addaction name="menu"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="enabled">
@@ -775,6 +955,12 @@ QToolTip
    <property name="text">
     <string>Настройки</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
    </property>
@@ -782,6 +968,12 @@ QToolTip
   <action name="actionExitApp">
    <property name="text">
     <string>Выход</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
@@ -791,13 +983,42 @@ QToolTip
    <property name="text">
     <string>Пересчитать всё</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionAbout">
    <property name="text">
     <string>О Программе</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionUseGoogleMaps">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Использовать google карты</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
  </widget>

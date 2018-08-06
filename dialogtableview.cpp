@@ -107,10 +107,10 @@ void DialogTableView::on_pushButtonCalculate_clicked()
     bool ok;    
 
     // загрузить настройки
-    longitude = -1*(settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
-    latitude = settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok);
-    height = settings.value(DialogSettings::heightSettingName()).toDouble(&ok);
-    timeZoneOffset = settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok);
+    longitude = -1*(settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
+    latitude = settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok);
+    height = settings.value(SunMoonTimeSettingsMisc::heightSettingName()).toDouble(&ok);
+    timeZoneOffset = settings.value(SunMoonTimeSettingsMisc::timeZoneOffsetSettingName()).toDouble(&ok);
 
     if (true == ok)
     {
@@ -483,9 +483,9 @@ void DialogTableView::on_pushButtonSaveAs_clicked()
         // загрузить некоторые настройки программы
         QSettings settings;
         bool ok (false);
-        double latitude (settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok));
-        double longitude (settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
-        double height (settings.value(DialogSettings::heightSettingName()).toDouble(&ok));
+        double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
+        double longitude (settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
+        double height (settings.value(SunMoonTimeSettingsMisc::heightSettingName()).toDouble(&ok));
 
         QFile outFile (fileName);
         if (true == outFile.open(QIODevice::WriteOnly | QIODevice::Text))

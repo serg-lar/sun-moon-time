@@ -8,11 +8,35 @@
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
 
-
 // НАЧАЛО: классы
 namespace Ui {
 class DialogSettings;
 }
+//------------------
+
+class SunMoonTimeSettingsMisc {
+public:
+    // Имена настроек в файле настроек.
+    static QString longitudeSettingName() {return "longitude";}
+    static QString latitudeSettingName() {return "latitude";}
+    static QString timeZoneOffsetSettingName() {return "timeZoneOffset";}
+    static QString heightSettingName() {return "height";}
+    static QString ekadashWarnSettingName() {return "ekadashWarn";}
+    static QString ekadashWarnAfterSettingName() {return "ekadashWarnAfter";}
+    static QString ekadashWarnTimeBeforeSettingName() {return "ekadashWarnTimeBefore";}
+    static QString ekadashWarnRequireConfirmationSettingName() {return "ekadashWarnRequireConfirmation";}
+    static QString useGoogleMapsSettingName() {return "useGoogleMaps";}
+
+    class errors {
+    public:
+        /// \brief Ошибка сохранения настроек
+        static QString saveSettingsError() {return "Settings save error";}
+        /// \brief Ошибка загрузки настроек
+        static QString loadSettingsError() {return "Settings load error";}
+    };
+};
+//------------------
+
 
 /// \brief Класс диалога настроек программы
 class DialogSettings : public QDialog
@@ -55,15 +79,11 @@ public:
     explicit DialogSettings(QWidget *parent = 0);
     ~DialogSettings();
 
-    // имена настроек в файле настроек
-    static QString longitudeSettingName();
-    static QString latitudeSettingName();
-    static QString timeZoneOffsetSettingName();
-    static QString heightSettingName();
-    static QString ekadashWarnSettingName();
-    static QString ekadashWarnAfterSettingName();
-    static QString ekadashWarnTimeBeforeSettingName();
-    static QString ekadashWarnRequireConfirmationSettingName();
+protected:
+    bool mfMapWebPageLoadComplete = false;   //! флаг: загрузка web-страницы с гугл картой завершена (при открытии диалога "настройки")
+
+    /// \brief Событие при показе диалогового окна (переопределение виртуального метода)
+    void showEvent(QShowEvent * event) override;
 
 private:
     Ui::DialogSettings *ui;                 ///< интерфейс

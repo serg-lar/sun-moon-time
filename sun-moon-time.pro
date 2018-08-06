@@ -174,4 +174,6 @@ OTHER_FILES += \
     version_history.txt
 
 DISTFILES += \
-    readme.txt
+    readme.txt \
+    description \
+    journal

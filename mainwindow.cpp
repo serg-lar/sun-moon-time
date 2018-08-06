@@ -98,7 +98,7 @@ void MainWindow::updateTime()
     // загрузить настройки
     QSettings settings;
     bool ok;
-    double longitude (settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
+    double longitude (settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
 //    double latitude (settings.value("latitude").toDouble(&ok));
 //    double timeZoneOffset (settings.value("timeZoneOffset").toDouble(&ok));
     if (true == ok)
@@ -114,10 +114,10 @@ void MainWindow::updateTime()
             // проверить необходимость оповещения о экадаше
 
             // загрузить ещё необходимые настройки
-            bool ekadashWarn (settings.value(DialogSettings::ekadashWarnSettingName()).toBool());
-            bool ekadashWarnAfter (settings.value(DialogSettings::ekadashWarnAfterSettingName()).toBool());
-            quint32 ekadashWarnTimeBefore (settings.value(DialogSettings::ekadashWarnTimeBeforeSettingName()).toUInt(&ok));
-            bool ekadashWarnRequireConfirmation (settings.value(DialogSettings::ekadashWarnRequireConfirmationSettingName()).toBool());
+            bool ekadashWarn (settings.value(SunMoonTimeSettingsMisc::ekadashWarnSettingName()).toBool());
+            bool ekadashWarnAfter (settings.value(SunMoonTimeSettingsMisc::ekadashWarnAfterSettingName()).toBool());
+            quint32 ekadashWarnTimeBefore (settings.value(SunMoonTimeSettingsMisc::ekadashWarnTimeBeforeSettingName()).toUInt(&ok));
+            bool ekadashWarnRequireConfirmation (settings.value(SunMoonTimeSettingsMisc::ekadashWarnRequireConfirmationSettingName()).toBool());
             if (true == ok)
             {
                 if ((true == ekadashWarn) && (false == mf_ekadashWarned))
@@ -221,6 +221,16 @@ void MainWindow::realClose()
     // закрыть окно по-настоящему насовсем и выйти из программы
     mf_realClose = true;
     close();
+
+    // Сохранение данных.
+    // Сохранить опцию исползования google карт.
+    QSettings settings;
+    settings.setValue(SunMoonTimeSettingsMisc::useGoogleMapsSettingName(),ui->actionUseGoogleMaps->isChecked());
+    // Проверить статус сохранения настроек.
+    if (QSettings::NoError != settings.status()) {
+        qWarning() << Q_FUNC_INFO << SunMoonTimeSettingsMisc::errors::saveSettingsError() << settings.status();
+    }
+
     QApplication::quit();
 }
 //---------------------------
@@ -251,6 +261,20 @@ void MainWindow::showAboutDialog()
     // показать диалог о программе
     DialogAbout aboutDialog(this);
     int result (aboutDialog.exec());
+}
+//---------------------------
+
+void MainWindow::useGoogleMapsSettingControl() {
+    // Установить опцию использования google карт
+    QSettings settings;
+    settings.setValue(SunMoonTimeSettingsMisc::useGoogleMapsSettingName(),QVariant::fromValue(ui->actionUseGoogleMaps->isChecked()));
+    settings.sync();
+
+    // Проверить статус сохранения настроек.
+    if (QSettings::NoError != settings.status()) {
+        // Произошла ошибка сохранения настроек.
+        qWarning() << Q_FUNC_INFO << settings.status();
+    }
 }
 //---------------------------
 
@@ -384,10 +408,10 @@ void MainWindow::showSunTime()
     // восстановить данные для вычисления из настроек программы
     QSettings settings;
     bool ok;
-    double latitude (settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok));
-    double longitude (-1*settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
-    double height (settings.value(DialogSettings::heightSettingName()).toDouble(&ok));
-    double timeZoneOffset (settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok));
+    double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
+    double longitude (-1*settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
+    double height (settings.value(SunMoonTimeSettingsMisc::heightSettingName()).toDouble(&ok));
+    double timeZoneOffset (settings.value(SunMoonTimeSettingsMisc::timeZoneOffsetSettingName()).toDouble(&ok));
 
     // рассчёты и вывод информации
     if (true == ok)
@@ -485,10 +509,10 @@ void MainWindow::showMoonTime()
     // восстановить данные для вычисления из настроек программы
     QSettings settings;
     bool ok;
-    double latitude (settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok));
-    double longitude (-1*settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
-    double timeZoneOffset (settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok));
-    double height (settings.value(DialogSettings::heightSettingName()).toDouble(&ok));
+    double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
+    double longitude (-1*settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
+    double timeZoneOffset (settings.value(SunMoonTimeSettingsMisc::timeZoneOffsetSettingName()).toDouble(&ok));
+    double height (settings.value(SunMoonTimeSettingsMisc::heightSettingName()).toDouble(&ok));
 
     // рассчёты и вывод информации
     if (true == ok)
@@ -553,7 +577,7 @@ void MainWindow::showTithi()
     // восстановить данные для вычисления из настроек программы
     QSettings settings;
     bool ok;
-    double timeZoneOffset (settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok));
+    double timeZoneOffset (settings.value(SunMoonTimeSettingsMisc::timeZoneOffsetSettingName()).toDouble(&ok));
 
     if (true == ok)
     {
@@ -602,9 +626,9 @@ void MainWindow::showSvara()
     // восстановить данные для вычисления из настроек программы
     QSettings settings;
     bool ok;
-    double latitude (settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok));
-    double longitude (-1*settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
-    double timeZoneOffset (settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok));
+    double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
+    double longitude (-1*settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
+    double timeZoneOffset (settings.value(SunMoonTimeSettingsMisc::timeZoneOffsetSettingName()).toDouble(&ok));
 
     // рассчёты и вывод информации
     if (true == ok)
@@ -709,24 +733,24 @@ MainWindow::MainWindow(QWidget *parent) :
                 Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint),
     ui(new Ui::MainWindow)
 {
-    // основной интерфейс
+    // Основной интерфейс.
     ui->setupUi(this);
-
+    // Сделать панель инструментов невидимой.
     ui->mainToolBar->setVisible(false);
 
-    // инициализация переменных
+    // Инициализация переменных.
     m_cTimer = 0;
     m_currentDate = QDate::currentDate();
     mf_realClose = false;
     mf_ekadashWarned = false;
     mp_ekadashWarnMsgBox = nullptr;
 
-    // значок в трее и меню к нему
+    // Значок в трее и меню к нему.
     m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
     m_TrayIcon.setToolTip("Солнечно-Лунное время");
 //    m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
 //    m_TrayIcon.setToolTip("Солнечно-Лунное время");
-
+    // Меню к значку в трее.
     mp_TrayIconMenuSctionShow = new QAction("Показать",&m_TrayIconMenu);
     connect(mp_TrayIconMenuSctionShow, SIGNAL(triggered(bool)), SLOT(showNormal()));
     m_TrayIconMenu.addAction(mp_TrayIconMenuSctionShow);
@@ -736,60 +760,70 @@ MainWindow::MainWindow(QWidget *parent) :
     m_TrayIconMenu.addAction(mp_TrayIconMenuActionQuit);
     m_TrayIcon.setContextMenu(&m_TrayIconMenu);
 
-    // соединения
+    // Соединения.
+    // Таймер.
     connect(&m_Timer, SIGNAL(timeout()), this, SLOT(updateTime()));
+    // Пункты меню приложения.
     connect(ui->actionExitApp, SIGNAL(triggered()), this, SLOT(realClose()));
     connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(showSettingsDialog()));
     connect(ui->actionReCompAll, SIGNAL(triggered()), this, SLOT(computeAndShowAll()));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
+    connect(ui->actionUseGoogleMaps,SIGNAL(triggered()),this,SLOT(useGoogleMapsSettingControl()));
+    // Значок в "трее".
     connect(&m_TrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this,
             SLOT(on_systemTrayIconActivated(QSystemTrayIcon::ActivationReason)));
 
-
-    // объекты
+    // Объекты.
     m_TrayIcon.show();
 
-    // проверить на наличие настройки программы
+    // Восстановить опцию использования google карт из сохранённых настроек.
     QSettings settings;
+    ui->actionUseGoogleMaps->setChecked(settings.value(SunMoonTimeSettingsMisc::useGoogleMapsSettingName()).toBool());
+    // Проверить результат восстановления сохраненной опции
+    if (QSettings::NoError != settings.status()) {
+        qWarning() << Q_FUNC_INFO << SunMoonTimeSettingsMisc::errors::loadSettingsError();
+    }
+
+    // Проверить на наличие настройки программы.
     if (true == settings.allKeys().isEmpty())
     {
-        // настройки пусты, нужно запустить диалог настроек
+        // Настройки пусты, нужно запустить диалог настроек.
         showSettingsDialog();
     }
 
-    // отобразить сегодня в календаре-виджете
+    // Отобразить сегодня в календаре-виджете.
     ui->calendarWidgetGregorian->showToday();
     ui->calendarWidgetGregorian->setSelectedDate(QDate::currentDate());
 
-    // вывести год по ведическому летоисчислению
+    // Вывести год по ведическому летоисчислению
     showVedicDate();
 
-    // вывести информацию по Солнцу
+    // Вывести информацию по Солнцу.
     showSunTime();
 
-    // вывести информацию по Луне
+    // Вывести информацию по Луне.
     showMoonTime();
 
-    // вывести информацию по титхам
+    // Вывести информацию по титхам.
     showTithi();
 
-    // вывести информацию по сварам
+    // Вывести информацию по сварам.
     showSvara();
 
-    // вернуть интерфейс на страницу о Солнце
+    // Вернуть интерфейс на страницу о Солнце.
     ui->tabWidget->setCurrentIndex(0);
 
-    // запустить таймер для обновления времени
+    // Запустить таймер для обновления времени.
     m_Timer.start(timerInterval);
 
 
 #ifndef QT_NO_DEBUG
     // ---отладочная---
     bool ok;
-    double longitude (-1*settings.value(DialogSettings::longitudeSettingName()).toDouble(&ok));
-    double latitude (settings.value(DialogSettings::latitudeSettingName()).toDouble(&ok));
-    double timeZoneOffset (settings.value(DialogSettings::timeZoneOffsetSettingName()).toDouble(&ok));
-    double height (settings.value(DialogSettings::heightSettingName()).toDouble(&ok));
+    double longitude (-1*settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
+    double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
+    double timeZoneOffset (settings.value(SunMoonTimeSettingsMisc::timeZoneOffsetSettingName()).toDouble(&ok));
+    double height (settings.value(SunMoonTimeSettingsMisc::heightSettingName()).toDouble(&ok));
 
     if (true == ok)
     {

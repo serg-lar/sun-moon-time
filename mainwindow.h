@@ -39,7 +39,10 @@ private slots:
     void computeAndShowAll();
 
     /// \brief Показать диалог о программе
-    void showAboutDialog();       
+    void showAboutDialog();
+
+    /// Контроль за настройкой использования google карт
+    void useGoogleMapsSettingControl();
 
     void on_radioButtonKaliYuga_clicked();
     void on_radioButtonMahaYuga_clicked();
