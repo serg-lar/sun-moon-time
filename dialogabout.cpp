@@ -18,18 +18,19 @@ DialogAbout::DialogAbout(QWidget *parent) :
             Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint),
     ui(new Ui::DialogAbout)
 {
+    // Установить интерфейс.
     ui->setupUi(this);
 
-    // картинка программы
+    // Картинка программы.
     ui->label->setPixmap(QIcon(":/icons/sun_moon.ico").pixmap(QSize(ui->label->width(),ui->label->height())));
     ui->label_2->setText("sun-moon-time v0.65 beta");
 
-    // вывести информацию о программе в текстовом поле
-    QFile readMe (":/txt/readme.txt");
+    // Вывести информацию о программе в текстовом поле.
+    QFile readMe (":/html/readme.html");
     if (true == readMe.open(QIODevice::ReadOnly))
     {
         QTextStream in (&readMe);
-        ui->textEdit->setText(in.readAll());
+        ui->textBrowser->setHtml(in.readAll());
     }
 }
 //---------------------------

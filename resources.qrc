@@ -5,11 +5,14 @@
     </qresource>
     <qresource prefix="/html">
         <file>google_maps.html</file>
+        <file>readme.html</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>OM_NAMO_NARAYANA.wav</file>
     </qresource>
-    <qresource prefix="/txt">
-        <file>readme.txt</file>
+    <qresource prefix="/txt"/>
+    <qresource prefix="/"/>
+    <qresource prefix="/images">
+        <file alias="vedicTimePeriods">VedicTimePeriods.jpg</file>
     </qresource>
 </RCC>
