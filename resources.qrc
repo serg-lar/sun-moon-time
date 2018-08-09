@@ -4,8 +4,9 @@
         <file>sun_moon.ico</file>
     </qresource>
     <qresource prefix="/html">
-        <file>google_maps.html</file>
-        <file>readme.html</file>
+        <file alias="ekadashi_links">html/ekadashi_links.html</file>
+        <file alias="readme">html/readme.html</file>
+        <file alias="google_maps">html/google_maps.html</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>OM_NAMO_NARAYANA.wav</file>

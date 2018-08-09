@@ -2,9 +2,7 @@
 #ifdef QT_NO_DEBUG
     #define QT_NO_DEBUG_OUTPUT
 #endif
-
-#include "dialogsettings.h"
-#include "ui_dialogsettings.h"
+// Qt
 #include <QWebFrame>
 #include <QSettings>
 #include <QNetworkReply>
@@ -12,6 +10,10 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QTimeZone>
+#include <QDir>
+// sun-moon-time
+#include "dialogsettings.h"
+#include "ui_dialogsettings.h"
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -366,7 +368,16 @@ DialogSettings::DialogSettings(QWidget *parent) :
     QSettings settings;
     bool useGoogleMaps {settings.value(SunMoonTimeSettingsMisc::useGoogleMapsSettingName()).toBool()};
     if (true == useGoogleMaps) {
-        ui->webView->load(QUrl("qrc:/html/google_maps.html"));
+        // Загрузить web-страницу google карт из файла ресурсов.
+        QFile googleMapsFile(":/html/google_maps");
+        if (true == googleMapsFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            ui->webView->setHtml(QString(googleMapsFile.readAll()));
+            googleMapsFile.close();
+        }
+        else {
+            // Ошибка открытия файла ресурсов
+            qWarning() << Q_FUNC_INFO << "error open google_maps resource file";
+        }
     }
 }
 //---------------------------

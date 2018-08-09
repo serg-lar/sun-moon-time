@@ -26,7 +26,7 @@ DialogAbout::DialogAbout(QWidget *parent) :
     ui->label_2->setText("sun-moon-time v0.65 beta");
 
     // Вывести информацию о программе в текстовом поле.
-    QFile readMe (":/html/readme.html");
+    QFile readMe (":/html/readme");
     if (true == readMe.open(QIODevice::ReadOnly))
     {
         QTextStream in (&readMe);

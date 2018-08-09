@@ -55,6 +55,8 @@ private slots:
     void on_pushButtonMoonDatePeriod_clicked();
     void on_systemTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
+    void on_tabWidget_currentChanged(int index);
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();

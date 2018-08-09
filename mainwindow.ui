@@ -36,7 +36,7 @@
       <x>10</x>
       <y>0</y>
       <width>551</width>
-      <height>641</height>
+      <height>661</height>
      </rect>
     </property>
     <property name="font">
@@ -287,7 +287,7 @@ QToolTip
            </font>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://vk.com/topic-22230263_28223355?post=2493&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Ведический год от начала:&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Ведический год от начала:</string>
           </property>
           <property name="openExternalLinks">
            <bool>true</bool>
@@ -788,36 +788,52 @@ QToolTip
        </item>
       </layout>
      </widget>
-     <widget class="QLabel" name="label_9">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>280</x>
-        <y>400</y>
-        <width>235</width>
-        <height>41</height>
+        <y>390</y>
+        <width>258</width>
+        <height>211</height>
        </rect>
       </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://vk.com/topic-39053542_28027778&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Почему в экадаши нельзя&lt;br&gt; принимать зернобобовую пищу?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="openExternalLinks">
-       <bool>true</bool>
-      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_15">
+       <item>
+        <widget class="QLabel" name="labelLInks">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Ссылки на некоторые материалы:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="textBrowserLinks">
+         <property name="documentTitle">
+          <string/>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
-     <widget class="QLabel" name="label_10">
+     <widget class="QPushButton" name="pushButtonEkadashiVideosLocalCopy">
       <property name="geometry">
        <rect>
-        <x>280</x>
-        <y>450</y>
-        <width>181</width>
+        <x>449</x>
+        <y>610</y>
+        <width>91</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://www.advayta.org/cat/?id=1762&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Происхождение экадаши&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="openExternalLinks">
-       <bool>true</bool>
+       <string>Копии видео</string>
       </property>
      </widget>
     </widget>
@@ -877,6 +893,19 @@ QToolTip
       </property>
       <property name="openExternalLinks">
        <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonSvaraVideosLocalCopy">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>510</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Копии видео</string>
       </property>
      </widget>
     </widget>

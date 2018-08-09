@@ -42,7 +42,7 @@ void MainWindow::updateTime()
 
     if (0 == (timerInterval*m_cTimer % calendarUpdateInterval))
     {
-        // обновить грегорианский календарь
+        // обновить григорианский календарь
         ui->calendarWidgetGregorian->showToday();
         ui->calendarWidgetGregorian->setSelectedDate(QDate::currentDate());
 
@@ -801,6 +801,17 @@ MainWindow::MainWindow(QWidget *parent) :
     // Вывести информацию по Солнцу.
     showSunTime();
 
+    // Отобразить виджет со ссылками на вкладке 'Луна'.
+    QFile ekadashiLinksFile(":/html/ekadashi_links");
+    if (true == ekadashiLinksFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        ui->textBrowserLinks->setHtml(ekadashiLinksFile.readAll());
+        ekadashiLinksFile.close();
+    }
+    else {
+        // Ошибка открытия файла ресурсов.
+        qWarning() << Q_FUNC_INFO << "Error open ekadashi_links resource file";
+    }
+
     // Вывести информацию по Луне.
     showMoonTime();
 
@@ -915,3 +926,12 @@ void MainWindow::closeEvent(QCloseEvent* e)
 //---------------------------
 // КОНЕЦ: MainWindow - protected
 //---------------------------------------------------------------------------------
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    // Переключение между вкладками основного окна
+    if (1 == index) {
+        // Если произошло переключение на вкладку 'Луна'.
+    }
+}
+//---------------------------
