@@ -2,13 +2,14 @@
 #ifdef QT_NO_DEBUG
     #define QT_NO_DEBUG_OUTPUT
 #endif
-
+// Qt
 #include <QtMath>
 #include <QtDebug>
 #include <QSettings>
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QSound>
+// sun-moon-time
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dialogsettings.h"
@@ -745,6 +746,12 @@ MainWindow::MainWindow(QWidget *parent) :
     mf_ekadashWarned = false;
     mp_ekadashWarnMsgBox = nullptr;
 
+    // Цвета текста заголовков вкладок.
+    // Солнце
+    ui->tabWidget->tabBar()->setTabTextColor(0,QColor("purple"));
+    // Луна
+    ui->tabWidget->tabBar()->setTabTextColor(1,QColor("navy"));
+
     // Значок в трее и меню к нему.
     m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
     m_TrayIcon.setToolTip("Солнечно-Лунное время");
@@ -821,12 +828,18 @@ MainWindow::MainWindow(QWidget *parent) :
     // Вывести информацию по сварам.
     showSvara();
 
+    // Загрузить постер о настоящем празднике (из файла через три контейнера в виджет).
+    mBoycotHolidayPoster.load(":/images/images/Бойкот праздников - о настоящем празднике.jpg");
+    mBoycottHolidayPosterItem.setPixmap(mBoycotHolidayPoster);
+    mBoycottHolidayPosterScene.addItem(&mBoycottHolidayPosterItem);
+    // Установить "графическую сцену" с постером в виджет.
+    ui->graphicsViewHolidayPoster->setScene(&mBoycottHolidayPosterScene);
+
     // Вернуть интерфейс на страницу о Солнце.
     ui->tabWidget->setCurrentIndex(0);
 
     // Запустить таймер для обновления времени.
     m_Timer.start(timerInterval);
-
 
 #ifndef QT_NO_DEBUG
     // ---отладочная---

@@ -14,6 +14,7 @@
     <qresource prefix="/txt"/>
     <qresource prefix="/"/>
     <qresource prefix="/images">
-        <file alias="vedicTimePeriods">VedicTimePeriods.jpg</file>
+        <file>images/Бойкот праздников - о настоящем празднике.jpg</file>
+        <file>images/VedicTimePeriods.jpg</file>
     </qresource>
 </RCC>

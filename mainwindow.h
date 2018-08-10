@@ -2,12 +2,16 @@
 #define MAINWINDOW_H
 
 // НАЧАЛО: директивы, глобальные переменные и константы
+// Qt
 #include <QMainWindow>
 #include <QTimer>
 #include <QDate>
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QMessageBox>
+#include <QGraphicsItem>
+#include <QGraphicsScene>
+// sun-moon-time
 #include "tithi.h"
 #include "computings.h"
 //---------------------------
@@ -56,6 +60,12 @@ private slots:
     void on_systemTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
     void on_tabWidget_currentChanged(int index);
+
+protected:
+    // Переменные для хранения постера про настоящий праздник.
+    QPixmap mBoycotHolidayPoster;
+    QGraphicsPixmapItem mBoycottHolidayPosterItem;
+    QGraphicsScene mBoycottHolidayPosterScene;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
