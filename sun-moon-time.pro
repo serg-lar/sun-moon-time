@@ -82,7 +82,8 @@ SOURCES += main.cpp\
     dialogsettings.cpp \
     dialogtithi.cpp \
     dialogtableview.cpp \
-    dialogabout.cpp
+    dialogabout.cpp \
+    dialogvideosviewer.cpp
 
 HEADERS  += mainwindow.h \
     aaplus/AA+.h \
@@ -152,13 +153,15 @@ HEADERS  += mainwindow.h \
     dialogsettings.h \
     dialogtithi.h \
     dialogtableview.h \
-    dialogabout.h
+    dialogabout.h \
+    dialogvideosviewer.h
 
 FORMS    += mainwindow.ui \
     dialogsettings.ui \
     dialogtithi.ui \
     dialogtableview.ui \
-    dialogabout.ui
+    dialogabout.ui \
+    dialogvideosviewer.ui
 
 RESOURCES += \
     resources.qrc

@@ -61,10 +61,13 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+    void on_pushButtonEkadashiVideosLocalCopy_clicked();
+
 protected:
     // Переменные для хранения постера про настоящий праздник.
     QPixmap mBoycotHolidayPoster;
-    QGraphicsPixmapItem mBoycottHolidayPosterItem;
+    // Этот объект нужно создавать с помощью оператора new, иначе ошибка при освобождении ресурсов.
+    QGraphicsPixmapItem *mpBoycottHolidayPosterItem = nullptr;
     QGraphicsScene mBoycottHolidayPosterScene;
 
 public:

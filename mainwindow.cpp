@@ -746,11 +746,15 @@ MainWindow::MainWindow(QWidget *parent) :
     mf_ekadashWarned = false;
     mp_ekadashWarnMsgBox = nullptr;
 
-    // Цвета текста заголовков вкладок.
-    // Солнце
-    ui->tabWidget->tabBar()->setTabTextColor(0,QColor("purple"));
-    // Луна
+    // Цвета и жирность текста заголовков вкладок.
+    // Солнце.
+    ui->tabWidget->tabBar()->setTabTextColor(0,QColor("purple"));    
+    // Луна.
     ui->tabWidget->tabBar()->setTabTextColor(1,QColor("navy"));
+    // Жирный шрифт для заголовков вкладок.
+    QFont curTabHeadersFont = ui->tabWidget->tabBar()->font();
+    curTabHeadersFont.setBold(true);
+    ui->tabWidget->tabBar()->setFont(curTabHeadersFont);
 
     // Значок в трее и меню к нему.
     m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
@@ -802,7 +806,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->calendarWidgetGregorian->showToday();
     ui->calendarWidgetGregorian->setSelectedDate(QDate::currentDate());
 
-    // Вывести год по ведическому летоисчислению
+    // Вывести год по ведическому летоисчислению.
     showVedicDate();
 
     // Вывести информацию по Солнцу.
@@ -830,9 +834,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Загрузить постер о настоящем празднике (из файла через три контейнера в виджет).
     mBoycotHolidayPoster.load(":/images/images/Бойкот праздников - о настоящем празднике.jpg");
-    mBoycottHolidayPosterItem.setPixmap(mBoycotHolidayPoster);
-    mBoycottHolidayPosterScene.addItem(&mBoycottHolidayPosterItem);
-    // Установить "графическую сцену" с постером в виджет.
+    mpBoycottHolidayPosterItem = new QGraphicsPixmapItem();
+    mpBoycottHolidayPosterItem->setPixmap(mBoycotHolidayPoster);
+    mBoycottHolidayPosterScene.addItem(mpBoycottHolidayPosterItem);
+//    // Установить "графическую сцену" с постером в виджет.
     ui->graphicsViewHolidayPoster->setScene(&mBoycottHolidayPosterScene);
 
     // Вернуть интерфейс на страницу о Солнце.
@@ -916,6 +921,11 @@ MainWindow::~MainWindow()
     if (nullptr != mp_ekadashWarnMsgBox)
         delete mp_ekadashWarnMsgBox;
 
+    if (nullptr != mpBoycottHolidayPosterItem) {
+        delete mpBoycottHolidayPosterItem;
+        mpBoycottHolidayPosterItem = nullptr;
+    }
+
     delete ui;
 }
 //---------------------------
@@ -948,3 +958,12 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     }
 }
 //---------------------------
+
+void MainWindow::on_pushButtonEkadashiVideosLocalCopy_clicked()
+{
+    // Показать виджет с видео копиями о экадаше.
+
+}
+//---------------------------
+
+

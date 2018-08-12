@@ -876,7 +876,7 @@ QToolTip
        <string>Копии видео</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -929,7 +929,7 @@ QToolTip
     </widget>
     <widget class="QWidget" name="tabVedicHolidays">
      <attribute name="title">
-      <string>Ведические праздники</string>
+      <string>Ведические праздники(введение)</string>
      </attribute>
      <widget class="QGraphicsView" name="graphicsViewHolidayPoster">
       <property name="geometry">
@@ -954,7 +954,7 @@ QToolTip
        <string>Постер о настоящем празднике:</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
