@@ -14,6 +14,7 @@
 // sun-moon-time
 #include "tithi.h"
 #include "computings.h"
+#include "dialogvideosviewer.h"
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -23,6 +24,7 @@
 namespace Ui {
 class MainWindow;
 }
+
 
 /// \brief класс главного окна программы
 class MainWindow : public QMainWindow
@@ -69,6 +71,8 @@ protected:
     // Этот объект нужно создавать с помощью оператора new, иначе ошибка при освобождении ресурсов.
     QGraphicsPixmapItem *mpBoycottHolidayPosterItem = nullptr;
     QGraphicsScene mBoycottHolidayPosterScene;
+    // Виджеты-окошки для отображения html со списком локальных копий видео
+    QDialogVideosViewer mEkadashiVideosViewer;
 
 public:
     explicit MainWindow(QWidget *parent = 0);

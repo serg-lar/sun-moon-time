@@ -1,8 +1,12 @@
+// Qt
+#include <QFile>
+// sun-moon-time
 #include "dialogvideosviewer.h"
 #include "ui_dialogvideosviewer.h"
+#include "generalmisc.h"
 
 
-DialogVideosViewer::DialogVideosViewer(QWidget *parent) :
+QDialogVideosViewer::QDialogVideosViewer(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogVideosViewer)
 {
@@ -10,13 +14,27 @@ DialogVideosViewer::DialogVideosViewer(QWidget *parent) :
 }
 //------------------
 
-DialogVideosViewer::~DialogVideosViewer()
+QDialogVideosViewer::~QDialogVideosViewer()
 {
     delete ui;
 }
 //------------------
 
-void DialogVideosViewer::showEkadashiVideos() {
-//    ui->textBrowser->loadResource(,QUrl(":/html/ekadashi_videos"));
+void QDialogVideosViewer::showEkadashiVideos() {
+    // Показать локальные копии видео о экадаше.
+    // Открыть файл с html документом и показать его в виджете.
+    QFile ekadashiVideosFile(":/html/ekadashi_videos");
+    if (true == ekadashiVideosFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream ekadashiVideosHtml(&ekadashiVideosFile);
+        ui->textBrowser->setHtml(ekadashiVideosHtml.readAll());
+        ekadashiVideosFile.close();
+
+        // показать этот виджет - диалоговое окно.
+        show();
+    }
+    else { // Ошибка открытия файла
+        qWarning() << Q_FUNC_INFO << SunMoonTimeGeneralMisc::errors::fileOpenError() << "(ekadashi videos file)";
+    }
 }
 //------------------
+

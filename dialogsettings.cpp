@@ -14,6 +14,7 @@
 // sun-moon-time
 #include "dialogsettings.h"
 #include "ui_dialogsettings.h"
+#include "generalmisc.h"
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -376,7 +377,7 @@ DialogSettings::DialogSettings(QWidget *parent) :
         }
         else {
             // Ошибка открытия файла ресурсов
-            qWarning() << Q_FUNC_INFO << "error open google_maps resource file";
+            qWarning() << Q_FUNC_INFO << SunMoonTimeGeneralMisc::errors::fileOpenError() << "(google_maps resource file)";
         }
     }
 }

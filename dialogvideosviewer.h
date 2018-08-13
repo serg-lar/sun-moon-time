@@ -8,14 +8,14 @@ class DialogVideosViewer;
 }
 //------------------
 
-
-class DialogVideosViewer : public QDialog
+// TODO Сделать отображение видео файлов внутри интерфейса приложения.
+class QDialogVideosViewer : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogVideosViewer(QWidget *parent = nullptr);
-    ~DialogVideosViewer();
+    explicit QDialogVideosViewer(QWidget *parent = nullptr);
+    ~QDialogVideosViewer();
 
     // Показать локальные копии видео про экадаш.
     void showEkadashiVideos();

@@ -7,6 +7,7 @@
 #include <QTextStream>
 #include "dialogabout.h"
 #include "ui_dialogabout.h"
+#include "generalmisc.h"
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -22,15 +23,19 @@ DialogAbout::DialogAbout(QWidget *parent) :
     ui->setupUi(this);
 
     // Картинка программы.
-    ui->label->setPixmap(QIcon(":/icons/sun_moon.ico").pixmap(QSize(ui->label->width(),ui->label->height())));
-    ui->label_2->setText("sun-moon-time v0.65 beta");
+    ui->labelAppIcon->setPixmap(QIcon(":/icons/sun_moon.ico").pixmap(QSize(ui->labelAppIcon->width(),ui->labelAppIcon->height())));
+    ui->labelAppVersion->setText("sun-moon-time v0.65 beta");
 
+    // Картинка "КрасныйГлазКаулы"
+    ui->labelRedEyeIcon->setPixmap(QIcon(":/images/redeye1").pixmap(QSize(ui->labelRedEyeIcon->width(),ui->labelRedEyeIcon->height())));
     // Вывести информацию о программе в текстовом поле.
     QFile readMe (":/html/readme");
-    if (true == readMe.open(QIODevice::ReadOnly))
-    {
+    if (true == readMe.open(QIODevice::ReadOnly)) {
         QTextStream in (&readMe);
         ui->textBrowser->setHtml(in.readAll());
+    }
+    else { // Ошибка открытия файла.
+        qWarning() << Q_FUNC_INFO << SunMoonTimeGeneralMisc::errors::fileOpenError();
     }
 }
 //---------------------------

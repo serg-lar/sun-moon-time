@@ -154,7 +154,8 @@ HEADERS  += mainwindow.h \
     dialogtithi.h \
     dialogtableview.h \
     dialogabout.h \
-    dialogvideosviewer.h
+    dialogvideosviewer.h \
+    generalmisc.h
 
 FORMS    += mainwindow.ui \
     dialogsettings.ui \

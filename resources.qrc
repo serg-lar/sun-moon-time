@@ -17,14 +17,7 @@
     <qresource prefix="/images">
         <file>images/Бойкот праздников - о настоящем празднике.jpg</file>
         <file>images/VedicTimePeriods.jpg</file>
-    </qresource>
-    <qresource prefix="/videos">
-        <file>video/Дхарма Женщины - Омовение часть 2 (как принимать полное омовение).mp4</file>
-        <file>video/Дхарма Женщины - Омовение. Часть 1. (Лунная свара и ее значение).mp4</file>
-        <file>video/Васуки - Ответы на вопросы 6 (экадаши, вайшнавачара).mp4</file>
-        <file>video/Васуки - Внутри Шакта, снаружи Шайва, в миру Вайшнава.mp4</file>
-        <file>video/Адидэвасура - Каула-дхарма игнорирует экадаши.mp4</file>
-        <file>video/Адидэвасура - Каула-дхарма игнорирует экадаши.webm</file>
-        <file>video/Васуки - Экадаши - защита от неблагоприятной энергии.mp4</file>
+        <file alias="redeye1">images/redeye[1].jpeg</file>
+        <file>images/redeye[0].jpeg</file>
     </qresource>
 </RCC>

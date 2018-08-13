@@ -961,8 +961,8 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 
 void MainWindow::on_pushButtonEkadashiVideosLocalCopy_clicked()
 {
-    // Показать виджет с видео копиями о экадаше.
-
+//    // TODO Показать виджет с видео копиями о экадаше.
+//    mEkadashiVideosViewer.showEkadashiVideos();
 }
 //---------------------------
 
