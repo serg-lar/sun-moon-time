@@ -65,6 +65,10 @@ private slots:
 
     void on_pushButtonEkadashiVideosLocalCopy_clicked();
 
+    void on_pushButtonSvaraVideosLocalCopy_clicked();
+
+    void on_labelEkadashiHtmlLocalCopy_linkActivated(const QString &link);
+
 protected:
     // Переменные для хранения постера про настоящий праздник.
     QPixmap mBoycotHolidayPoster;

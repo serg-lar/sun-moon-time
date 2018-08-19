@@ -9,6 +9,7 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QSound>
+#include <QDesktopServices>
 // sun-moon-time
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -690,7 +691,8 @@ void MainWindow::showSvara()
         if ((true == m_currentSunRise.isValid()) && (true == m_currentSunSet.isValid()) && ((QTime::currentTime() < m_currentSunRise) || (QTime::currentTime() > m_currentSunSet)))
         {
             ui->tabWidget->setTabText(2,"Свара не определена");
-            ui->tabWidget->tabBar()->setTabTextColor(2,ui->tabWidget->tabBar()->tabTextColor(0));
+            // Цвет "обычной" вкладки.
+            ui->tabWidget->tabBar()->setTabTextColor(2,ui->tabWidget->tabBar()->tabTextColor(3));
         }
         else if ((QTime::currentTime() < TComputings::sunTimeRise(longitude,latitude,timeZoneOffset)) ||
                  (QTime::currentTime() > TComputings::sunTimeSet(longitude,latitude,timeZoneOffset)))
@@ -963,7 +965,29 @@ void MainWindow::on_pushButtonEkadashiVideosLocalCopy_clicked()
 {
 //    // TODO Показать виджет с видео копиями о экадаше.
 //    mEkadashiVideosViewer.showEkadashiVideos();
+    // Открыть папку с видео файлами о экадаши.
+    if (false == QDesktopServices::openUrl(QUrl(QDir::currentPath()+"/videos/ekadashi"))) {
+        qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
+    }
 }
 //---------------------------
 
 
+void MainWindow::on_pushButtonSvaraVideosLocalCopy_clicked()
+{
+    // Открыть папку с видео файлами о сварах.
+    if (false == QDesktopServices::openUrl(QUrl(QDir::currentPath()+"/videos/svara"))) {
+        qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
+    }
+}
+//---------------------------
+
+
+void MainWindow::on_labelEkadashiHtmlLocalCopy_linkActivated(const QString &link)
+{
+    // Показать html с локальной копией темы с сайта о экадаши.
+    if (false == QDesktopServices::openUrl(QUrl(QDir::currentPath()+"/html/from_site(19_august_2018)/ekadashi_topic.html"))) {
+        qWarning() << Q_FUNC_INFO << "Could not open html file!";
+    }
+}
+//---------------------------

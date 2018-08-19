@@ -49,7 +49,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <property name="font">
@@ -840,6 +840,28 @@ QToolTip
       </property>
       <property name="text">
        <string>Копии видео</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelEkadashiHtmlLocalCopy">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>600</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;qrc:/html/ekadashi_topic&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;копия темы html&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="openExternalLinks">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>

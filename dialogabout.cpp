@@ -2,9 +2,11 @@
 #ifdef QT_NO_DEBUG
     #define QT_NO_DEBUG_OUTPUT
 #endif
-
+// Qt
 #include <QFile>
 #include <QTextStream>
+#include <QDesktopServices>
+// sun-moon-time
 #include "dialogabout.h"
 #include "ui_dialogabout.h"
 #include "generalmisc.h"
@@ -23,11 +25,14 @@ DialogAbout::DialogAbout(QWidget *parent) :
     ui->setupUi(this);
 
     // Картинка программы.
-    ui->labelAppIcon->setPixmap(QIcon(":/icons/sun_moon.ico").pixmap(QSize(ui->labelAppIcon->width(),ui->labelAppIcon->height())));
-    ui->labelAppVersion->setText("sun-moon-time v0.65 beta");
+    QPixmap appIcon(":/icons/sun_moon.ico");
+    appIcon = appIcon.scaled(64,64,Qt::KeepAspectRatio);
+    ui->labelAppIcon->setPixmap(appIcon);
 
     // Картинка "КрасныйГлазКаулы"
-    ui->labelRedEyeIcon->setPixmap(QIcon(":/images/redeye1").pixmap(QSize(ui->labelRedEyeIcon->width(),ui->labelRedEyeIcon->height())));
+    QPixmap redEyeIcon(":/images/redeye1");
+    redEyeIcon = redEyeIcon.scaled(64,64,Qt::KeepAspectRatio);
+    ui->labelRedEyeIcon->setPixmap(redEyeIcon);
     // Вывести информацию о программе в текстовом поле.
     QFile readMe (":/html/readme");
     if (true == readMe.open(QIODevice::ReadOnly)) {
@@ -43,6 +48,15 @@ DialogAbout::DialogAbout(QWidget *parent) :
 DialogAbout::~DialogAbout()
 {
     delete ui;
+}
+//---------------------------
+
+void DialogAbout::on_labelRedEyeLocalCopy_linkActivated(const QString &link)
+{
+    // Открыть папку с локальной копией видео КрасныйГлазКаулы.
+    if (false == QDesktopServices::openUrl(QUrl(QDir::currentPath()+"/videos/redeye/"))) {
+        qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
+    }
 }
 //---------------------------
 // КОНЕЦ: DialogAbout - public
