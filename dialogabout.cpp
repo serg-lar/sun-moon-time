@@ -54,7 +54,7 @@ DialogAbout::~DialogAbout()
 void DialogAbout::on_labelRedEyeLocalCopy_linkActivated(const QString &link)
 {
     // Открыть папку с локальной копией видео КрасныйГлазКаулы.
-    if (false == QDesktopServices::openUrl(QUrl(QDir::currentPath()+"/videos/redeye/"))) {
+    if (false == QDesktopServices::openUrl(QUrl(QCoreApplication::applicationDirPath()+"/videos/redeye/"))) {
         qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
     }
 }

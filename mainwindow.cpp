@@ -966,7 +966,7 @@ void MainWindow::on_pushButtonEkadashiVideosLocalCopy_clicked()
 //    // TODO Показать виджет с видео копиями о экадаше.
 //    mEkadashiVideosViewer.showEkadashiVideos();
     // Открыть папку с видео файлами о экадаши.
-    if (false == QDesktopServices::openUrl(QUrl(QDir::currentPath()+"/videos/ekadashi"))) {
+    if (false == QDesktopServices::openUrl(QUrl(QCoreApplication::applicationDirPath()+"/videos/ekadashi"))) {
         qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
     }
 }
@@ -976,7 +976,7 @@ void MainWindow::on_pushButtonEkadashiVideosLocalCopy_clicked()
 void MainWindow::on_pushButtonSvaraVideosLocalCopy_clicked()
 {
     // Открыть папку с видео файлами о сварах.
-    if (false == QDesktopServices::openUrl(QUrl(QDir::currentPath()+"/videos/svara"))) {
+    if (false == QDesktopServices::openUrl(QUrl(QCoreApplication::applicationDirPath()+"/videos/svara"))) {
         qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
     }
 }
@@ -986,7 +986,7 @@ void MainWindow::on_pushButtonSvaraVideosLocalCopy_clicked()
 void MainWindow::on_labelEkadashiHtmlLocalCopy_linkActivated(const QString &link)
 {
     // Показать html с локальной копией темы с сайта о экадаши.
-    if (false == QDesktopServices::openUrl(QUrl(QDir::currentPath()+"/html/from_site(19_august_2018)/ekadashi_topic.html"))) {
+    if (false == QDesktopServices::openUrl(QUrl(QCoreApplication::applicationDirPath()+"/html/from_site(19_august_2018)/ekadashi_topic.html"))) {
         qWarning() << Q_FUNC_INFO << "Could not open html file!";
     }
 }
