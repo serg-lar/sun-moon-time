@@ -251,7 +251,10 @@ void DialogSettings::on_webView_loadFinished(bool arg1)
     // Центрировать карту на заданных геогр.координатах при завершении её загрузки.
     // WARNING Этот слот сейчас почему-то вызывается много раз, а не один после загрузки web-страницы.
     // Пришлось ввести дополнительный флаг, чтобы избежать зацикливания и подвисания приложения.
-    if ((true == arg1) && (false == mfMapWebPageLoadComplete)) {
+    if ((true == arg1) && (false == mfMapWebPageLoadInProgress)) {
+        // Взвести флаг о том, что загрузка web-страницы с гугл-картой в процессе.
+        mfMapWebPageLoadInProgress = true;
+
         QString latStr (QString::number(ui->doubleSpinBoxLatitude->value()));
         QString lngStr (QString::number(ui->doubleSpinBoxLongitude->value()));
         QString cmd;
@@ -263,9 +266,6 @@ void DialogSettings::on_webView_loadFinished(bool arg1)
               "map = new google.maps.Map(document.getElementById('map_canvas'), myOptions); "
               "google.maps.event.addListener(map,'click',function(event){qDialogSettings.setCoord(event.latLng.lat(),event.latLng.lng());});";
         ui->webView->page()->mainFrame()->evaluateJavaScript(cmd);
-
-        // Взвести флаг о том, что загрузка web-страницы с гугл-картой завершена.
-        mfMapWebPageLoadComplete = true;
     }
 }
 //---------------------------
@@ -362,13 +362,15 @@ DialogSettings::DialogSettings(QWidget *parent) :
     connect(&m_Nas, SIGNAL(finished(QNetworkReply*)), this, SLOT(processNetworkReply(QNetworkReply*)));
 
     // Загрузить настройки программы.
-    if (false == loadSettings())
+    if (false == loadSettings()) {
         qWarning() << Q_FUNC_INFO << "error loadSettings";
+    }
 
     // Если в настройках установлена соответствующая опция, то загрузить карты google.
     QSettings settings;
-    bool useGoogleMaps {settings.value(SunMoonTimeSettingsMisc::useGoogleMapsSettingName()).toBool()};
-    if (true == useGoogleMaps) {
+    bool useGoogleMaps {settings.value(SunMoonTimeSettingsMisc::useGoogleMapsSettingName()).toBool()};    
+    // Также если опции относительно google карт нет, то "по умолчанию" они используются (первый запуск приложения)
+    if ((true == useGoogleMaps) || (QSettings::NoError != settings.status())) {
         // Загрузить web-страницу google карт из файла ресурсов.
         QFile googleMapsFile(":/html/google_maps");
         if (true == googleMapsFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -391,7 +393,7 @@ DialogSettings::~DialogSettings()
 
 void DialogSettings::showEvent(QShowEvent * event) {
     // Сбросить флаг состояния web-страницы с гугл картами - не загружена.
-    mfMapWebPageLoadComplete = false;
+    mfMapWebPageLoadInProgress = false;
 }
 //---------------------------
 // КОНЕЦ: DialogSettings - public

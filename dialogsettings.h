@@ -80,7 +80,7 @@ public:
     ~DialogSettings();
 
 protected:
-    bool mfMapWebPageLoadComplete = false;   //! флаг: загрузка web-страницы с гугл картой завершена (при открытии диалога "настройки")
+    bool mfMapWebPageLoadInProgress = false;   //! флаг: загрузка web-страницы с гугл картой завершена (при открытии диалога "настройки")
 
     /// \brief Событие при показе диалогового окна (переопределение виртуального метода)
     void showEvent(QShowEvent * event) override;

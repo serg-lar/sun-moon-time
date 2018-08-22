@@ -76,10 +76,10 @@ p, li { white-space: pre-wrap; }
   <widget class="QLabel" name="labelRedEyeLocalCopy">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>451</y>
+     <x>240</x>
+     <y>450</y>
      <width>31</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -128,7 +128,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>84</x>
      <y>30</y>
-     <width>191</width>
+     <width>211</width>
      <height>20</height>
     </rect>
    </property>
@@ -170,7 +170,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>80</x>
      <y>430</y>
-     <width>171</width>
+     <width>201</width>
      <height>21</height>
     </rect>
    </property>

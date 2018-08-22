@@ -49,7 +49,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <property name="font">
@@ -104,7 +104,7 @@ QGroupBox::title
          <x>10</x>
          <y>30</y>
          <width>492</width>
-         <height>212</height>
+         <height>215</height>
         </rect>
        </property>
        <property name="font">
@@ -268,7 +268,7 @@ QToolTip
          <x>10</x>
          <y>250</y>
          <width>491</width>
-         <height>77</height>
+         <height>82</height>
         </rect>
        </property>
        <property name="font">
@@ -430,7 +430,7 @@ QGroupBox::title
          <x>10</x>
          <y>30</y>
          <width>186</width>
-         <height>111</height>
+         <height>112</height>
         </rect>
        </property>
        <property name="font">
@@ -832,9 +832,9 @@ QToolTip
      <widget class="QPushButton" name="pushButtonEkadashiVideosLocalCopy">
       <property name="geometry">
        <rect>
-        <x>440</x>
+        <x>430</x>
         <y>600</y>
-        <width>91</width>
+        <width>101</width>
         <height>21</height>
        </rect>
       </property>
@@ -845,9 +845,9 @@ QToolTip
      <widget class="QLabel" name="labelEkadashiHtmlLocalCopy">
       <property name="geometry">
        <rect>
-        <x>330</x>
+        <x>310</x>
         <y>600</y>
-        <width>101</width>
+        <width>121</width>
         <height>20</height>
        </rect>
       </property>
@@ -890,7 +890,7 @@ QToolTip
        <rect>
         <x>10</x>
         <y>510</y>
-        <width>91</width>
+        <width>101</width>
         <height>21</height>
        </rect>
       </property>
@@ -903,8 +903,8 @@ QToolTip
        <rect>
         <x>10</x>
         <y>460</y>
-        <width>334</width>
-        <height>39</height>
+        <width>371</width>
+        <height>48</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -968,7 +968,7 @@ QToolTip
        <rect>
         <x>10</x>
         <y>-1</y>
-        <width>201</width>
+        <width>221</width>
         <height>31</height>
        </rect>
       </property>
@@ -980,9 +980,9 @@ QToolTip
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>559</y>
-        <width>361</width>
-        <height>71</height>
+        <y>552</y>
+        <width>461</width>
+        <height>74</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -995,7 +995,7 @@ QToolTip
           </font>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/photo.php?fbid=1835787553372821&amp;amp;set=oa.1475952319112067&amp;amp;type=3&amp;amp;theater&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Фото альбом &amp;quot;Национальная идея - Пять основ Дхармы&amp;quot;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/photo.php?fbid=1835787553372821&amp;amp;set=oa.1475952319112067&amp;amp;type=3&amp;amp;theater&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Фото альбом &amp;quot;Национальная идея - Пять основ Дхармы&amp;quot;(facebook)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="openExternalLinks">
           <bool>true</bool>
