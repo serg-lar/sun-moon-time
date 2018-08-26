@@ -116,10 +116,10 @@ bool DialogSettings::loadSettings()
 {
     bool result (true);
 
-    // загрузить и отобразить настройки программы
+    // Загрузить и отобразить настройки программы.
     QSettings settings;
 
-    // загрузить настройки
+    // Загрузить настройки.
     bool ok;
     double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
     double longitude (settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));

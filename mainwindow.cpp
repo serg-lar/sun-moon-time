@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QSound>
 #include <QDesktopServices>
+#include <QMessageBox>
 // sun-moon-time
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -789,13 +790,23 @@ MainWindow::MainWindow(QWidget *parent) :
     // Объекты.
     m_TrayIcon.show();
 
-    // Восстановить опцию использования google карт из сохранённых настроек.
+    // Прочитать значение опции использования google карт из сохранённых настроек.
     QSettings settings;
-    ui->actionUseGoogleMaps->setChecked(settings.value(SunMoonTimeSettingsMisc::useGoogleMapsSettingName()).toBool());
-    // Проверить результат восстановления сохраненной опции
+    bool useGoogleMaps {settings.value(SunMoonTimeSettingsMisc::useGoogleMapsSettingName()).toBool()};
+    // Проверить результат восстановления сохраненной опции.
     if (QSettings::NoError != settings.status()) {
         qWarning() << Q_FUNC_INFO << SunMoonTimeSettingsMisc::errors::loadSettingsError();
+        // Задать вопрос пользователю о использовании google карт.
+        QMessageBox::StandardButton reply;
+          reply = QMessageBox::question(this,"Вопрос о использовании google карт", "Использовать google карты?",
+                                        QMessageBox::Yes|QMessageBox::No);
+          if (reply == QMessageBox::Yes)
+              useGoogleMaps = true;
+          else
+              useGoogleMaps = false;
     }
+    // Установить соответствующую опцию в интерфейс.
+    ui->actionUseGoogleMaps->setChecked(useGoogleMaps);
 
     // Проверить на наличие настройки программы.
     if (true == settings.allKeys().isEmpty())
@@ -966,8 +977,10 @@ void MainWindow::on_pushButtonEkadashiVideosLocalCopy_clicked()
 //    // TODO Показать виджет с видео копиями о экадаше.
 //    mEkadashiVideosViewer.showEkadashiVideos();
     // Открыть папку с видео файлами о экадаши.
-    if (false == QDesktopServices::openUrl(QUrl(QCoreApplication::applicationDirPath()+"/videos/ekadashi"))) {
+    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/videos/ekadashi"))) {
+
         qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
+//        QMessageBox::about(this,"НЕ открывается папка с видео","Путь к папке:"+QCoreApplication::applicationDirPath()+"/videos/ekadashi");
     }
 }
 //---------------------------
@@ -976,7 +989,7 @@ void MainWindow::on_pushButtonEkadashiVideosLocalCopy_clicked()
 void MainWindow::on_pushButtonSvaraVideosLocalCopy_clicked()
 {
     // Открыть папку с видео файлами о сварах.
-    if (false == QDesktopServices::openUrl(QUrl(QCoreApplication::applicationDirPath()+"/videos/svara"))) {
+    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/videos/svara"))) {
         qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
     }
 }
@@ -986,7 +999,7 @@ void MainWindow::on_pushButtonSvaraVideosLocalCopy_clicked()
 void MainWindow::on_labelEkadashiHtmlLocalCopy_linkActivated(const QString &link)
 {
     // Показать html с локальной копией темы с сайта о экадаши.
-    if (false == QDesktopServices::openUrl(QUrl(QCoreApplication::applicationDirPath()+"/html/from_site(19_august_2018)/ekadashi_topic.html"))) {
+    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/html/from_site(19_august_2018)/ekadashi_topic.html"))) {
         qWarning() << Q_FUNC_INFO << "Could not open html file!";
     }
 }
