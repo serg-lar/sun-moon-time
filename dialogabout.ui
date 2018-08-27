@@ -91,7 +91,7 @@ p, li { white-space: pre-wrap; }
     </font>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://blank&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;л.к.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://blank&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;кп-я&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
 </string>
    </property>
    <property name="openExternalLinks">
