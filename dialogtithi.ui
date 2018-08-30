@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Титхи</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/sun_moon.ico</normaloff>:/icons/sun_moon.ico</iconset>
+  </property>
   <widget class="QTextEdit" name="textEdit">
    <property name="geometry">
     <rect>
@@ -48,9 +52,9 @@ color: navy;</string>
   <widget class="QPushButton" name="pushButtonSaveAs">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>230</x>
      <y>600</y>
-     <width>121</width>
+     <width>141</width>
      <height>27</height>
     </rect>
    </property>
@@ -103,7 +107,7 @@ QGroupBox::title
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>201</width>
+      <width>204</width>
       <height>54</height>
      </rect>
     </property>
@@ -395,7 +399,7 @@ QGroupBox::title
     <rect>
      <x>10</x>
      <y>150</y>
-     <width>96</width>
+     <width>111</width>
      <height>27</height>
     </rect>
    </property>
@@ -412,9 +416,9 @@ QGroupBox::title
   <widget class="QCheckBox" name="checkBoxTithiPrintUtc">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>136</x>
      <y>150</y>
-     <width>177</width>
+     <width>231</width>
      <height>22</height>
     </rect>
    </property>
@@ -443,6 +447,8 @@ QGroupBox::title
   <tabstop>textEdit</tabstop>
   <tabstop>pushButtonSaveAs</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

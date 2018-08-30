@@ -662,6 +662,25 @@ font: bold;</string>
         </item>
        </layout>
       </widget>
+      <widget class="QPushButton" name="pushButtonBoycottVideoLocalCopy">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>190</y>
+         <width>131</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Копия видео</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="tabMoon">
@@ -797,9 +816,9 @@ QToolTip
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>280</x>
+        <x>167</x>
         <y>390</y>
-        <width>258</width>
+        <width>371</width>
         <height>201</height>
        </rect>
       </property>
@@ -832,10 +851,10 @@ QToolTip
      <widget class="QPushButton" name="pushButtonEkadashiVideosLocalCopy">
       <property name="geometry">
        <rect>
-        <x>430</x>
-        <y>600</y>
-        <width>101</width>
-        <height>21</height>
+        <x>10</x>
+        <y>560</y>
+        <width>131</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
@@ -845,10 +864,10 @@ QToolTip
      <widget class="QLabel" name="labelEkadashiHtmlLocalCopy">
       <property name="geometry">
        <rect>
-        <x>310</x>
-        <y>600</y>
-        <width>121</width>
-        <height>20</height>
+        <x>10</x>
+        <y>529</y>
+        <width>151</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -889,9 +908,9 @@ QToolTip
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>510</y>
-        <width>101</width>
-        <height>21</height>
+        <y>530</y>
+        <width>131</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
@@ -903,8 +922,8 @@ QToolTip
        <rect>
         <x>10</x>
         <y>460</y>
-        <width>371</width>
-        <height>48</height>
+        <width>531</width>
+        <height>61</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -959,7 +978,7 @@ QToolTip
         <x>0</x>
         <y>30</y>
         <width>551</width>
-        <height>521</height>
+        <height>501</height>
        </rect>
       </property>
      </widget>
@@ -968,7 +987,7 @@ QToolTip
        <rect>
         <x>10</x>
         <y>-1</y>
-        <width>221</width>
+        <width>531</width>
         <height>31</height>
        </rect>
       </property>
@@ -980,9 +999,9 @@ QToolTip
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>552</y>
-        <width>461</width>
-        <height>74</height>
+        <y>535</y>
+        <width>531</width>
+        <height>91</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -990,6 +1009,7 @@ QToolTip
         <widget class="QLabel" name="labelFacebookPhotoAlbum">
          <property name="font">
           <font>
+           <pointsize>11</pointsize>
            <weight>50</weight>
            <bold>false</bold>
           </font>
@@ -1006,6 +1026,7 @@ QToolTip
         <widget class="QLabel" name="labelFBBoycott">
          <property name="font">
           <font>
+           <pointsize>11</pointsize>
            <weight>50</weight>
            <bold>false</bold>
           </font>
@@ -1022,6 +1043,7 @@ QToolTip
         <widget class="QLabel" name="labelSiteBoycott">
          <property name="font">
           <font>
+           <pointsize>11</pointsize>
            <weight>50</weight>
            <bold>false</bold>
           </font>
@@ -1104,6 +1126,10 @@ QToolTip
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
+   </property>
    <property name="text">
     <string>Настройки</string>
    </property>
@@ -1118,6 +1144,10 @@ QToolTip
    </property>
   </action>
   <action name="actionExitApp">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
+   </property>
    <property name="text">
     <string>Выход</string>
    </property>
@@ -1132,6 +1162,10 @@ QToolTip
    </property>
   </action>
   <action name="actionReCompAll">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/calc.png</normaloff>:/icons/calc.png</iconset>
+   </property>
    <property name="text">
     <string>Пересчитать всё</string>
    </property>
@@ -1143,6 +1177,10 @@ QToolTip
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/sun_moon.ico</normaloff>:/icons/sun_moon.ico</iconset>
+   </property>
    <property name="text">
     <string>О Программе</string>
    </property>

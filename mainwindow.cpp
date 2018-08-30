@@ -792,10 +792,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Прочитать значение опции использования google карт из сохранённых настроек.
     QSettings settings;
-    bool useGoogleMaps {settings.value(SunMoonTimeSettingsMisc::useGoogleMapsSettingName()).toBool()};
-    // Проверить результат восстановления сохраненной опции.
-    if (QSettings::NoError != settings.status()) {
-        qWarning() << Q_FUNC_INFO << SunMoonTimeSettingsMisc::errors::loadSettingsError();
+    bool useGoogleMaps {false};
+    // Существует ли эта опция в настройках?
+    if (true == settings.contains(SunMoonTimeSettingsMisc::useGoogleMapsSettingName())) {
+        // Опция есть в настройках - прочитать.
+        useGoogleMaps = settings.value(SunMoonTimeSettingsMisc::useGoogleMapsSettingName()).toBool();
+    }
+    else { // Опции о использовании google карт нет в настройках.
         // Задать вопрос пользователю о использовании google карт.
         QMessageBox::StandardButton reply;
           reply = QMessageBox::question(this,"Вопрос о использовании google карт", "Использовать google карты?",
@@ -804,6 +807,10 @@ MainWindow::MainWindow(QWidget *parent) :
               useGoogleMaps = true;
           else
               useGoogleMaps = false;
+    }
+    // Проверить результат работы с настройками.
+    if (QSettings::NoError != settings.status()) {
+        qWarning() << Q_FUNC_INFO << SunMoonTimeSettingsMisc::errors::loadSettingsError();        
     }
     // Установить соответствующую опцию в интерфейс.
     ui->actionUseGoogleMaps->setChecked(useGoogleMaps);
@@ -1001,6 +1008,15 @@ void MainWindow::on_labelEkadashiHtmlLocalCopy_linkActivated(const QString &link
     // Показать html с локальной копией темы с сайта о экадаши.
     if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/html/from_site(19_august_2018)/ekadashi_topic.html"))) {
         qWarning() << Q_FUNC_INFO << "Could not open html file!";
+    }
+}
+//---------------------------
+
+void MainWindow::on_pushButtonBoycottVideoLocalCopy_clicked()
+{
+    // Открыть папку с видео о бойкоте летоисчисления от Р.Х.
+    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/videos/boycott"))) {
+        qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
     }
 }
 //---------------------------

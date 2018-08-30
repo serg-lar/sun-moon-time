@@ -69,6 +69,8 @@ private slots:
 
     void on_labelEkadashiHtmlLocalCopy_linkActivated(const QString &link);
 
+    void on_pushButtonBoycottVideoLocalCopy_clicked();
+
 protected:
     // Переменные для хранения постера про настоящий праздник.
     QPixmap mBoycotHolidayPoster;

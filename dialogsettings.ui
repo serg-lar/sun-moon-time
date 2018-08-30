@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Настройки</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
+  </property>
   <widget class="QWebView" name="webView" native="true">
    <property name="geometry">
     <rect>
@@ -45,7 +49,7 @@
     <rect>
      <x>10</x>
      <y>470</y>
-     <width>251</width>
+     <width>321</width>
      <height>161</height>
     </rect>
    </property>
@@ -69,7 +73,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>221</width>
+      <width>301</width>
       <height>22</height>
      </rect>
     </property>
@@ -88,8 +92,8 @@
      <rect>
       <x>20</x>
       <y>41</y>
-      <width>224</width>
-      <height>112</height>
+      <width>291</width>
+      <height>114</height>
      </rect>
     </property>
     <property name="font">
@@ -425,7 +429,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>280</x>
       <y>70</y>
       <width>81</width>
       <height>27</height>
@@ -453,9 +457,9 @@
    <widget class="QCheckBox" name="checkBoxRequestHeight">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>18</x>
       <y>70</y>
-      <width>179</width>
+      <width>241</width>
       <height>22</height>
      </rect>
     </property>
@@ -485,9 +489,9 @@
   <widget class="QGroupBox" name="groupBoxTimeZone">
    <property name="geometry">
     <rect>
-     <x>440</x>
+     <x>430</x>
      <y>350</y>
-     <width>191</width>
+     <width>201</width>
      <height>111</height>
     </rect>
    </property>
@@ -511,8 +515,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>168</width>
-      <height>54</height>
+      <width>181</width>
+      <height>57</height>
      </rect>
     </property>
     <property name="font">
@@ -610,16 +614,16 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>340</x>
      <y>480</y>
-     <width>233</width>
+     <width>291</width>
      <height>22</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <pointsize>12</pointsize>
+     <pointsize>11</pointsize>
     </font>
    </property>
    <property name="text">
@@ -629,9 +633,9 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>430</x>
      <y>600</y>
-     <width>178</width>
+     <width>201</width>
      <height>29</height>
     </rect>
    </property>
@@ -702,7 +706,9 @@
   <tabstop>checkBoxAutoStartUp</tabstop>
   <tabstop>webView</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButtonOk</sender>

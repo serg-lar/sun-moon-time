@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/sun_moon.ico</normaloff>:/icons/sun_moon.ico</iconset>
+  </property>
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
@@ -253,7 +257,7 @@ QGroupBox::title
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>201</width>
+      <width>204</width>
       <height>54</height>
      </rect>
     </property>
@@ -390,7 +394,7 @@ QGroupBox::title
     <rect>
      <x>10</x>
      <y>150</y>
-     <width>96</width>
+     <width>111</width>
      <height>27</height>
     </rect>
    </property>
@@ -407,9 +411,9 @@ QGroupBox::title
   <widget class="QPushButton" name="pushButtonSaveAs">
    <property name="geometry">
     <rect>
-     <x>450</x>
+     <x>429</x>
      <y>670</y>
-     <width>120</width>
+     <width>141</width>
      <height>27</height>
     </rect>
    </property>
@@ -428,7 +432,7 @@ QGroupBox::title
     <rect>
      <x>390</x>
      <y>70</y>
-     <width>147</width>
+     <width>171</width>
      <height>22</height>
     </rect>
    </property>
@@ -457,6 +461,8 @@ QGroupBox::title
   <tabstop>tableWidget</tabstop>
   <tabstop>pushButtonSaveAs</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
