@@ -5,6 +5,7 @@
         <file>settings.png</file>
         <file>exit.png</file>
         <file>calc.png</file>
+        <file>show.png</file>
     </qresource>
     <qresource prefix="/html">
         <file alias="ekadashi_links">html/ekadashi_links.html</file>
