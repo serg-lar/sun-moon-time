@@ -71,6 +71,14 @@ private slots:
 
     void on_pushButtonBoycottVideoLocalCopy_clicked();
 
+protected slots:
+    /// \brief Действия после отображения главного окна
+    void afterShow();
+
+    /// \brief Выровнять виджет по центру эрана
+    /// \param w - виджет для выравнивания
+    static void moveToScreenCenter(QWidget* w);
+
 protected:
     // Переменные для хранения постера про настоящий праздник.
     QPixmap mBoycotHolidayPoster;
@@ -79,6 +87,10 @@ protected:
     QGraphicsScene mBoycottHolidayPosterScene;
     // Виджеты-окошки для отображения html со списком локальных копий видео
     QDialogVideosViewer mEkadashiVideosViewer;
+    bool mfFirstCalc = true;    //! флаг первых расчётов при показе окна
+
+    /// \brief Событие перед отображением окна (переопределенный метод)
+    void showEvent(QShowEvent *event) override;
 
 public:
     explicit MainWindow(QWidget *parent = 0);

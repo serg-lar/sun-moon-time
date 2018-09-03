@@ -23,7 +23,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Солнечно-Лунное время</string>
+   <string>Солнечно-Лунное время. Йога календарик.</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
