@@ -740,6 +740,7 @@ void MainWindow::showEvent(QShowEvent *event) {
 }
 //---------------------------
 
+
 // НАЧАЛО: MainWindow - public
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent, Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint |
@@ -813,14 +814,14 @@ MainWindow::MainWindow(QWidget *parent) :
     else { // Опции о использовании google карт нет в настройках.
         // Задать вопрос пользователю о использовании google карт.
         QMessageBox::StandardButton reply;
-          reply = QMessageBox::question(this,"Вопрос о использовании google карт", "Использовать google карты?",
-                                        QMessageBox::Yes|QMessageBox::No);
-          if (reply == QMessageBox::Yes)
-              useGoogleMaps = true;
-          else
-              useGoogleMaps = false;
-          // Установить опцию в файл настроек.
-          settings.setValue(SunMoonTimeSettingsMisc::useGoogleMapsSettingName(),useGoogleMaps);
+        reply = QMessageBox::question(this,"Вопрос о использовании google карт", "Использовать google карты?",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes)
+            useGoogleMaps = true;
+        else
+            useGoogleMaps = false;
+        // Установить опцию в файл настроек.
+        settings.setValue(SunMoonTimeSettingsMisc::useGoogleMapsSettingName(),useGoogleMaps);
     }
     // Проверить результат работы с настройками.
     if (QSettings::NoError != settings.status()) {
