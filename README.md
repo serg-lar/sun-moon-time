@@ -56,7 +56,7 @@ https://ru.wikipedia.org/wiki/4-%D0%B5_%D1%82%D1%8B%D1%81%D1%8F%D1%87%D0%B5%D0%B
 
 
 2) Айравата дас - “Ведическая Космология” 
-https://www.facebook.com/media/set/?set=a.379993315804477.1073741828.271656919971451&type=3 3) Кальпа, Материал из Википедии — свободной энциклопедии https://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D0%BB%D1%8C%D0%BF%D0%B0
+https://www.facebook.com/media/set/?set=a.379993315804477.1073741828.271656919971451&type=3
 
 
 3) Кальпа,
