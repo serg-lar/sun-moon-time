@@ -22,6 +22,9 @@ public:
     explicit DialogAbout(QWidget *parent = 0);
     ~DialogAbout();
 
+private slots:
+    void on_labelRedEyeLocalCopy_linkActivated(const QString &link);
+
 private:
     Ui::DialogAbout *ui;
 };

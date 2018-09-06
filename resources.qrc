@@ -2,14 +2,27 @@
     <qresource prefix="/icons">
         <file>sun_moon.jpg</file>
         <file>sun_moon.ico</file>
+        <file>settings.png</file>
+        <file>exit.png</file>
+        <file>calc.png</file>
+        <file>show.png</file>
     </qresource>
     <qresource prefix="/html">
-        <file>google_maps.html</file>
+        <file alias="ekadashi_links">html/ekadashi_links.html</file>
+        <file alias="readme">html/readme.html</file>
+        <file alias="google_maps">html/google_maps.html</file>
+        <file alias="ekadashi_videos">html/ekadashi_videos.html</file>
+        <file alias="ekadashi_topic">html/from site(19 august 2018)/Миф о телегонии нужен, чтобы отвлечь людей от экадаши и вреда борщей.html</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>OM_NAMO_NARAYANA.wav</file>
     </qresource>
-    <qresource prefix="/txt">
-        <file>readme.txt</file>
+    <qresource prefix="/txt"/>
+    <qresource prefix="/"/>
+    <qresource prefix="/images">
+        <file>images/Бойкот праздников - о настоящем празднике.jpg</file>
+        <file>images/VedicTimePeriods.jpg</file>
+        <file alias="redeye1">images/redeye[1].jpeg</file>
+        <file>images/redeye[0].jpeg</file>
     </qresource>
 </RCC>

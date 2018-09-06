@@ -2,11 +2,14 @@
 #ifdef QT_NO_DEBUG
     #define QT_NO_DEBUG_OUTPUT
 #endif
-
+// Qt
 #include <QFile>
 #include <QTextStream>
+#include <QDesktopServices>
+// sun-moon-time
 #include "dialogabout.h"
 #include "ui_dialogabout.h"
+#include "generalmisc.h"
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -18,18 +21,26 @@ DialogAbout::DialogAbout(QWidget *parent) :
             Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint),
     ui(new Ui::DialogAbout)
 {
+    // Установить интерфейс.
     ui->setupUi(this);
 
-    // картинка программы
-    ui->label->setPixmap(QIcon(":/icons/sun_moon.ico").pixmap(QSize(ui->label->width(),ui->label->height())));
-    ui->label_2->setText("sun-moon-time v0.65 beta");
+    // Картинка программы.
+    QPixmap appIcon(":/icons/sun_moon.ico");
+    appIcon = appIcon.scaled(64,64,Qt::KeepAspectRatio);
+    ui->labelAppIcon->setPixmap(appIcon);
 
-    // вывести информацию о программе в текстовом поле
-    QFile readMe (":/txt/readme.txt");
-    if (true == readMe.open(QIODevice::ReadOnly))
-    {
+    // Картинка "КрасныйГлазКаулы"
+    QPixmap redEyeIcon(":/images/redeye1");
+    redEyeIcon = redEyeIcon.scaled(64,64,Qt::KeepAspectRatio);
+    ui->labelRedEyeIcon->setPixmap(redEyeIcon);
+    // Вывести информацию о программе в текстовом поле.
+    QFile readMe (":/html/readme");
+    if (true == readMe.open(QIODevice::ReadOnly)) {
         QTextStream in (&readMe);
-        ui->textEdit->setText(in.readAll());
+        ui->textBrowser->setHtml(in.readAll());
+    }
+    else { // Ошибка открытия файла.
+        qWarning() << Q_FUNC_INFO << SunMoonTimeGeneralMisc::errors::fileOpenError();
     }
 }
 //---------------------------
@@ -37,6 +48,15 @@ DialogAbout::DialogAbout(QWidget *parent) :
 DialogAbout::~DialogAbout()
 {
     delete ui;
+}
+//---------------------------
+
+void DialogAbout::on_labelRedEyeLocalCopy_linkActivated(const QString &link)
+{
+    // Открыть папку с локальной копией видео КрасныйГлазКаулы.
+    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/videos/redeye/"))) {
+        qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
+    }
 }
 //---------------------------
 // КОНЕЦ: DialogAbout - public

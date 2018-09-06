@@ -2,14 +2,19 @@
 #define MAINWINDOW_H
 
 // НАЧАЛО: директивы, глобальные переменные и константы
+// Qt
 #include <QMainWindow>
 #include <QTimer>
 #include <QDate>
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QMessageBox>
+#include <QGraphicsItem>
+#include <QGraphicsScene>
+// sun-moon-time
 #include "tithi.h"
 #include "computings.h"
+#include "dialogvideosviewer.h"
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
@@ -19,6 +24,7 @@
 namespace Ui {
 class MainWindow;
 }
+
 
 /// \brief класс главного окна программы
 class MainWindow : public QMainWindow
@@ -54,6 +60,37 @@ private slots:
     void on_pushButtonSunTimePeriod_clicked();
     void on_pushButtonMoonDatePeriod_clicked();
     void on_systemTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+
+    void on_tabWidget_currentChanged(int index);
+
+    void on_pushButtonEkadashiVideosLocalCopy_clicked();
+
+    void on_pushButtonSvaraVideosLocalCopy_clicked();
+
+    void on_labelEkadashiHtmlLocalCopy_linkActivated(const QString &link);
+
+    void on_pushButtonBoycottVideoLocalCopy_clicked();
+
+protected slots:
+    /// \brief Действия после отображения главного окна
+    void afterShow();
+
+    /// \brief Выровнять виджет по центру эрана
+    /// \param w - виджет для выравнивания
+    static void moveToScreenCenter(QWidget* w);
+
+protected:
+    // Переменные для хранения постера про настоящий праздник.
+    QPixmap mBoycotHolidayPoster;
+    // Этот объект нужно создавать с помощью оператора new, иначе ошибка при освобождении ресурсов.
+    QGraphicsPixmapItem *mpBoycottHolidayPosterItem = nullptr;
+    QGraphicsScene mBoycottHolidayPosterScene;
+    // Виджеты-окошки для отображения html со списком локальных копий видео
+    QDialogVideosViewer mEkadashiVideosViewer;
+    bool mfFirstCalc = true;    //! флаг первых расчётов при показе окна
+
+    /// \brief Событие перед отображением окна (переопределенный метод)
+    void showEvent(QShowEvent *event) override;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -102,7 +139,7 @@ private:
     bool                          mf_ekadashWarned;            ///< оповещение о экадаше произведено
     QSystemTrayIcon               m_TrayIcon;                  ///< значок приложения на панели (в трее)
     QMenu                         m_TrayIconMenu;              ///< контекстное меню для значка в трее
-    QAction*                      mp_TrayIconMenuSctionShow;   ///< пункт "показать" контекстного меню для иконки в трее
+    QAction*                      mp_TrayIconMenuActionShow;   ///< пункт "показать" контекстного меню для иконки в трее
     QAction*                      mp_TrayIconMenuActionQuit;   ///< пункт "выход" контекстного меню для иконки в трее
     bool                          mf_realClose;                ///< флаг закрытия окна на совсем
     QMessageBox*                  mp_ekadashWarnMsgBox;        ///< диалог с предупрежеднием о экадаше и кнопкой OK

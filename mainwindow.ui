@@ -23,7 +23,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Солнечно-Лунное время</string>
+   <string>Солнечно-Лунное время. Йога календарик.</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -36,7 +36,7 @@
       <x>10</x>
       <y>0</y>
       <width>551</width>
-      <height>641</height>
+      <height>661</height>
      </rect>
     </property>
     <property name="font">
@@ -52,6 +52,12 @@
      <number>0</number>
     </property>
     <widget class="QWidget" name="tabSun">
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
      <attribute name="title">
       <string>Солнце</string>
      </attribute>
@@ -98,7 +104,7 @@ QGroupBox::title
          <x>10</x>
          <y>30</y>
          <width>492</width>
-         <height>212</height>
+         <height>215</height>
         </rect>
        </property>
        <property name="font">
@@ -262,7 +268,7 @@ QToolTip
          <x>10</x>
          <y>250</y>
          <width>491</width>
-         <height>77</height>
+         <height>82</height>
         </rect>
        </property>
        <property name="font">
@@ -287,7 +293,7 @@ QToolTip
            </font>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://vk.com/topic-22230263_28223355?post=2493&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Ведический год от начала:&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://youtu.be/Cg4fF_j0r40&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Ведический год от начала:&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="openExternalLinks">
            <bool>true</bool>
@@ -424,7 +430,7 @@ QGroupBox::title
          <x>10</x>
          <y>30</y>
          <width>186</width>
-         <height>111</height>
+         <height>112</height>
         </rect>
        </property>
        <property name="font">
@@ -656,6 +662,25 @@ font: bold;</string>
         </item>
        </layout>
       </widget>
+      <widget class="QPushButton" name="pushButtonBoycottVideoLocalCopy">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>190</y>
+         <width>131</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Копия видео</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="tabMoon">
@@ -788,36 +813,74 @@ QToolTip
        </item>
       </layout>
      </widget>
-     <widget class="QLabel" name="label_9">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>280</x>
-        <y>400</y>
-        <width>235</width>
-        <height>41</height>
+        <x>167</x>
+        <y>390</y>
+        <width>371</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_15">
+       <item>
+        <widget class="QLabel" name="labelLInks">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Ссылки на некоторые материалы:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="textBrowserLinks">
+         <property name="documentTitle">
+          <string/>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="pushButtonEkadashiVideosLocalCopy">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>560</y>
+        <width>131</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://vk.com/topic-39053542_28027778&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Почему в экадаши нельзя&lt;br&gt; принимать зернобобовую пищу?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="openExternalLinks">
-       <bool>true</bool>
+       <string>Копии видео</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_10">
+     <widget class="QLabel" name="labelEkadashiHtmlLocalCopy">
       <property name="geometry">
        <rect>
-        <x>280</x>
-        <y>450</y>
-        <width>181</width>
-        <height>21</height>
+        <x>10</x>
+        <y>529</y>
+        <width>151</width>
+        <height>31</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://www.advayta.org/cat/?id=1762&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Происхождение экадаши&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;qrc:/html/ekadashi_topic&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;копия темы html&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="openExternalLinks">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
      </widget>
     </widget>
@@ -841,49 +904,160 @@ QToolTip
        <string notr="true">font: bold;</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_11">
+     <widget class="QPushButton" name="pushButtonSvaraVideosLocalCopy">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>530</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Копии видео</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>460</y>
-        <width>451</width>
-        <height>21</height>
+        <width>531</width>
+        <height>61</height>
        </rect>
       </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://youtu.be/g3Ys3aIJyKo&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Омовение. Часть 1. (Лунная свара и ее значение)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="openExternalLinks">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_12">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>480</y>
-        <width>451</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://youtu.be/zaMpXe_4OrY&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Омовение часть 2 (как принимать полное омовение)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="openExternalLinks">
-       <bool>true</bool>
-      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_14">
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://youtu.be/g3Ys3aIJyKo&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Омовение. Часть 1. (Лунная свара и ее значение)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_12">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://youtu.be/zaMpXe_4OrY&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Омовение часть 2 (как принимать полное омовение)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="tabVedicHolidays">
      <attribute name="title">
-      <string>Ведические праздники</string>
+      <string>Ведические праздники(введение)</string>
      </attribute>
+     <widget class="QGraphicsView" name="graphicsViewHolidayPoster">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>551</width>
+        <height>501</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelAboutPoster">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>-1</y>
+        <width>531</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Постер о настоящем празднике:</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>535</y>
+        <width>531</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_13">
+       <item>
+        <widget class="QLabel" name="labelFacebookPhotoAlbum">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/photo.php?fbid=1835787553372821&amp;amp;set=oa.1475952319112067&amp;amp;type=3&amp;amp;theater&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Фото альбом &amp;quot;Национальная идея - Пять основ Дхармы&amp;quot;(facebook)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelFBBoycott">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/groups/boykot.prazdnikov/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Бойкот Праздников (facebook группа)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelSiteBoycott">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://kaula-dharma.com/dharma/bojkot-prazdnikov/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Бойкот Праздников (тема на сайте)&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -952,6 +1126,10 @@ QToolTip
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
+   </property>
    <property name="text">
     <string>Настройки</string>
    </property>
@@ -966,6 +1144,10 @@ QToolTip
    </property>
   </action>
   <action name="actionExitApp">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
+   </property>
    <property name="text">
     <string>Выход</string>
    </property>
@@ -980,6 +1162,10 @@ QToolTip
    </property>
   </action>
   <action name="actionReCompAll">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/calc.png</normaloff>:/icons/calc.png</iconset>
+   </property>
    <property name="text">
     <string>Пересчитать всё</string>
    </property>
@@ -991,6 +1177,10 @@ QToolTip
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/sun_moon.ico</normaloff>:/icons/sun_moon.ico</iconset>
+   </property>
    <property name="text">
     <string>О Программе</string>
    </property>

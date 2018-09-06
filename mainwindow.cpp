@@ -2,13 +2,17 @@
 #ifdef QT_NO_DEBUG
     #define QT_NO_DEBUG_OUTPUT
 #endif
-
+// Qt
 #include <QtMath>
 #include <QtDebug>
 #include <QSettings>
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QSound>
+#include <QDesktopServices>
+#include <QMessageBox>
+#include <QDesktopWidget>
+// sun-moon-time
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dialogsettings.h"
@@ -42,7 +46,7 @@ void MainWindow::updateTime()
 
     if (0 == (timerInterval*m_cTimer % calendarUpdateInterval))
     {
-        // обновить грегорианский календарь
+        // обновить григорианский календарь
         ui->calendarWidgetGregorian->showToday();
         ui->calendarWidgetGregorian->setSelectedDate(QDate::currentDate());
 
@@ -193,7 +197,7 @@ void MainWindow::showSettingsDialog()
 
     int result (settingsDialog.exec());
 
-    if (QDialog::Accepted == result)
+    if ((QDialog::Accepted == result) && (false == mfFirstCalc))
     {
         // заблокировать интерфейс
         setDisabled(true);
@@ -212,6 +216,10 @@ void MainWindow::showSettingsDialog()
 
         // открыть вкладку с информацией о Солнце
         ui->tabWidget->setCurrentWidget(ui->tabSun);
+
+//        // Сбросить флаг первых расчётов, если это необходимо (потому что они выполнены).
+//        if (true == mfFirstCalc)
+//            mfFirstCalc = false;
     }    
 }
 //---------------------------
@@ -689,7 +697,8 @@ void MainWindow::showSvara()
         if ((true == m_currentSunRise.isValid()) && (true == m_currentSunSet.isValid()) && ((QTime::currentTime() < m_currentSunRise) || (QTime::currentTime() > m_currentSunSet)))
         {
             ui->tabWidget->setTabText(2,"Свара не определена");
-            ui->tabWidget->tabBar()->setTabTextColor(2,ui->tabWidget->tabBar()->tabTextColor(0));
+            // Цвет "обычной" вкладки.
+            ui->tabWidget->tabBar()->setTabTextColor(2,ui->tabWidget->tabBar()->tabTextColor(3));
         }
         else if ((QTime::currentTime() < TComputings::sunTimeRise(longitude,latitude,timeZoneOffset)) ||
                  (QTime::currentTime() > TComputings::sunTimeSet(longitude,latitude,timeZoneOffset)))
@@ -726,6 +735,11 @@ void MainWindow::showSvara()
 // КОНЕЦ: MainWindow - private slots
 //---------------------------------------------------------------------------------
 
+void MainWindow::showEvent(QShowEvent *event) {
+    QTimer::singleShot(0,this,SLOT(afterShow()));
+}
+//---------------------------
+
 
 // НАЧАЛО: MainWindow - public
 MainWindow::MainWindow(QWidget *parent) :
@@ -745,17 +759,27 @@ MainWindow::MainWindow(QWidget *parent) :
     mf_ekadashWarned = false;
     mp_ekadashWarnMsgBox = nullptr;
 
+    // Цвета и жирность текста заголовков вкладок.
+    // Солнце.
+    ui->tabWidget->tabBar()->setTabTextColor(0,QColor("purple"));    
+    // Луна.
+    ui->tabWidget->tabBar()->setTabTextColor(1,QColor("navy"));
+    // Жирный шрифт для заголовков вкладок.
+    QFont curTabHeadersFont = ui->tabWidget->tabBar()->font();
+    curTabHeadersFont.setBold(true);
+    ui->tabWidget->tabBar()->setFont(curTabHeadersFont);
+
     // Значок в трее и меню к нему.
     m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
     m_TrayIcon.setToolTip("Солнечно-Лунное время");
-//    m_TrayIcon.setIcon(QIcon(":/icons/sun_moon.ico"));
-//    m_TrayIcon.setToolTip("Солнечно-Лунное время");
     // Меню к значку в трее.
-    mp_TrayIconMenuSctionShow = new QAction("Показать",&m_TrayIconMenu);
-    connect(mp_TrayIconMenuSctionShow, SIGNAL(triggered(bool)), SLOT(showNormal()));
-    m_TrayIconMenu.addAction(mp_TrayIconMenuSctionShow);
+    mp_TrayIconMenuActionShow = new QAction("Показать",&m_TrayIconMenu);
+    mp_TrayIconMenuActionShow->setIcon(QIcon(":/icons/show.png"));
+    connect(mp_TrayIconMenuActionShow, SIGNAL(triggered(bool)), SLOT(showNormal()));
+    m_TrayIconMenu.addAction(mp_TrayIconMenuActionShow);
     m_TrayIconMenu.addSeparator();
     mp_TrayIconMenuActionQuit = new QAction("Выход",&m_TrayIconMenu);
+    mp_TrayIconMenuActionQuit->setIcon(QIcon(":/icons/exit.png"));
     connect(mp_TrayIconMenuActionQuit, SIGNAL(triggered()), this, SLOT(realClose()));
     m_TrayIconMenu.addAction(mp_TrayIconMenuActionQuit);
     m_TrayIcon.setContextMenu(&m_TrayIconMenu);
@@ -776,60 +800,50 @@ MainWindow::MainWindow(QWidget *parent) :
     // Объекты.
     m_TrayIcon.show();
 
-    // Восстановить опцию использования google карт из сохранённых настроек.
+    // Выровнять по центру экрана главное окно.
+    moveToScreenCenter(this);
+
+    // Прочитать значение опции использования google карт из сохранённых настроек.
     QSettings settings;
-    ui->actionUseGoogleMaps->setChecked(settings.value(SunMoonTimeSettingsMisc::useGoogleMapsSettingName()).toBool());
-    // Проверить результат восстановления сохраненной опции
+    bool useGoogleMaps {false};
+    // Существует ли эта опция в настройках?
+    if (true == settings.contains(SunMoonTimeSettingsMisc::useGoogleMapsSettingName())) {
+        // Опция есть в настройках - прочитать.
+        useGoogleMaps = settings.value(SunMoonTimeSettingsMisc::useGoogleMapsSettingName()).toBool();
+    }
+    else { // Опции о использовании google карт нет в настройках.
+        // Задать вопрос пользователю о использовании google карт.
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,"Вопрос о использовании google карт", "Использовать google карты?",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes)
+            useGoogleMaps = true;
+        else
+            useGoogleMaps = false;
+        // Установить опцию в файл настроек.
+        settings.setValue(SunMoonTimeSettingsMisc::useGoogleMapsSettingName(),useGoogleMaps);
+    }
+    // Проверить результат работы с настройками.
     if (QSettings::NoError != settings.status()) {
-        qWarning() << Q_FUNC_INFO << SunMoonTimeSettingsMisc::errors::loadSettingsError();
+        qWarning() << Q_FUNC_INFO << SunMoonTimeSettingsMisc::errors::loadSettingsError();        
     }
-
-    // Проверить на наличие настройки программы.
-    if (true == settings.allKeys().isEmpty())
-    {
-        // Настройки пусты, нужно запустить диалог настроек.
-        showSettingsDialog();
-    }
-
-    // Отобразить сегодня в календаре-виджете.
-    ui->calendarWidgetGregorian->showToday();
-    ui->calendarWidgetGregorian->setSelectedDate(QDate::currentDate());
-
-    // Вывести год по ведическому летоисчислению
-    showVedicDate();
-
-    // Вывести информацию по Солнцу.
-    showSunTime();
-
-    // Вывести информацию по Луне.
-    showMoonTime();
-
-    // Вывести информацию по титхам.
-    showTithi();
-
-    // Вывести информацию по сварам.
-    showSvara();
-
-    // Вернуть интерфейс на страницу о Солнце.
-    ui->tabWidget->setCurrentIndex(0);
-
-    // Запустить таймер для обновления времени.
-    m_Timer.start(timerInterval);
+    // Установить соответствующую опцию в интерфейс и файл настроек.
+    ui->actionUseGoogleMaps->setChecked(useGoogleMaps);
 
 
 #ifndef QT_NO_DEBUG
     // ---отладочная---
-    bool ok;
-    double longitude (-1*settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
-    double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
-    double timeZoneOffset (settings.value(SunMoonTimeSettingsMisc::timeZoneOffsetSettingName()).toDouble(&ok));
-    double height (settings.value(SunMoonTimeSettingsMisc::heightSettingName()).toDouble(&ok));
+//    bool ok;
+//    double longitude (-1*settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
+//    double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
+//    double timeZoneOffset (settings.value(SunMoonTimeSettingsMisc::timeZoneOffsetSettingName()).toDouble(&ok));
+//    double height (settings.value(SunMoonTimeSettingsMisc::heightSettingName()).toDouble(&ok));
 
-    if (true == ok)
-    {
-        QFile debugFile("debug.txt");
-        debugFile.open(QIODevice::Append);
-        QTextStream debug (&debugFile);
+//    if (true == ok)
+//    {
+//        QFile debugFile("debug.txt");
+//        debugFile.open(QIODevice::Append);
+//        QTextStream debug (&debugFile);
 
           // список новолуний
 //        QList<QDateTime> newMoonList (TComputings::moonTimeFindNewMoonForPeriod(QDateTime::currentDateTimeUtc(),
@@ -871,8 +885,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //            debug << endl;
 //        }
 
-        debugFile.close();
-    }
+//        debugFile.close();
+//    }
 #endif
 }
 //---------------------------
@@ -883,14 +897,19 @@ MainWindow::~MainWindow()
     m_Timer.stop();
 
     // освобождение ресурсов
-    if (nullptr != mp_TrayIconMenuSctionShow)
-        delete mp_TrayIconMenuSctionShow;
+    if (nullptr != mp_TrayIconMenuActionShow)
+        delete mp_TrayIconMenuActionShow;
 
     if (nullptr != mp_TrayIconMenuActionQuit)
         delete mp_TrayIconMenuActionQuit;
 
     if (nullptr != mp_ekadashWarnMsgBox)
         delete mp_ekadashWarnMsgBox;
+
+    if (nullptr != mpBoycottHolidayPosterItem) {
+        delete mpBoycottHolidayPosterItem;
+        mpBoycottHolidayPosterItem = nullptr;
+    }
 
     delete ui;
 }
@@ -915,3 +934,134 @@ void MainWindow::closeEvent(QCloseEvent* e)
 //---------------------------
 // КОНЕЦ: MainWindow - protected
 //---------------------------------------------------------------------------------
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    // Переключение между вкладками основного окна
+    if (1 == index) {
+        // Если произошло переключение на вкладку 'Луна'.
+    }
+}
+//---------------------------
+
+void MainWindow::on_pushButtonEkadashiVideosLocalCopy_clicked()
+{
+//    // TODO Показать виджет с видео копиями о экадаше.
+//    mEkadashiVideosViewer.showEkadashiVideos();
+    // Открыть папку с видео файлами о экадаши.
+    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/videos/ekadashi"))) {
+
+        qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
+//        QMessageBox::about(this,"НЕ открывается папка с видео","Путь к папке:"+QCoreApplication::applicationDirPath()+"/videos/ekadashi");
+    }
+}
+//---------------------------
+
+
+void MainWindow::on_pushButtonSvaraVideosLocalCopy_clicked()
+{
+    // Открыть папку с видео файлами о сварах.
+    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/videos/svara"))) {
+        qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
+    }
+}
+//---------------------------
+
+
+void MainWindow::on_labelEkadashiHtmlLocalCopy_linkActivated(const QString &link)
+{
+    // Показать html с локальной копией темы с сайта о экадаши.
+    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/html/from_site(19_august_2018)/ekadashi_topic.html"))) {
+        qWarning() << Q_FUNC_INFO << "Could not open html file!";
+    }
+}
+//---------------------------
+
+void MainWindow::on_pushButtonBoycottVideoLocalCopy_clicked()
+{
+    // Открыть папку с видео о бойкоте летоисчисления от Р.Х.
+    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/videos/boycott"))) {
+        qWarning() << Q_FUNC_INFO << "Could not open videos directory!";
+    }
+}
+//---------------------------
+
+void MainWindow::afterShow() {
+    // При первом срабатывании события нужно произвести необходимые рассчёты.
+    if (true == mfFirstCalc) {
+        // Проверить - все настройки программы должны быть на месте.
+        QSettings settings;
+        if ((false == settings.contains(SunMoonTimeSettingsMisc::latitudeSettingName())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::longitudeSettingName())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::heightSettingName())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::timeZoneOffsetSettingName())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::ekadashWarnSettingName())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::ekadashWarnTimeBeforeSettingName())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::ekadashWarnAfterSettingName())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::ekadashWarnRequireConfirmationSettingName())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::useGoogleMapsSettingName())))
+        {
+            // С настройками не всё ладно, нужно запустить диалог настроек.
+            showSettingsDialog();
+        }
+
+        // Отобразить сегодня в календаре-виджете.
+        ui->calendarWidgetGregorian->showToday();
+        ui->calendarWidgetGregorian->setSelectedDate(QDate::currentDate());
+
+        // Вывести год по ведическому летоисчислению.
+        showVedicDate();
+
+        // Вывести информацию по Солнцу.
+        showSunTime();
+
+        // Отобразить виджет со ссылками на вкладке 'Луна'.
+        QFile ekadashiLinksFile(":/html/ekadashi_links");
+        if (true == ekadashiLinksFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            ui->textBrowserLinks->setHtml(ekadashiLinksFile.readAll());
+            ekadashiLinksFile.close();
+        }
+        else {
+            // Ошибка открытия файла ресурсов.
+            qWarning() << Q_FUNC_INFO << "Error open ekadashi_links resource file";
+        }
+
+        // Вывести информацию по Луне.
+        showMoonTime();
+
+        // Вывести информацию по титхам.
+        showTithi();
+
+        // Вывести информацию по сварам.
+        showSvara();
+
+        // Загрузить постер о настоящем празднике (из файла через три контейнера в виджет).
+        mBoycotHolidayPoster.load(":/images/images/Бойкот праздников - о настоящем празднике.jpg");
+        mpBoycottHolidayPosterItem = new QGraphicsPixmapItem();
+        mpBoycottHolidayPosterItem->setPixmap(mBoycotHolidayPoster);
+        mBoycottHolidayPosterScene.addItem(mpBoycottHolidayPosterItem);
+        //    // Установить "графическую сцену" с постером в виджет.
+        ui->graphicsViewHolidayPoster->setScene(&mBoycottHolidayPosterScene);
+
+        // Вернуть интерфейс на страницу о Солнце.
+        ui->tabWidget->setCurrentIndex(0);
+
+        // Запустить таймер для обновления времени.
+        m_Timer.start(timerInterval);
+
+        // Сбросить флаг.
+        mfFirstCalc = false;
+    }
+}
+//---------------------------
+
+void MainWindow::moveToScreenCenter(QWidget* w) {
+    // поместить виджет в центр экрана
+    QDesktopWidget desktop;
+    QRect rect = desktop.availableGeometry(desktop.primaryScreen()); // прямоугольник с размерами экрана
+    QPoint center = rect.center(); //координаты центра экрана
+    center.setX(center.x() - (w->width()/2));  // учитываем половину ширины окна
+    center.setY(center.y() - (w->height()/2));  // .. половину высоты
+    w->move(center);
+}
+//------------------
