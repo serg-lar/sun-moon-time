@@ -51,6 +51,7 @@ https://ru.wikipedia.org/wiki/4-%D0%B5_%D1%82%D1%8B%D1%81%D1%8F%D1%87%D0%B5%D0%B
 
 1) http://www.agni-yoga.net/vbulletin/archive/index.php/t-76.html (агни-йога)
 Рериховцы поработали с книгами и выложили информацию на своём ресурсе. Вот такая таблица получилась по этим данным. Мне ещё предстоит поработать с книгами, чтобы указать точные ссылки.
+![Временные периоды.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/images/VedicTimePeriods.jpg)
 
 2) Айравата дас - “Ведическая Космология” 
 https://www.facebook.com/media/set/?set=a.379993315804477.1073741828.271656919971451&type=3 3) Кальпа, Материал из Википедии — свободной энциклопедии https://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D0%BB%D1%8C%D0%BF%D0%B0
@@ -68,16 +69,16 @@ https://youtu.be/Cg4fF_j0r40
 
 [Email для связи с автором: serg.a.lar@gmail.com](mailto:serg.a.lar@gmail.com)
 
-![Солнечно-Лунное время_Солнце.png](https://bitbucket.org/repo/X9jrb6/images/3876444033-%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE-%D0%9B%D1%83%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%B2%D1%80%D0%B5%D0%BC%D1%8F_292.png)
+![Солнечно-Лунное время_Солнце.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/sun.jpg)
 
+![Солнечно-Лунное время_Луна.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/moon.jpg)
 
-![Солнечно-Лунное время_Луна.png](https://bitbucket.org/repo/X9jrb6/images/4072291200-%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE-%D0%9B%D1%83%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%B2%D1%80%D0%B5%D0%BC%D1%8F_293.png)
+![Солнечно-Лунное время_Свара.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/svara.jpg)
 
+![Солнечно-Лунное время_Праздники.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/holidays.jpg)
 
-![Солнечно-Лунное время_Свара.png](https://bitbucket.org/repo/X9jrb6/images/4269035060-%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE-%D0%9B%D1%83%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%B2%D1%80%D0%B5%D0%BC%D1%8F_294.png)
+![Настройки.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/settings.jpg)
 
+![Экадаши.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/Ekadashi.jpg)
 
-![Солнечно-Лунное время_Праздники.png](https://bitbucket.org/repo/X9jrb6/images/102470657-%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%BE-%D0%9B%D1%83%D0%BD%D0%BD%D0%BE%D0%B5%20%D0%B2%D1%80%D0%B5%D0%BC%D1%8F_295.png)
-
-
-![Настройки.png](https://bitbucket.org/repo/X9jrb6/images/3358656886-%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8_296.png)
+![О программе.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/about.jpg)
