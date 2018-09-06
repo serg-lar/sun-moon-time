@@ -51,14 +51,18 @@ https://ru.wikipedia.org/wiki/4-%D0%B5_%D1%82%D1%8B%D1%81%D1%8F%D1%87%D0%B5%D0%B
 
 1) http://www.agni-yoga.net/vbulletin/archive/index.php/t-76.html (агни-йога)
 Рериховцы поработали с книгами и выложили информацию на своём ресурсе. Вот такая таблица получилась по этим данным. Мне ещё предстоит поработать с книгами, чтобы указать точные ссылки.
+
 ![Временные периоды.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/images/VedicTimePeriods.jpg)
+
 
 2) Айравата дас - “Ведическая Космология” 
 https://www.facebook.com/media/set/?set=a.379993315804477.1073741828.271656919971451&type=3 3) Кальпа, Материал из Википедии — свободной энциклопедии https://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D0%BB%D1%8C%D0%BF%D0%B0
 
+
 3) Кальпа,
 Материал из Википедии — свободной энциклопедии
 https://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D0%BB%D1%8C%D0%BF%D0%B0
+
 
 "Летоисчисление от Рождества Христова необходимо отменить", канал "Бойкот Праздников"
 https://youtu.be/Cg4fF_j0r40
