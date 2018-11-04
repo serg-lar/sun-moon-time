@@ -26,6 +26,23 @@
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
 
+QPosterGraphicsView::QPosterGraphicsView(QWidget *parent) {
+    if (nullptr != parent)
+        setParent(parent);
+}
+//---------------------------
+
+QPosterGraphicsView::~QPosterGraphicsView() {
+
+}
+//---------------------------
+
+void QPosterGraphicsView::mouseDoubleClickEvent(QMouseEvent *event) {
+    mFullScreenPoster.setGeometry(0,0,800,800);
+    mFullScreenPoster.show();
+}
+//---------------------------
+
 // НАЧАЛО: MainWindow - private slots
 void MainWindow::updateTime()
 {
@@ -774,7 +791,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_TrayIcon.setToolTip("Солнечно-Лунное время");
     // Меню к значку в трее.
     mp_TrayIconMenuActionShow = new QAction("Показать",&m_TrayIconMenu);
-    mp_TrayIconMenuActionShow->setIcon(QIcon(":/icons/show.png"));
+    mp_TrayIconMenuActionShow->setIcon(QIcon(":/icons/sun_moon.ico"));
     connect(mp_TrayIconMenuActionShow, SIGNAL(triggered(bool)), SLOT(showNormal()));
     m_TrayIconMenu.addAction(mp_TrayIconMenuActionShow);
     m_TrayIconMenu.addSeparator();

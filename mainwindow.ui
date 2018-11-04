@@ -49,7 +49,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <property name="font">
@@ -268,7 +268,7 @@ QToolTip
          <x>10</x>
          <y>250</y>
          <width>491</width>
-         <height>82</height>
+         <height>81</height>
         </rect>
        </property>
        <property name="font">
@@ -429,8 +429,8 @@ QGroupBox::title
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>186</width>
-         <height>112</height>
+         <width>191</width>
+         <height>118</height>
         </rect>
        </property>
        <property name="font">
@@ -607,7 +607,7 @@ QGroupBox::title
         <rect>
          <x>210</x>
          <y>30</y>
-         <width>261</width>
+         <width>291</width>
          <height>181</height>
         </rect>
        </property>
@@ -666,9 +666,9 @@ font: bold;</string>
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>190</y>
+         <y>180</y>
          <width>131</width>
-         <height>31</height>
+         <height>41</height>
         </rect>
        </property>
        <property name="font">
@@ -678,7 +678,8 @@ font: bold;</string>
         </font>
        </property>
        <property name="text">
-        <string>Копия видео</string>
+        <string>Копия видео о 
+летоисчислении</string>
        </property>
       </widget>
      </widget>
@@ -819,7 +820,7 @@ QToolTip
         <x>167</x>
         <y>390</y>
         <width>371</width>
-        <height>201</height>
+        <height>221</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_15">
@@ -852,7 +853,7 @@ QToolTip
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>560</y>
+        <y>580</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -865,8 +866,8 @@ QToolTip
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>529</y>
-        <width>151</width>
+        <y>550</y>
+        <width>131</width>
         <height>31</height>
        </rect>
       </property>
@@ -972,7 +973,7 @@ QToolTip
      <attribute name="title">
       <string>Ведические праздники(введение)</string>
      </attribute>
-     <widget class="QGraphicsView" name="graphicsViewHolidayPoster">
+     <widget class="QPosterGraphicsView" name="graphicsViewHolidayPoster">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -1067,7 +1068,7 @@ QToolTip
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1164,7 +1165,7 @@ QToolTip
   <action name="actionReCompAll">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/calc.png</normaloff>:/icons/calc.png</iconset>
+     <normaloff>:/icons/sun_moon.ico</normaloff>:/icons/sun_moon.ico</iconset>
    </property>
    <property name="text">
     <string>Пересчитать всё</string>
@@ -1213,6 +1214,13 @@ QToolTip
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QPosterGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>mainwindow.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>

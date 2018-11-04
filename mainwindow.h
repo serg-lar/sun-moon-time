@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 // sun-moon-time
 #include "tithi.h"
 #include "computings.h"
@@ -24,6 +25,22 @@
 namespace Ui {
 class MainWindow;
 }
+
+/// \brief Свой класс QGraphicsView для показа постера.
+class QPosterGraphicsView : public QGraphicsView {
+    Q_OBJECT
+
+public:
+    QPosterGraphicsView(QWidget *parent = nullptr);
+    ~QPosterGraphicsView() override;
+
+protected:
+    QWidget mFullScreenPoster;   //! виджет для показа постера на весь экран
+
+    /// \brief Двойной клик по постеру открывает его показ во весь экран
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
+};
+//---------------------------
 
 
 /// \brief класс главного окна программы
