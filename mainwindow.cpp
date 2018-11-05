@@ -12,6 +12,7 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QDesktopWidget>
+#include <QScreen>
 // sun-moon-time
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -33,13 +34,44 @@ QPosterGraphicsView::QPosterGraphicsView(QWidget *parent) {
 //---------------------------
 
 QPosterGraphicsView::~QPosterGraphicsView() {
-
+    // Очистка памяти.
+    if (nullptr != mpFullScreenPoster) {
+        delete mpFullScreenPoster;
+    }
+    if (nullptr != mpBoycottHolidayPosterItem) {
+        delete mpBoycottHolidayPosterItem;
+    }
 }
 //---------------------------
 
-void QPosterGraphicsView::mouseDoubleClickEvent(QMouseEvent *event) {
-    mFullScreenPoster.setGeometry(0,0,800,800);
-    mFullScreenPoster.show();
+void QPosterGraphicsView::mouseDoubleClickEvent(QMouseEvent *event) {        
+//    if (nullptr == mpFullScreenPoster) {
+//        mpFullScreenPoster = new QGraphicsView();
+//    }
+//    event->localPos();
+
+    if (false == mbFullScreenState) {
+        // В качестве родительского виджета - экран десктопа.
+        this->setParent(nullptr);
+        // Показ на полный экран.
+        this->setGeometry(QGuiApplication::primaryScreen()->geometry());
+    //    // Загрузить постер о настоящем празднике (из файла через три контейнера в виджет).
+    //    mBoycotHolidayPoster.load(":/images/images/Бойкот праздников - о настоящем празднике.jpg");
+    //    if (nullptr == mpBoycottHolidayPosterItem)
+    //    mpBoycottHolidayPosterItem = new QGraphicsPixmapItem();
+    //    mpBoycottHolidayPosterItem->setPixmap(mBoycotHolidayPoster);
+    //    mBoycottHolidayPosterScene.addItem(mpBoycottHolidayPosterItem);
+    //    // Установить "графическую сцену" с постером в виджет.
+    //    mpFullScreenPoster->setScene(&mBoycottHolidayPosterScene);
+        // Показать полноэкранный постер.
+    //    mpFullScreenPoster->show();
+        this->show();
+        mbFullScreenState = true;   // Взвести флаг режима полноэкранного отображения постера.
+    }
+    else /*if (true == mbFullScreenState)*/ {
+//        this->setParent(mainWindow?);
+    }
+
 }
 //---------------------------
 
@@ -766,6 +798,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     // Основной интерфейс.
     ui->setupUi(this);
+
+    qDebug() << "graphicsViewHolidayPoster->parent()" << ui->graphicsViewHolidayPoster->parent();
+
     // Сделать панель инструментов невидимой.
     ui->mainToolBar->setVisible(false);
 
@@ -1057,7 +1092,7 @@ void MainWindow::afterShow() {
         mpBoycottHolidayPosterItem = new QGraphicsPixmapItem();
         mpBoycottHolidayPosterItem->setPixmap(mBoycotHolidayPoster);
         mBoycottHolidayPosterScene.addItem(mpBoycottHolidayPosterItem);
-        //    // Установить "графическую сцену" с постером в виджет.
+        // Установить "графическую сцену" с постером в виджет.
         ui->graphicsViewHolidayPoster->setScene(&mBoycottHolidayPosterScene);
 
         // Вернуть интерфейс на страницу о Солнце.

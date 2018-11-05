@@ -35,7 +35,14 @@ public:
     ~QPosterGraphicsView() override;
 
 protected:
-    QWidget mFullScreenPoster;   //! виджет для показа постера на весь экран
+    QGraphicsView *mpFullScreenPoster;   //! Виджет для показа постера на весь экран
+    // Переменные для хранения постера про настоящий праздник.
+    QPixmap mBoycotHolidayPoster;
+    // Этот объект нужно создавать с помощью оператора new, иначе ошибка при освобождении ресурсов.
+    QGraphicsPixmapItem *mpBoycottHolidayPosterItem = nullptr;
+    QGraphicsScene mBoycottHolidayPosterScene;
+
+    bool mbFullScreenState = false; // Флаг состояния полноэкранного отображения
 
     /// \brief Двойной клик по постеру открывает его показ во весь экран
     void mouseDoubleClickEvent(QMouseEvent *event) override;
