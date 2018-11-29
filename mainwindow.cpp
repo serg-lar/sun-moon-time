@@ -28,50 +28,63 @@
 //---------------------------------------------------------------------------------
 
 QPosterGraphicsView::QPosterGraphicsView(QWidget *parent) {
-    if (nullptr != parent)
+    // Родительский виджет и указатель на него.
+    if (nullptr != parent) {
         setParent(parent);
+        mpParent = parent;
+    }
 }
 //---------------------------
 
 QPosterGraphicsView::~QPosterGraphicsView() {
-    // Очистка памяти.
-    if (nullptr != mpFullScreenPoster) {
-        delete mpFullScreenPoster;
-    }
-    if (nullptr != mpBoycottHolidayPosterItem) {
-        delete mpBoycottHolidayPosterItem;
-    }
 }
 //---------------------------
 
 void QPosterGraphicsView::mouseDoubleClickEvent(QMouseEvent *event) {        
-//    if (nullptr == mpFullScreenPoster) {
-//        mpFullScreenPoster = new QGraphicsView();
-//    }
-//    event->localPos();
-
+    // Полноэкранное отображение постера - вкл./выкл.
     if (false == mbFullScreenState) {
+        // Полноэкранный режим - вкл.
+        // Сохранить расположение этого виджета в родительском виджете.
+        mInParenGeometry = geometry();
         // В качестве родительского виджета - экран десктопа.
-        this->setParent(nullptr);
-        // Показ на полный экран.
-        this->setGeometry(QGuiApplication::primaryScreen()->geometry());
-    //    // Загрузить постер о настоящем празднике (из файла через три контейнера в виджет).
-    //    mBoycotHolidayPoster.load(":/images/images/Бойкот праздников - о настоящем празднике.jpg");
-    //    if (nullptr == mpBoycottHolidayPosterItem)
-    //    mpBoycottHolidayPosterItem = new QGraphicsPixmapItem();
-    //    mpBoycottHolidayPosterItem->setPixmap(mBoycotHolidayPoster);
-    //    mBoycottHolidayPosterScene.addItem(mpBoycottHolidayPosterItem);
-    //    // Установить "графическую сцену" с постером в виджет.
-    //    mpFullScreenPoster->setScene(&mBoycottHolidayPosterScene);
-        // Показать полноэкранный постер.
-    //    mpFullScreenPoster->show();
-        this->show();
-        mbFullScreenState = true;   // Взвести флаг режима полноэкранного отображения постера.
+        setParent(nullptr);
+
+        // Показ постера на полный экран.
+        setGeometry(QGuiApplication::primaryScreen()->geometry());
+        // TODO Масштабировать постер перед показом?
+        show();
+        // Взвести флаг режима полноэкранного отображения постера.
+        mbFullScreenState = true;
     }
     else /*if (true == mbFullScreenState)*/ {
-//        this->setParent(mainWindow?);
+        // Полноэкранный режим - выкл.
+        // Восстановить родительский виджет и расположение в нём.
+        setParent(mpParent);
+        setGeometry(mInParenGeometry);
+        // показ постера в родительском виджете.
+        show();
+        // Сбросить флаг режима полноэкранного отображения постера.
+        mbFullScreenState = false;
     }
 
+}
+//---------------------------
+
+void QPosterGraphicsView::keyPressEvent(QKeyEvent *event) {
+    // При нажатии клавиши escape должен происходить выход
+    // из полноэкранного режима просмотра постера.
+    if (Qt::Key_Escape == event->key()) {
+        if (true == mbFullScreenState) {
+            // Полноэкранный режим - выкл.
+            // Восстановить родительский виджет и расположение в нём.
+            setParent(mpParent);
+            setGeometry(mInParenGeometry);
+            // показ постера в родительском виджете.
+            show();
+            // Сбросить флаг режима полноэкранного отображения постера.
+            mbFullScreenState = false;
+        }
+    }
 }
 //---------------------------
 
@@ -798,8 +811,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     // Основной интерфейс.
     ui->setupUi(this);
-
-    qDebug() << "graphicsViewHolidayPoster->parent()" << ui->graphicsViewHolidayPoster->parent();
 
     // Сделать панель инструментов невидимой.
     ui->mainToolBar->setVisible(false);
