@@ -115,8 +115,8 @@ QGroupBox::title
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>111</width>
-      <height>52</height>
+      <width>113</width>
+      <height>56</height>
      </rect>
     </property>
     <property name="font">
@@ -257,8 +257,8 @@ QGroupBox::title
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>204</width>
-      <height>54</height>
+      <width>201</width>
+      <height>58</height>
      </rect>
     </property>
     <property name="font">
@@ -431,7 +431,7 @@ QGroupBox::title
    <property name="geometry">
     <rect>
      <x>390</x>
-     <y>70</y>
+     <y>50</y>
      <width>171</width>
      <height>22</height>
     </rect>
@@ -447,6 +447,44 @@ QGroupBox::title
    </property>
    <property name="checked">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelGeoCoords">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>80</y>
+     <width>181</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Геогр. координаты&lt;br&gt;(google формат)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelGeoCoordsValue">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>120</y>
+     <width>171</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
   </widget>
  </widget>

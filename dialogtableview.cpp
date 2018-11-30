@@ -587,6 +587,17 @@ void DialogTableView::init()
     // чекбокс считать сумерки только для Солнечного времени
     if (moonInfo == m_Type)
         ui->checkBoxTwilight->setVisible(false);
+
+    // Настройки для геогр. координат.
+    QSettings settings;
+    bool ok;
+    double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
+    double longitude (-1*settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
+
+    // Географические координаты.
+    QString geoCoords {"ш:"+QString::number(latitude)+", д:"+QString::number(longitude)};
+    // Выводить геогр. координаты?
+    ui->labelGeoCoordsValue->setText(geoCoords);
 }
 //---------------------------
 // КОНЕЦ: DialogTableView - private

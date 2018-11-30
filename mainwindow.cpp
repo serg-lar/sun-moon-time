@@ -486,7 +486,6 @@ void MainWindow::showSunTime()
     // рассчёты и вывод информации
     if (true == ok)
     {
-
         // время восхода Солнца
         QTime sunRise (TComputings::sunTimeRise(longitude,latitude,timeZoneOffset));
         if (true == sunRise.isValid())
@@ -537,8 +536,17 @@ void MainWindow::showSunTime()
             // вечерние сумерки (сандхья), как 1/10 часть от светового дня
             QPair<QTime,QTime> eveningSandhya2 (TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset,false));
 
-            // вывести вычисленную информацию по Солнцу (восход, зенит, заход)
+            // Подготовить поле для вывода информации по Солнцу.
             ui->textEditSunTime->clear();
+
+            // Географические координаты.
+            QString geoCoords {"Геогр. координаты(google формат)\nш:"+QString::number(latitude)+", д:"+QString::number(longitude)};
+            // Выводить геогр. координаты?
+            if (true == ui->checkBoxPrintGeoCoordsSunTime->isChecked()) {
+                ui->textEditSunTime->append(geoCoords+"\n");
+            }
+
+            // вывести вычисленную информацию по Солнцу (восход, зенит, заход)
             ui->textEditSunTime->append(TComputings::toStringSunTimeInfo(sunRise,sunSet,sunTransit));
 
             // вывести информацию по Солнцу 2 (утренние сумерки), во избежание расхождения в несколько секунд время восхода/захода берётся ранее вычисленное
@@ -587,7 +595,6 @@ void MainWindow::showMoonTime()
     // рассчёты и вывод информации
     if (true == ok)
     {
-
         // заблокировать интерфейс
         setDisabled(true);
         repaint();
@@ -600,7 +607,15 @@ void MainWindow::showMoonTime()
         m_PrevMoonDays = m_currentMoonDays;
         m_currentMoonDays = moonDaysExt;
 
-        ui->textEditMoonDate->clear();
+        ui->textEditMoonDate->clear(); // Подготовить текстовое поле для вывода информации.
+
+        // Географические координаты.
+        QString geoCoords {"Геогр. координаты(google формат)\nш:"+QString::number(latitude)+", д:"+QString::number(longitude)};
+        // Выводить геогр. координаты?
+        if (true == ui->checkBoxPrintGeoCoordsMoonDay->isChecked()) {
+            ui->textEditMoonDate->append(geoCoords+"\n");
+        }
+
         for (qint32 i = 0; i < moonDaysExt.size(); ++i)
         {
             // округление до минуты
@@ -611,6 +626,7 @@ void MainWindow::showMoonTime()
             ui->textEditMoonDate->append("Номер: "+moonDaysExt.at(i).num+"\nВосход: "+moonDaysExt.at(i).rise.toString("dd.MM.yyyy  hh:mm")+\
                                          "\nЗаход:  "+moonDaysExt.at(i).set.toString("dd.MM.yyyy  hh:mm")+"\nЗенит:  "+moonDaysExt.at(i).transit.toString("dd.MM.yyyy  hh:mm"));
             ui->textEditMoonDate->append("Фаза: "+QString::number(TComputings::moonTimePhase(moonDaysExt.at(i).rise.date()))+"%");
+            ui->textEditMoonDate->append(""); // Промежуток - пустая строка.
             if (true == moonDaysExt.at(i).newMoon.isValid())
             {
                 moonDaysExt[i].newMoon.setTime(TComputings::roundToMinTime(moonDaysExt.at(i).newMoon.time()));
