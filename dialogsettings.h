@@ -26,6 +26,8 @@ public:
     static QString ekadashWarnTimeBeforeSettingName() {return "ekadashWarnTimeBefore";}
     static QString ekadashWarnRequireConfirmationSettingName() {return "ekadashWarnRequireConfirmation";}
     static QString useGoogleMapsSettingName() {return "useGoogleMaps";}
+    static QString printTimeZoneMain() {return "printTimeZoneMain";} // Писать ли часовой пояс в главном окне.
+    static QString printGeoCoordsMain() {return "printGeoCoordsMain";} // Писать ли геогр. координаты в главном окне.
 
     class errors {
     public:

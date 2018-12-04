@@ -539,11 +539,24 @@ void MainWindow::showSunTime()
             // Подготовить поле для вывода информации по Солнцу.
             ui->textEditSunTime->clear();
 
-            // Географические координаты.
-            QString geoCoords {"Геогр. координаты(google формат)\nш:"+QString::number(latitude)+", д:"+QString::number(longitude)};
-            // Выводить геогр. координаты?
-            if (true == ui->checkBoxPrintGeoCoordsSunTime->isChecked()) {
-                ui->textEditSunTime->append(geoCoords+"\n");
+            // Нужно ли писать геогр.координаты и часовой пояс?
+            bool printGeoCoordsMain {settings.value(SunMoonTimeSettingsMisc::printGeoCoordsMain()).toBool()};
+            bool printTimeZoneMain {settings.value(SunMoonTimeSettingsMisc::printTimeZoneMain()).toBool()};
+            if (true == printGeoCoordsMain) {
+                // Географические координаты (для показа долготы нужно инвертировать её значение).
+                QString geoCoords {"Геогр. координаты(google формат)\nш:"+QString::number(latitude)+", д:"+QString::number(-1*longitude)};
+                // Напечатать геогр. координаты
+                ui->textEditSunTime->append(geoCoords);
+            }
+            // Часовой пояс.
+            if (true == printTimeZoneMain) {
+                QString timeZoneOffsetSign {(timeZoneOffset > 0 ? "+" : "-")};
+                QString timeZoneOffsetStr {"Часовой пояс: "+timeZoneOffsetSign+QString::number(timeZoneOffset)};
+                // Напечатать часовой пояс.
+                ui->textEditSunTime->append(timeZoneOffsetStr+"\n");
+            }
+            else { // Отступ пустой строкой.
+                ui->textEditSunTime->append("");
             }
 
             // вывести вычисленную информацию по Солнцу (восход, зенит, заход)
@@ -609,11 +622,24 @@ void MainWindow::showMoonTime()
 
         ui->textEditMoonDate->clear(); // Подготовить текстовое поле для вывода информации.
 
-        // Географические координаты.
-        QString geoCoords {"Геогр. координаты(google формат)\nш:"+QString::number(latitude)+", д:"+QString::number(longitude)};
-        // Выводить геогр. координаты?
-        if (true == ui->checkBoxPrintGeoCoordsMoonDay->isChecked()) {
-            ui->textEditMoonDate->append(geoCoords+"\n");
+        // Нужно ли писать геогр.координаты и часовой пояс?
+        bool printGeoCoordsMain {settings.value(SunMoonTimeSettingsMisc::printGeoCoordsMain()).toBool()};
+        bool printTimeZoneMain {settings.value(SunMoonTimeSettingsMisc::printTimeZoneMain()).toBool()};
+        if (true == printGeoCoordsMain) {
+            // Географические координаты (для показа долготы нужно инвертировать её значение).
+            QString geoCoords {"Геогр. координаты(google формат)\nш:"+QString::number(latitude)+", д:"+QString::number(-1*longitude)};
+            // Напечатать геогр. координаты
+            ui->textEditMoonDate->append(geoCoords);
+        }
+        // Часовой пояс.
+        if (true == printTimeZoneMain) {
+            QString timeZoneOffsetSign {(timeZoneOffset > 0 ? "+" : "-")};
+            QString timeZoneOffsetStr {"Часовой пояс: "+timeZoneOffsetSign+QString::number(timeZoneOffset)};
+            // Напечатать часовой пояс.
+            ui->textEditMoonDate->append(timeZoneOffsetStr+"\n");
+        }
+        else { // Оставить отступ пустой строкой.
+            ui->textEditMoonDate->append("");
         }
 
         for (qint32 i = 0; i < moonDaysExt.size(); ++i)
@@ -680,13 +706,15 @@ void MainWindow::showTithi()
             mf_ekadashWarned = false;
 
         ui->textEditTithi->clear();
-        if (true == ui->checkBoxTithiPrintUtc->isChecked())
+        // Выводить часовой пояс.
+        bool printTimeZoneMain {settings.value(SunMoonTimeSettingsMisc::printTimeZoneMain()).toBool()};
+        if (true == printTimeZoneMain)
             ui->textEditTithi->append(curTitha.asCurTithiStr(timeZoneOffset));
         else
             ui->textEditTithi->append(curTitha.asCurTithiStr());
         ui->textEditTithi->append("");
         ui->textEditTithi->append("Следующий экадаш");
-        if (true == ui->checkBoxTithiPrintUtc->isChecked())
+        if (true == printTimeZoneMain)
             ui->textEditTithi->append(nearestEkadash.asEkadashStr(timeZoneOffset));
         else
             ui->textEditTithi->append(nearestEkadash.asEkadashStr());
@@ -909,7 +937,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // Установить соответствующую опцию в интерфейс и файл настроек.
     ui->actionUseGoogleMaps->setChecked(useGoogleMaps);
 
-
 #ifndef QT_NO_DEBUG
     // ---отладочная---
 //    bool ok;
@@ -1078,7 +1105,9 @@ void MainWindow::afterShow() {
                 (false == settings.contains(SunMoonTimeSettingsMisc::ekadashWarnTimeBeforeSettingName())) ||
                 (false == settings.contains(SunMoonTimeSettingsMisc::ekadashWarnAfterSettingName())) ||
                 (false == settings.contains(SunMoonTimeSettingsMisc::ekadashWarnRequireConfirmationSettingName())) ||
-                (false == settings.contains(SunMoonTimeSettingsMisc::useGoogleMapsSettingName())))
+                (false == settings.contains(SunMoonTimeSettingsMisc::useGoogleMapsSettingName())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::printTimeZoneMain())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::printGeoCoordsMain())))
         {
             // С настройками не всё ладно, нужно запустить диалог настроек.
             showSettingsDialog();

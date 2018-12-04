@@ -594,8 +594,8 @@ void DialogTableView::init()
     double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
     double longitude (-1*settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
 
-    // Географические координаты.
-    QString geoCoords {"ш:"+QString::number(latitude)+", д:"+QString::number(longitude)};
+    // Географические координаты (для показа долготы нужно инвертировать её значение).
+    QString geoCoords {"ш:"+QString::number(latitude)+", д:"+QString::number(-1*longitude)};
     // Выводить геогр. координаты?
     ui->labelGeoCoordsValue->setText(geoCoords);
 }

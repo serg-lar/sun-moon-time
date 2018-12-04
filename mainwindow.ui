@@ -657,7 +657,7 @@ font: bold;</string>
          <x>210</x>
          <y>190</y>
          <width>80</width>
-         <height>28</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -674,22 +674,6 @@ font: bold;</string>
        </property>
        <property name="text">
         <string>Период</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBoxPrintGeoCoordsSunTime">
-       <property name="geometry">
-        <rect>
-         <x>310</x>
-         <y>190</y>
-         <width>191</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Писать гео-координаты</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
        </property>
       </widget>
      </widget>
@@ -724,16 +708,6 @@ font: bold;</string>
 color: navy;</string>
            </property>
            <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBoxTithiPrintUtc">
-           <property name="text">
-            <string>Писать часовой пояс</string>
-           </property>
-           <property name="checked">
             <bool>true</bool>
            </property>
           </widget>
@@ -830,32 +804,30 @@ color: navy;</string>
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>4</x>
-        <y>10</y>
-        <width>271</width>
-        <height>371</height>
+        <x>5</x>
+        <y>11</y>
+        <width>258</width>
+        <height>331</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_11">
+      <layout class="QVBoxLayout" name="verticalLayout_8">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_8">
-         <item>
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Лунный день&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QTextEdit" name="textEditMoonDate">
-           <property name="toolTip">
-            <string/>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QTextEdit
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Лунный день&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="textEditMoonDate">
+         <property name="toolTip">
+          <string/>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QTextEdit
 {
 	font: bold;
 	color: navy;
@@ -868,50 +840,35 @@ QToolTip
 	font: bold;
 	color: white;
 }</string>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <widget class="QPushButton" name="pushButtonMoonDatePeriod">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Период</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBoxPrintGeoCoordsMoonDay">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Писать гео-координаты</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QPushButton" name="pushButtonMoonDatePeriod">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>6</x>
+        <y>351</y>
+        <width>80</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Период</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tabSvara">

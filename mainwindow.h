@@ -97,12 +97,13 @@ private slots:
     void on_pushButtonBoycottVideoLocalCopy_clicked();
 
 protected slots:
-    /// \brief Действия после отображения главного окна
-    void afterShow();
-
     /// \brief Выровнять виджет по центру эрана
     /// \param w - виджет для выравнивания
     static void moveToScreenCenter(QWidget* w);
+
+public slots:
+    /// \brief Действия после отображения главного окна
+    void afterShow();
 
 protected:
     // Переменные для хранения постера про настоящий праздник.
