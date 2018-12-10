@@ -581,7 +581,7 @@ void DialogTableView::init()
 
     // значения по умолчанию для периода расчётов
     ui->dateEditBegin->setDate(QDate::currentDate());
-    ui->dateEditEnd->setDate(QDate::currentDate().addDays(1));
+    ui->dateEditEnd->setDate(QDate::currentDate().addMonths(1));
     ui->dateEditEnd->setMinimumDate(ui->dateEditBegin->date());
 
     // чекбокс считать сумерки только для Солнечного времени
