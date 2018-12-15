@@ -49,7 +49,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <property name="font">
@@ -968,6 +968,9 @@ QToolTip
         <height>501</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>Двойной клик на постере для смены режима просмотра на полноэкранный и обратно.</string>
+      </property>
      </widget>
      <widget class="QLabel" name="labelAboutPoster">
       <property name="geometry">
@@ -988,7 +991,7 @@ QToolTip
         <x>10</x>
         <y>535</y>
         <width>531</width>
-        <height>91</height>
+        <height>71</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_13">
