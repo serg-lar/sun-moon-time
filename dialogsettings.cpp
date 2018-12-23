@@ -129,6 +129,8 @@ bool DialogSettings::loadSettings()
     bool ekadashWarnAfter (settings.value(SunMoonTimeSettingsMisc::ekadashWarnAfterSettingName()).toBool());
     quint32 ekadashWarnTimeBefore (settings.value(SunMoonTimeSettingsMisc::ekadashWarnTimeBeforeSettingName()).toUInt(&ok));
     bool ekadashWarnRequireConfirmation (settings.value(SunMoonTimeSettingsMisc::ekadashWarnRequireConfirmationSettingName()).toBool());
+    bool printTimeZoneMain (settings.value(SunMoonTimeSettingsMisc::printTimeZoneMain()).toBool());
+    bool printGeoCoordsMain (settings.value(SunMoonTimeSettingsMisc::printGeoCoordsMain()).toBool());
 
     // состояние автозапуска при загрузке ОС
 #ifdef Q_OS_WIN32
@@ -170,6 +172,8 @@ bool DialogSettings::loadSettings()
             break;
         }
         ui->checkBoxEkadashWarnRequireConfirmation->setChecked(ekadashWarnRequireConfirmation);
+        ui->checkBoxPrintTimeZoneMain->setChecked(printTimeZoneMain);
+        ui->checkBoxPrintGeoCoordsMain->setChecked(printGeoCoordsMain);
 
         if (false == ui->checkBoxEkadashWarn->isChecked())
         {
@@ -225,6 +229,8 @@ bool DialogSettings::saveSettings() const
     }
     settings.setValue(SunMoonTimeSettingsMisc::ekadashWarnTimeBeforeSettingName(),ekadashWarnTimeBefore);
     settings.setValue(SunMoonTimeSettingsMisc::ekadashWarnRequireConfirmationSettingName(),ui->checkBoxEkadashWarnRequireConfirmation->isChecked());
+    settings.setValue(SunMoonTimeSettingsMisc::printGeoCoordsMain(),ui->checkBoxPrintGeoCoordsMain->isChecked());
+    settings.setValue(SunMoonTimeSettingsMisc::printTimeZoneMain(),ui->checkBoxPrintTimeZoneMain->isChecked());
     settings.sync();
     if (QSettings::NoError != settings.status())
     {

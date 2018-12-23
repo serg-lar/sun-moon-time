@@ -2,3 +2,11 @@ ver 0.65 beta
 Собирается под Qt5.5
 
 Для запуска приложения в свёрнутом виде используется аргумент -m или --minimized
+
+
+Модуль работы с web в Qt5.5 требует старый gstreamer0.1, который отсутствует в новых дистрибутивах ubuntu, поэтому нужно принять доаолнительные меры.
+https://github.com/toggl/toggldesktop/issues/1894
+
+wget http://fr.archive.ubuntu.com/ubuntu/pool/main/g/gst-plugins-base0.10/libgstreamer-plugins-base0.10-0_0.10.36-1_amd64.deb
+wget http://fr.archive.ubuntu.com/ubuntu/pool/universe/g/gstreamer0.10/libgstreamer0.10-0_0.10.36-1.5ubuntu1_amd64.deb
+sudo dpkg -i libgstreamer*.deb

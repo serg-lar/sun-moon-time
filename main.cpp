@@ -46,8 +46,12 @@ int main(int argc, char *argv[])
     QStringList arguments;
     for (qint32 i = 0; i < argc; ++i)
         arguments << argv[i];
-    if ((false == arguments.contains("-m")) && (false == arguments.contains("--minimized")))
+    if ((false == arguments.contains("-m")) && (false == arguments.contains("--minimized"))) {
         w.show();
+    }
+    else {
+        w.afterShow();
+    }
 
     return a.exec();
 }

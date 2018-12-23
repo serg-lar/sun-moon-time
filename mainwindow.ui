@@ -49,7 +49,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <property name="font">
@@ -268,7 +268,7 @@ QToolTip
          <x>10</x>
          <y>250</y>
          <width>491</width>
-         <height>82</height>
+         <height>88</height>
         </rect>
        </property>
        <property name="font">
@@ -429,8 +429,8 @@ QGroupBox::title
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>186</width>
-         <height>112</height>
+         <width>192</width>
+         <height>122</height>
         </rect>
        </property>
        <property name="font">
@@ -602,73 +602,13 @@ QGroupBox::title
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="layoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>210</x>
-         <y>30</y>
-         <width>261</width>
-         <height>181</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Times New Roman</family>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_11">
-        <item>
-         <widget class="QTextEdit" name="textEditSunTime">
-          <property name="font">
-           <font>
-            <family>Times New Roman</family>
-            <pointsize>12</pointsize>
-            <weight>75</weight>
-            <italic>false</italic>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: purple;
-font: bold;</string>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButtonSunTimePeriod">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Times New Roman</family>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Период</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
       <widget class="QPushButton" name="pushButtonBoycottVideoLocalCopy">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>190</y>
+         <y>180</y>
          <width>131</width>
-         <height>31</height>
+         <height>41</height>
         </rect>
        </property>
        <property name="font">
@@ -678,7 +618,62 @@ font: bold;</string>
         </font>
        </property>
        <property name="text">
-        <string>Копия видео</string>
+        <string>Копия видео о 
+летоисчислении</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textEditSunTime">
+       <property name="geometry">
+        <rect>
+         <x>211</x>
+         <y>11</y>
+         <width>289</width>
+         <height>171</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: purple;
+font: bold;</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButtonSunTimePeriod">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>190</y>
+         <width>80</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Период</string>
        </property>
       </widget>
      </widget>
@@ -717,16 +712,6 @@ color: navy;</string>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QCheckBox" name="checkBoxTithiPrintUtc">
-           <property name="text">
-            <string>Писать часовой пояс</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
         </layout>
        </item>
        <item>
@@ -752,74 +737,10 @@ color: navy;</string>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>260</width>
-        <height>371</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_12">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_8">
-         <item>
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Лунный день&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QTextEdit" name="textEditMoonDate">
-           <property name="toolTip">
-            <string/>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QTextEdit
-{
-	font: bold;
-	color: navy;
-}
-
-QToolTip
-{
-	padding: 2;
-	background: black;
-	font: bold;
-	color: white;
-}</string>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButtonMoonDatePeriod">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Период</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
         <x>167</x>
         <y>390</y>
         <width>371</width>
-        <height>201</height>
+        <height>221</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_15">
@@ -852,7 +773,7 @@ QToolTip
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>560</y>
+        <y>580</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -865,8 +786,8 @@ QToolTip
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>529</y>
-        <width>151</width>
+        <y>550</y>
+        <width>131</width>
         <height>31</height>
        </rect>
       </property>
@@ -881,6 +802,72 @@ QToolTip
       </property>
       <property name="openExternalLinks">
        <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>11</y>
+        <width>258</width>
+        <height>331</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Лунный день&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="textEditMoonDate">
+         <property name="toolTip">
+          <string/>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QTextEdit
+{
+	font: bold;
+	color: navy;
+}
+
+QToolTip
+{
+	padding: 2;
+	background: black;
+	font: bold;
+	color: white;
+}</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="pushButtonMoonDatePeriod">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>6</x>
+        <y>351</y>
+        <width>80</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Период</string>
       </property>
      </widget>
     </widget>
@@ -972,7 +959,7 @@ QToolTip
      <attribute name="title">
       <string>Ведические праздники(введение)</string>
      </attribute>
-     <widget class="QGraphicsView" name="graphicsViewHolidayPoster">
+     <widget class="QPosterGraphicsView" name="graphicsViewHolidayPoster">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -980,6 +967,9 @@ QToolTip
         <width>551</width>
         <height>501</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>Двойной клик на постере для смены режима просмотра на полноэкранный и обратно.</string>
       </property>
      </widget>
      <widget class="QLabel" name="labelAboutPoster">
@@ -1001,7 +991,7 @@ QToolTip
         <x>10</x>
         <y>535</y>
         <width>531</width>
-        <height>91</height>
+        <height>71</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -1067,7 +1057,7 @@ QToolTip
      <x>0</x>
      <y>0</y>
      <width>580</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1164,7 +1154,7 @@ QToolTip
   <action name="actionReCompAll">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/icons/calc.png</normaloff>:/icons/calc.png</iconset>
+     <normaloff>:/icons/sun_moon.ico</normaloff>:/icons/sun_moon.ico</iconset>
    </property>
    <property name="text">
     <string>Пересчитать всё</string>
@@ -1213,6 +1203,13 @@ QToolTip
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QPosterGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>mainwindow.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>
