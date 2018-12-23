@@ -49,7 +49,7 @@
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabSun">
      <property name="font">
@@ -703,6 +703,15 @@ font: bold;</string>
          </item>
          <item>
           <widget class="QTextEdit" name="textEditTithi">
+           <property name="font">
+            <font>
+             <family>Times New Roman</family>
+             <pointsize>12</pointsize>
+             <weight>75</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
            <property name="styleSheet">
             <string notr="true">font: bold;
 color: navy;</string>
@@ -759,6 +768,13 @@ color: navy;</string>
        </item>
        <item>
         <widget class="QTextBrowser" name="textBrowserLinks">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="documentTitle">
           <string/>
          </property>
@@ -823,6 +839,15 @@ color: navy;</string>
        </item>
        <item>
         <widget class="QTextEdit" name="textEditMoonDate">
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="toolTip">
           <string/>
          </property>
@@ -886,6 +911,15 @@ QToolTip
         <width>221</width>
         <height>441</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <italic>false</italic>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">font: bold;</string>
@@ -1059,6 +1093,12 @@ QToolTip
      <width>580</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="font">
