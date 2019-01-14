@@ -1077,8 +1077,14 @@ void MainWindow::on_pushButtonSvaraVideosLocalCopy_clicked()
 void MainWindow::on_labelEkadashiHtmlLocalCopy_linkActivated(const QString &link)
 {
     // Показать html с локальной копией темы с сайта о экадаши.
-    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/html/from_site(19_august_2018)/ekadashi_topic.html"))) {
-        qWarning() << Q_FUNC_INFO << "Could not open html file!";
+    QDir htmlDir(QCoreApplication::applicationDirPath()+"/html/from_site(19_august_2018)/");
+    QFileInfoList htmlFileInfoList {htmlDir.entryInfoList(QDir::Files)};
+    if (false == htmlFileInfoList.isEmpty()) {
+        if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(htmlFileInfoList.first().filePath()))) {
+            qWarning() << Q_FUNC_INFO << "Could not open html file!";
+        }
+    } else {
+        qWarning() << Q_FUNC_INFO << "html file does not exists!";
     }
 }
 //---------------------------

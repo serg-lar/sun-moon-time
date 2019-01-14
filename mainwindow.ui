@@ -238,7 +238,7 @@ QGroupBox::title
              </font>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;За 1-ый год Кали-юги взят 3102г. до н.э., как известно из общедоступных источников. &lt;/p&gt;&lt;p&gt;То есть этот календарь на данный момент не является точным, но интерпретирует григорианский стиль календаря с ведической позиции.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;За 1-ый год Кали-юги взят 3102г. до н.э., как известно из общедоступных источников. &lt;/p&gt;&lt;p&gt;То есть этот календарь на данный момент не является точным, но сопоставляет григорианский стиль календаря с ведической позиции.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QTextEdit
