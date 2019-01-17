@@ -2,6 +2,7 @@
 
 Солнечный день по григорианскому календарю и ведическое летоисчисление; солнечное время среднее и истинное; лунный день и титхи, экадаши; свары; ведические праздники(введение).
 
+Некоммерческий проект.
 Страничка с исходными кодами программы:
 https://bitbucket.org/senya1985/sun-moon-time
 
@@ -13,8 +14,11 @@ https://bitbucket.org/senya1985/sun-moon-time/downloads
 
 Использованные материалы [Необходимо поработать с источниками информации - книгами по йоге относительно временных периодов и астрономии]:
 
-Почему в экадаши нельзя принимать зернобобовую пищу? 
+Миф о телегонии нужен, чтобы отвлечь людей от экадаши и вреда борщей (или почему в экадаши нельзя принимать зернобобовую пищу?)
 http://kaula-dharma.com/4-osnovy-zhizni/pitanie/telegoniya-ekadashi-vred-borshhej/ Сайт http://kaula-dharma.com 
+
+Сайт
+http://kaula-dharma.com
 
 Экадаши - защита от неблагоприятной энергии https://youtu.be/8qq_mJeU0nw 
 
@@ -73,16 +77,16 @@ https://youtu.be/Cg4fF_j0r40
 
 [Email для связи с автором: serg.a.lar@gmail.com](mailto:serg.a.lar@gmail.com)
 
-![Солнечно-Лунное время_Солнце.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/sun.jpg)
+![Солнечно-Лунное время_Солнце.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%A1%D0%BE%D0%BB%D0%BD%D1%86%D0%B5.jpg)
 
-![Солнечно-Лунное время_Луна.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/moon.jpg)
+![Солнечно-Лунное время_Луна.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%9B%D1%83%D0%BD%D0%B0.jpg)
 
-![Солнечно-Лунное время_Свара.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/svara.jpg)
+![Солнечно-Лунное время_Свара.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%A1%D0%B2%D0%B0%D1%80%D1%8B.jpg)
 
-![Солнечно-Лунное время_Праздники.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/holidays.jpg)
+![Солнечно-Лунное время_Праздники.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%92%D0%B5%D0%B4%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B0%D0%B7%D0%B4%D0%BD%D0%B8%D0%BA%D0%B8(%D0%B2%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5).jpg)
 
-![Настройки.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/settings.jpg)
+![Настройки.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8.jpg)
 
-![Экадаши.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/Ekadashi.jpg)
+![Экадаши.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%AD%D0%BA%D0%B0%D0%B4%D0%B0%D1%88%D0%B8.jpg)
 
-![О программе.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/screenshots/0.70/about.jpg)
+![О программе.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%9E%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5.jpg)
