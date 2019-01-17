@@ -15,7 +15,7 @@ https://bitbucket.org/senya1985/sun-moon-time/downloads
 Использованные материалы [Необходимо поработать с источниками информации - книгами по йоге относительно временных периодов и астрономии]:
 
 Миф о телегонии нужен, чтобы отвлечь людей от экадаши и вреда борщей (или почему в экадаши нельзя принимать зернобобовую пищу?)
-http://kaula-dharma.com/4-osnovy-zhizni/pitanie/telegoniya-ekadashi-vred-borshhej/ Сайт http://kaula-dharma.com 
+http://kaula-dharma.com/4-osnovy-zhizni/pitanie/telegoniya-ekadashi-vred-borshhej/
 
 Сайт
 http://kaula-dharma.com
