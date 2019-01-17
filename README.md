@@ -83,7 +83,7 @@ https://youtu.be/Cg4fF_j0r40
 
 ![Солнечно-Лунное время_Свара.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%A1%D0%B2%D0%B0%D1%80%D1%8B.jpg)
 
-![Солнечно-Лунное время_Праздники.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%92%D0%B5%D0%B4%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B0%D0%B7%D0%B4%D0%BD%D0%B8%D0%BA%D0%B8(%D0%B2%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5).jpg)
+![Солнечно-Лунное время_Праздники.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/6b2d28c945125dcacb46bcc7e1b6808ca7f3ad87/screenshots/v0.72b/%D0%92%D0%B5%D0%B4%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B0%D0%B7%D0%B4%D0%BD%D0%B8%D0%BA%D0%B8%20%D0%B2%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5.jpg)
 
 ![Настройки.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8.jpg)
 
