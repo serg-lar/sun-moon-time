@@ -75,8 +75,6 @@ https://youtu.be/Cg4fF_j0r40
 
 Предупреждение о использовании информации в коммерческих целях: "Зарабатывающие на Ведах и принимающие пищу от низших из людей - как беззубые змеи, - не имеют никакой силы." http://chanakya.ru/?Razdel_3:Chastmz_9 Нити Шастры,Чанакья пандит.
 
-[Email для связи с автором: serg.a.lar@gmail.com](mailto:serg.a.lar@gmail.com)
-
 ![Солнечно-Лунное время_Солнце.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%A1%D0%BE%D0%BB%D0%BD%D1%86%D0%B5.jpg)
 
 ![Солнечно-Лунное время_Луна.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/3af35458cc518510f2c62deef8c57cdcc2b9ef92/screenshots/v0.72b/%D0%9B%D1%83%D0%BD%D0%B0.jpg)
