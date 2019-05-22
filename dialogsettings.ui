@@ -16,6 +16,12 @@
     <height>640</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Настройки</string>
   </property>
@@ -91,9 +97,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>41</y>
+      <y>31</y>
       <width>291</width>
-      <height>114</height>
+      <height>124</height>
      </rect>
     </property>
     <property name="font">
@@ -249,7 +255,7 @@
       <x>10</x>
       <y>10</y>
       <width>354</width>
-      <height>54</height>
+      <height>58</height>
      </rect>
     </property>
     <property name="font">
@@ -516,7 +522,7 @@
       <x>10</x>
       <y>10</y>
       <width>181</width>
-      <height>57</height>
+      <height>58</height>
      </rect>
     </property>
     <property name="font">
@@ -636,7 +642,7 @@
      <x>430</x>
      <y>600</y>
      <width>201</width>
-     <height>29</height>
+     <height>30</height>
     </rect>
    </property>
    <property name="font">
@@ -675,6 +681,56 @@
       </property>
       <property name="autoDefault">
        <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>349</x>
+     <y>510</y>
+     <width>281</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_7">
+    <item>
+     <widget class="QCheckBox" name="checkBoxPrintTimeZoneMain">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Писать информацию о часовом поясе в главном окне</string>
+      </property>
+      <property name="text">
+       <string>Писать часовой пояс*</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="checkBoxPrintGeoCoordsMain">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Писать информацию о географических координатах в главном окне</string>
+      </property>
+      <property name="text">
+       <string>Писать геогр. координаты*</string>
       </property>
      </widget>
     </item>

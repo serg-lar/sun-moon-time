@@ -12,6 +12,7 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QDesktopWidget>
+#include <QScreen>
 // sun-moon-time
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -25,6 +26,67 @@
 //---------------------------
 // КОНЕЦ: директивы, глобальные переменные и константы
 //---------------------------------------------------------------------------------
+
+QPosterGraphicsView::QPosterGraphicsView(QWidget *parent) {
+    // Родительский виджет и указатель на него.
+    if (nullptr != parent) {
+        setParent(parent);
+        mpParent = parent;
+    }
+}
+//---------------------------
+
+QPosterGraphicsView::~QPosterGraphicsView() {
+}
+//---------------------------
+
+void QPosterGraphicsView::mouseDoubleClickEvent(QMouseEvent *event) {        
+    // Полноэкранное отображение постера - вкл./выкл.
+    if (false == mbFullScreenState) {
+        // Полноэкранный режим - вкл.
+        // Сохранить расположение этого виджета в родительском виджете.
+        mInParenGeometry = geometry();
+        // В качестве родительского виджета - экран десктопа.
+        setParent(nullptr);
+
+        // Показ постера на полный экран.
+        setGeometry(QGuiApplication::primaryScreen()->geometry());
+        // TODO Масштабировать постер перед показом?
+        show();
+        // Взвести флаг режима полноэкранного отображения постера.
+        mbFullScreenState = true;
+    }
+    else /*if (true == mbFullScreenState)*/ {
+        // Полноэкранный режим - выкл.
+        // Восстановить родительский виджет и расположение в нём.
+        setParent(mpParent);
+        setGeometry(mInParenGeometry);
+        // показ постера в родительском виджете.
+        show();
+        // Сбросить флаг режима полноэкранного отображения постера.
+        mbFullScreenState = false;
+    }
+
+}
+//---------------------------
+
+void QPosterGraphicsView::keyPressEvent(QKeyEvent *event) {
+    // При нажатии клавиши escape должен происходить выход
+    // из полноэкранного режима просмотра постера.
+    if (Qt::Key_Escape == event->key()) {
+        if (true == mbFullScreenState) {
+            // Полноэкранный режим - выкл.
+            // Восстановить родительский виджет и расположение в нём.
+            setParent(mpParent);
+            setGeometry(mInParenGeometry);
+            // показ постера в родительском виджете.
+            show();
+            // Сбросить флаг режима полноэкранного отображения постера.
+            mbFullScreenState = false;
+        }
+    }
+}
+//---------------------------
 
 // НАЧАЛО: MainWindow - private slots
 void MainWindow::updateTime()
@@ -424,7 +486,6 @@ void MainWindow::showSunTime()
     // рассчёты и вывод информации
     if (true == ok)
     {
-
         // время восхода Солнца
         QTime sunRise (TComputings::sunTimeRise(longitude,latitude,timeZoneOffset));
         if (true == sunRise.isValid())
@@ -475,8 +536,30 @@ void MainWindow::showSunTime()
             // вечерние сумерки (сандхья), как 1/10 часть от светового дня
             QPair<QTime,QTime> eveningSandhya2 (TComputings::sunTimeSandhyaAsLightDayPart(longitude,latitude,sunRise,sunSet,timeZoneOffset,false));
 
-            // вывести вычисленную информацию по Солнцу (восход, зенит, заход)
+            // Подготовить поле для вывода информации по Солнцу.
             ui->textEditSunTime->clear();
+
+            // Нужно ли писать геогр.координаты и часовой пояс?
+            bool printGeoCoordsMain {settings.value(SunMoonTimeSettingsMisc::printGeoCoordsMain()).toBool()};
+            bool printTimeZoneMain {settings.value(SunMoonTimeSettingsMisc::printTimeZoneMain()).toBool()};
+            if (true == printGeoCoordsMain) {
+                // Географические координаты (для показа долготы нужно инвертировать её значение).
+                QString geoCoords {"Геогр. координаты(google формат)\nш:"+QString::number(latitude)+", д:"+QString::number(-1*longitude)};
+                // Напечатать геогр. координаты
+                ui->textEditSunTime->append(geoCoords);
+            }
+            // Часовой пояс.
+            if (true == printTimeZoneMain) {
+                QString timeZoneOffsetSign {(timeZoneOffset > 0 ? "+" : "-")};
+                QString timeZoneOffsetStr {"Часовой пояс: "+timeZoneOffsetSign+QString::number(timeZoneOffset)};
+                // Напечатать часовой пояс.
+                ui->textEditSunTime->append(timeZoneOffsetStr+"\n");
+            }
+            else { // Отступ пустой строкой.
+                ui->textEditSunTime->append("");
+            }
+
+            // вывести вычисленную информацию по Солнцу (восход, зенит, заход)
             ui->textEditSunTime->append(TComputings::toStringSunTimeInfo(sunRise,sunSet,sunTransit));
 
             // вывести информацию по Солнцу 2 (утренние сумерки), во избежание расхождения в несколько секунд время восхода/захода берётся ранее вычисленное
@@ -525,7 +608,6 @@ void MainWindow::showMoonTime()
     // рассчёты и вывод информации
     if (true == ok)
     {
-
         // заблокировать интерфейс
         setDisabled(true);
         repaint();
@@ -538,7 +620,28 @@ void MainWindow::showMoonTime()
         m_PrevMoonDays = m_currentMoonDays;
         m_currentMoonDays = moonDaysExt;
 
-        ui->textEditMoonDate->clear();
+        ui->textEditMoonDate->clear(); // Подготовить текстовое поле для вывода информации.
+
+        // Нужно ли писать геогр.координаты и часовой пояс?
+        bool printGeoCoordsMain {settings.value(SunMoonTimeSettingsMisc::printGeoCoordsMain()).toBool()};
+        bool printTimeZoneMain {settings.value(SunMoonTimeSettingsMisc::printTimeZoneMain()).toBool()};
+        if (true == printGeoCoordsMain) {
+            // Географические координаты (для показа долготы нужно инвертировать её значение).
+            QString geoCoords {"Геогр. координаты(google формат)\nш:"+QString::number(latitude)+", д:"+QString::number(-1*longitude)};
+            // Напечатать геогр. координаты
+            ui->textEditMoonDate->append(geoCoords);
+        }
+        // Часовой пояс.
+        if (true == printTimeZoneMain) {
+            QString timeZoneOffsetSign {(timeZoneOffset > 0 ? "+" : "-")};
+            QString timeZoneOffsetStr {"Часовой пояс: "+timeZoneOffsetSign+QString::number(timeZoneOffset)};
+            // Напечатать часовой пояс.
+            ui->textEditMoonDate->append(timeZoneOffsetStr+"\n");
+        }
+        else { // Оставить отступ пустой строкой.
+            ui->textEditMoonDate->append("");
+        }
+
         for (qint32 i = 0; i < moonDaysExt.size(); ++i)
         {
             // округление до минуты
@@ -549,6 +652,7 @@ void MainWindow::showMoonTime()
             ui->textEditMoonDate->append("Номер: "+moonDaysExt.at(i).num+"\nВосход: "+moonDaysExt.at(i).rise.toString("dd.MM.yyyy  hh:mm")+\
                                          "\nЗаход:  "+moonDaysExt.at(i).set.toString("dd.MM.yyyy  hh:mm")+"\nЗенит:  "+moonDaysExt.at(i).transit.toString("dd.MM.yyyy  hh:mm"));
             ui->textEditMoonDate->append("Фаза: "+QString::number(TComputings::moonTimePhase(moonDaysExt.at(i).rise.date()))+"%");
+            ui->textEditMoonDate->append(""); // Промежуток - пустая строка.
             if (true == moonDaysExt.at(i).newMoon.isValid())
             {
                 moonDaysExt[i].newMoon.setTime(TComputings::roundToMinTime(moonDaysExt.at(i).newMoon.time()));
@@ -602,13 +706,15 @@ void MainWindow::showTithi()
             mf_ekadashWarned = false;
 
         ui->textEditTithi->clear();
-        if (true == ui->checkBoxTithiPrintUtc->isChecked())
+        // Выводить часовой пояс.
+        bool printTimeZoneMain {settings.value(SunMoonTimeSettingsMisc::printTimeZoneMain()).toBool()};
+        if (true == printTimeZoneMain)
             ui->textEditTithi->append(curTitha.asCurTithiStr(timeZoneOffset));
         else
             ui->textEditTithi->append(curTitha.asCurTithiStr());
         ui->textEditTithi->append("");
         ui->textEditTithi->append("Следующий экадаш");
-        if (true == ui->checkBoxTithiPrintUtc->isChecked())
+        if (true == printTimeZoneMain)
             ui->textEditTithi->append(nearestEkadash.asEkadashStr(timeZoneOffset));
         else
             ui->textEditTithi->append(nearestEkadash.asEkadashStr());
@@ -749,6 +855,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     // Основной интерфейс.
     ui->setupUi(this);
+
     // Сделать панель инструментов невидимой.
     ui->mainToolBar->setVisible(false);
 
@@ -774,7 +881,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_TrayIcon.setToolTip("Солнечно-Лунное время");
     // Меню к значку в трее.
     mp_TrayIconMenuActionShow = new QAction("Показать",&m_TrayIconMenu);
-    mp_TrayIconMenuActionShow->setIcon(QIcon(":/icons/show.png"));
+    mp_TrayIconMenuActionShow->setIcon(QIcon(":/icons/sun_moon.ico"));
     connect(mp_TrayIconMenuActionShow, SIGNAL(triggered(bool)), SLOT(showNormal()));
     m_TrayIconMenu.addAction(mp_TrayIconMenuActionShow);
     m_TrayIconMenu.addSeparator();
@@ -829,7 +936,6 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     // Установить соответствующую опцию в интерфейс и файл настроек.
     ui->actionUseGoogleMaps->setChecked(useGoogleMaps);
-
 
 #ifndef QT_NO_DEBUG
     // ---отладочная---
@@ -971,8 +1077,14 @@ void MainWindow::on_pushButtonSvaraVideosLocalCopy_clicked()
 void MainWindow::on_labelEkadashiHtmlLocalCopy_linkActivated(const QString &link)
 {
     // Показать html с локальной копией темы с сайта о экадаши.
-    if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath()+"/html/from_site(19_august_2018)/ekadashi_topic.html"))) {
-        qWarning() << Q_FUNC_INFO << "Could not open html file!";
+    QDir htmlDir(QCoreApplication::applicationDirPath()+"/html/from_site(19_august_2018)/");
+    QFileInfoList htmlFileInfoList {htmlDir.entryInfoList(QDir::Files)};
+    if (false == htmlFileInfoList.isEmpty()) {
+        if (false == QDesktopServices::openUrl(QUrl::fromLocalFile(htmlFileInfoList.first().filePath()))) {
+            qWarning() << Q_FUNC_INFO << "Could not open html file!";
+        }
+    } else {
+        qWarning() << Q_FUNC_INFO << "html file does not exists!";
     }
 }
 //---------------------------
@@ -999,7 +1111,9 @@ void MainWindow::afterShow() {
                 (false == settings.contains(SunMoonTimeSettingsMisc::ekadashWarnTimeBeforeSettingName())) ||
                 (false == settings.contains(SunMoonTimeSettingsMisc::ekadashWarnAfterSettingName())) ||
                 (false == settings.contains(SunMoonTimeSettingsMisc::ekadashWarnRequireConfirmationSettingName())) ||
-                (false == settings.contains(SunMoonTimeSettingsMisc::useGoogleMapsSettingName())))
+                (false == settings.contains(SunMoonTimeSettingsMisc::useGoogleMapsSettingName())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::printTimeZoneMain())) ||
+                (false == settings.contains(SunMoonTimeSettingsMisc::printGeoCoordsMain())))
         {
             // С настройками не всё ладно, нужно запустить диалог настроек.
             showSettingsDialog();
@@ -1040,7 +1154,7 @@ void MainWindow::afterShow() {
         mpBoycottHolidayPosterItem = new QGraphicsPixmapItem();
         mpBoycottHolidayPosterItem->setPixmap(mBoycotHolidayPoster);
         mBoycottHolidayPosterScene.addItem(mpBoycottHolidayPosterItem);
-        //    // Установить "графическую сцену" с постером в виджет.
+        // Установить "графическую сцену" с постером в виджет.
         ui->graphicsViewHolidayPoster->setScene(&mBoycottHolidayPosterScene);
 
         // Вернуть интерфейс на страницу о Солнце.

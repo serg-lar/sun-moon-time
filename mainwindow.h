@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 // sun-moon-time
 #include "tithi.h"
 #include "computings.h"
@@ -24,6 +25,30 @@
 namespace Ui {
 class MainWindow;
 }
+
+/// \brief Свой класс QGraphicsView для показа постера.
+class QPosterGraphicsView : public QGraphicsView {
+    Q_OBJECT
+
+public:
+    QPosterGraphicsView(QWidget *parent = nullptr);
+    ~QPosterGraphicsView() override;
+
+protected:
+    // Родительский виджет.
+    QWidget *mpParent;
+    // Геометрия в родительском виджете.
+    QRect mInParenGeometry;
+    // Флаг состояния полноэкранного отображения.
+    bool mbFullScreenState = false;
+
+    /// \brief Двойной клик по постеру открывает его показ во весь экран
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
+
+    /// \brief Нажатие клавиши на клавиатуре
+    void keyPressEvent(QKeyEvent *event) override;
+};
+//---------------------------
 
 
 /// \brief класс главного окна программы
@@ -72,12 +97,13 @@ private slots:
     void on_pushButtonBoycottVideoLocalCopy_clicked();
 
 protected slots:
-    /// \brief Действия после отображения главного окна
-    void afterShow();
-
     /// \brief Выровнять виджет по центру эрана
     /// \param w - виджет для выравнивания
     static void moveToScreenCenter(QWidget* w);
+
+public slots:
+    /// \brief Действия после отображения главного окна
+    void afterShow();
 
 protected:
     // Переменные для хранения постера про настоящий праздник.

@@ -179,3 +179,4 @@ OTHER_FILES += \
 DISTFILES += \
     description \
     journal
+

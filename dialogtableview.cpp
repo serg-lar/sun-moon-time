@@ -581,12 +581,23 @@ void DialogTableView::init()
 
     // значения по умолчанию для периода расчётов
     ui->dateEditBegin->setDate(QDate::currentDate());
-    ui->dateEditEnd->setDate(QDate::currentDate().addDays(1));
+    ui->dateEditEnd->setDate(QDate::currentDate().addMonths(1));
     ui->dateEditEnd->setMinimumDate(ui->dateEditBegin->date());
 
     // чекбокс считать сумерки только для Солнечного времени
     if (moonInfo == m_Type)
         ui->checkBoxTwilight->setVisible(false);
+
+    // Настройки для геогр. координат.
+    QSettings settings;
+    bool ok;
+    double latitude (settings.value(SunMoonTimeSettingsMisc::latitudeSettingName()).toDouble(&ok));
+    double longitude (-1*settings.value(SunMoonTimeSettingsMisc::longitudeSettingName()).toDouble(&ok));
+
+    // Географические координаты (для показа долготы нужно инвертировать её значение).
+    QString geoCoords {"ш:"+QString::number(latitude)+", д:"+QString::number(-1*longitude)};
+    // Выводить геогр. координаты?
+    ui->labelGeoCoordsValue->setText(geoCoords);
 }
 //---------------------------
 // КОНЕЦ: DialogTableView - private
