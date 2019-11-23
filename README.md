@@ -6,16 +6,18 @@
 Страничка с исходными кодами программы:
 https://bitbucket.org/senya1985/sun-moon-time
 
-Facebook заметка:
-https://www.facebook.com/notes/kulabhakti-soft/sun-moon-time/271678289969314/
-
 Скачать программу
 https://bitbucket.org/senya1985/sun-moon-time/downloads
+
+Страницы в соц.сетях.
+friendica: https://squeet.me/profile/kulabhaktisoft
+facebook: https://facebook.com/kulabhaktisoft
+minds: https://www.minds.com/kulabhaktisoft/ 
 
 Использованные материалы [Необходимо поработать с источниками информации - книгами по йоге относительно временных периодов и астрономии].
 UPD. 30 июля 2019 года.
 Использованная литература. Скриншоты 1.
-https://squeet.me/display/962c3e10-735d-402d-5a9d-dfa559314355
+https://docs.zoho.eu/file/0y4wxdd4bd2f73c0c432a85e178baebee6f77
 
 Миф о телегонии нужен, чтобы отвлечь людей от экадаши и вреда борщей (или почему в экадаши нельзя принимать зернобобовую пищу?)
 http://kaula-dharma.com/4-osnovy-zhizni/pitanie/telegoniya-ekadashi-vred-borshhej/
@@ -69,7 +71,6 @@ https://www.facebook.com/media/set/?set=a.379993315804477.1073741828.27165691997
 3) Кальпа,
 Материал из Википедии — свободной энциклопедии
 https://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D0%BB%D1%8C%D0%BF%D0%B0
-
 
 "Летоисчисление от Рождества Христова необходимо отменить", канал "Бойкот Праздников"
 https://youtu.be/Cg4fF_j0r40
