@@ -56,7 +56,7 @@ https://ru.wikipedia.org/wiki/4-%D0%B5_%D1%82%D1%8B%D1%81%D1%8F%D1%87%D0%B5%D0%B
 
 Продолжительность временных циклов взята из открытых интернет-источников:
 
-1) http://www.agni-yoga.net/vbulletin/archive/index.php/t-76.html (агни-йога)
+1) https://www.agni-yoga.net/vbulletin/node/36931?p=50145  (агни-йога)
 Рериховцы поработали с книгами и выложили информацию на своём ресурсе. Вот такая таблица получилась по этим данным. Мне ещё предстоит поработать с книгами, чтобы указать точные ссылки.
 
 ![Временные периоды.jpg](https://bitbucket.org/senya1985/sun-moon-time/raw/dc3776229f4b6b8b15d3ce3f52fca6462c77a499/images/VedicTimePeriods.jpg)
